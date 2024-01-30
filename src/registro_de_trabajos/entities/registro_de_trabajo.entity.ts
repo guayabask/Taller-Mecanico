@@ -50,7 +50,7 @@ export class RegistroDeTrabajo {
     @DeleteDateColumn()
     fecha_de_finalizacion: Date;
 
-    
+    //
     //Vinculacion con tabla usuario
         @Column()
         id_usuario_id: number;

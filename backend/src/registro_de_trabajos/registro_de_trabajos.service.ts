@@ -9,6 +9,7 @@ import { EstatusTrabajo } from 'src/estatus_trabajos/entities/estatus_trabajo.en
 import { PrecioHora } from 'src/precio_horas/entities/precio_hora.entity';
 import { TiposDeVehiculo } from 'src/tipos_de_vehiculo/entities/tipos_de_vehiculo.entity';
 import { UpdateRegistroDeTrabajoDto } from './dto/update-registro_de_trabajo.dto';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class RegistroDeTrabajosService {
@@ -30,6 +31,7 @@ export class RegistroDeTrabajosService {
     @InjectRepository(TiposDeVehiculo)
     private readonly tipovehiculoRepository: Repository<TiposDeVehiculo>,
 
+
   ) { }
 
   async create(createRegistroDeTrabajoDto: CreateRegistroDeTrabajoDto) {
@@ -44,6 +46,7 @@ export class RegistroDeTrabajosService {
     const tipo_de_vehiculo_ = await this.tipovehiculoRepository.findOneBy({ tipo_de_vehiculo: createRegistroDeTrabajoDto.tipo_vehiculo})
 
 
+
     if (!hora_precio_){
       throw new BadRequestException("Precio por hora inexistente")
     }
@@ -56,6 +59,7 @@ export class RegistroDeTrabajosService {
     if (!tipo_de_vehiculo_ ){
       throw new BadRequestException("No existe ese tipo de estatus brother")
     }
+
     
     return await this.registrodetrabajoRepository.save({
       ...createRegistroDeTrabajoDto,
@@ -75,9 +79,6 @@ export class RegistroDeTrabajosService {
     return await this.registrodetrabajoRepository.findOneBy({id_registro});
   }
 
-  async update(id: number, updateRegistroDeTrabajoDto: UpdateRegistroDeTrabajoDto) {
-    return await this.registrodetrabajoRepository.update(id, updateRegistroDeTrabajoDto)
-  }
 
   async remove(id_registro: number) {
     return await this.registrodetrabajoRepository.softDelete({ id_registro })

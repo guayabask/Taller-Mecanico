@@ -6,6 +6,8 @@ import { TiposDeTrabajoModule } from './tipos_de_trabajo/tipos_de_trabajo.module
 import { EstatusTrabajosModule } from './estatus_trabajos/estatus_trabajos.module';
 import { PrecioHorasModule } from './precio_horas/precio_horas.module';
 import { TiposDeVehiculoModule } from './tipos_de_vehiculo/tipos_de_vehiculo.module';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { TiposDeVehiculoModule } from './tipos_de_vehiculo/tipos_de_vehiculo.mod
     EstatusTrabajosModule,
     PrecioHorasModule,
     TiposDeVehiculoModule,
+    UsersModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

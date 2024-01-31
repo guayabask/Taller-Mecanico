@@ -50,7 +50,7 @@ export class UpdateRegistroDeTrabajoDto {
 
     @IsNotEmpty()
     @IsNumber()
-    id_usuario_id?: number;
+    mecanico?: number;
 
     @IsOptional()
     tipo?: string;

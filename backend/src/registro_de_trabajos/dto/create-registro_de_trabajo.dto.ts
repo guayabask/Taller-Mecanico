@@ -44,6 +44,10 @@ export class CreateRegistroDeTrabajoDto {
 
     @IsNotEmpty()
     @IsNumber()
+    precio_fijo: number;
+
+    @IsNotEmpty()
+    @IsNumber()
     costo_total: number;
 
     @IsNotEmpty()

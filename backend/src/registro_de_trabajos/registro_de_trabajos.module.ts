@@ -11,6 +11,8 @@ import { PrecioHorasModule } from 'src/precio_horas/precio_horas.module';
 import { PrecioHorasService } from 'src/precio_horas/precio_horas.service';
 import { TiposDeVehiculoModule } from 'src/tipos_de_vehiculo/tipos_de_vehiculo.module';
 import { TiposDeVehiculoService } from 'src/tipos_de_vehiculo/tipos_de_vehiculo.service';
+import { UsersModule } from 'src/users/users.module';
+import { UsersService } from 'src/users/users.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([RegistroDeTrabajo]), TiposDeTrabajoModule, EstatusTrabajosModule, PrecioHorasModule, TiposDeVehiculoModule],

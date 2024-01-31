@@ -3,6 +3,7 @@ import { EstatusTrabajo } from "src/estatus_trabajos/entities/estatus_trabajo.en
 import { PrecioHora } from "src/precio_horas/entities/precio_hora.entity";
 import { TiposDeTrabajo } from "src/tipos_de_trabajo/entities/tipos_de_trabajo.entity";
 import { TiposDeVehiculo } from "src/tipos_de_vehiculo/entities/tipos_de_vehiculo.entity";
+import { User } from "src/users/entities/user.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne } from "typeorm";
 
 @Entity()
@@ -42,6 +43,9 @@ export class RegistroDeTrabajo {
     precio_de_material: number;
 
     @Column()
+    precio_fijo: number;
+
+    @Column()
     costo_total: number;
 
     @CreateDateColumn()
@@ -79,8 +83,6 @@ export class RegistroDeTrabajo {
         @ManyToOne (() => TiposDeVehiculo, (tipo_de_vehiculo) => tipo_de_vehiculo.id,{
             eager: true,
         })
-        tipo_de_vehiculo_: TiposDeVehiculo;
-    
+        tipo_de_vehiculo_: TiposDeVehiculo;    
 
-    
 }

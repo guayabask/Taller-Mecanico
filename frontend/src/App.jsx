@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import PantallaLogin from "./pages/PantallaLogin";
 import NavbarAdmin from './components/NavbarAdmin';
 import PantallaPerfil from './pages/PantallaPerfil';
-import DashEjemplo from './pages/DashPruebaAdm';
+import DashEjemplo from './pages/paginas_olga/DashPruebaAdm';
 import PantallaZ from './pages/paginas_zamora/PantallaZ';
 import PantallaM from './pages/paginas_marcos/PantallaM';
 

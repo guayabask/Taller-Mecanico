@@ -51,10 +51,6 @@ export class CreateRegistroDeTrabajoDto {
     costo_total: number;
 
     @IsNotEmpty()
-    @IsNumber()
-    id_usuario_id: number;
-
-    @IsNotEmpty()
     tipo: string;
 
     @IsNotEmpty()

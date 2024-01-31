@@ -48,9 +48,9 @@ export class UpdateRegistroDeTrabajoDto {
     @IsOptional()
     fecha_de_finalizacion?: Date;
 
-    @IsNotEmpty()
-    @IsNumber()
-    mecanico?: number;
+    //@IsNotEmpty()
+    //@IsNumber()
+    //mecanico?: number;
 
     @IsOptional()
     tipo?: string;

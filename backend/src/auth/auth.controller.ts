@@ -36,15 +36,24 @@ export class AuthController {
         return this.authService.login(loginDto)
     }
 
-    @Get('perfil-mecanico')
+    /*@Get('perfil-mecanico')
     @Auth(Role.mecanico)
     perfil_mecanico(
     @ActiveUser()
     user: ActiveUserInterface,) {
     return this.authService.perfil_mecanico(user)
+    }*/
+
+    @Get('perfil-mecanico')
+    @Auth(Role.mecanico)
+    profile2(
+    @Request()
+    req: RequestWithUser,
+    ) {
+    return req.user;
     }
 
-    @Get('perfil-admin')
+    /*@Get('perfil-admin')
     @Auth(Role.admin)
     perfil_admin(
     @ActiveUser()
@@ -58,7 +67,7 @@ export class AuthController {
     @ActiveUser()
     user: ActiveUserInterface,) {
     return this.authService.perfil_cliente(user)
-    }
+    }*/
 
 
 }

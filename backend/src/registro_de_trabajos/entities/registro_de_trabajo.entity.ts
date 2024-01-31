@@ -4,7 +4,7 @@ import { PrecioHora } from "src/precio_horas/entities/precio_hora.entity";
 import { TiposDeTrabajo } from "src/tipos_de_trabajo/entities/tipos_de_trabajo.entity";
 import { TiposDeVehiculo } from "src/tipos_de_vehiculo/entities/tipos_de_vehiculo.entity";
 import { User } from "src/users/entities/user.entity";
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, ManyToOne } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne } from "typeorm";
 
 @Entity()
 export class RegistroDeTrabajo {
@@ -54,11 +54,6 @@ export class RegistroDeTrabajo {
     @DeleteDateColumn()
     fecha_de_finalizacion: Date;
 
-    
-    //Vinculacion con tabla usuario
-        @Column()
-        id_usuario_id: number;
-
     //Relaciones de tablas foraneas a tabla registro_de_trabajo
 
         //Aparece en la tabla "registro_de_trabajo" como tipoTrabajo_id
@@ -85,4 +80,18 @@ export class RegistroDeTrabajo {
         })
         tipo_de_vehiculo_: TiposDeVehiculo;    
 
+        //Vinculacion con tabla usuario
+        @ManyToOne(() => User)
+        @JoinColumn ({ name: 'mecanico', referencedColumnName: 'user.usuario_nombre', })
+        user: User;
+        
+        @Column()
+        mecanico: string;
+
+        
+
+        /*@ManyToOne (() => User, (user) => user.id,{
+            eager: true,
+        })
+        mecanico_: User;*/
 }

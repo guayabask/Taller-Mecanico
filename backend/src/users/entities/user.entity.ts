@@ -1,10 +1,10 @@
 import { RegistroDeTrabajo } from "src/registro_de_trabajos/entities/registro_de_trabajo.entity";
 import { Role } from "../../common/enums/rol.enum";
-import { Column, DeleteDateColumn, Entity, OneToMany } from "typeorm";
+import { Column, DeleteDateColumn, Entity, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class User {
-    @Column({ primary: true, generated: true})
+    @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
@@ -29,4 +29,5 @@ export class User {
     fecha_de_finalizacion: Date;
 
     
+
 }

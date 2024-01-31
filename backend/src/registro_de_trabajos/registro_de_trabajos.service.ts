@@ -8,8 +8,6 @@ import { TiposDeTrabajo } from 'src/tipos_de_trabajo/entities/tipos_de_trabajo.e
 import { EstatusTrabajo } from 'src/estatus_trabajos/entities/estatus_trabajo.entity';
 import { PrecioHora } from 'src/precio_horas/entities/precio_hora.entity';
 import { TiposDeVehiculo } from 'src/tipos_de_vehiculo/entities/tipos_de_vehiculo.entity';
-import { UpdateRegistroDeTrabajoDto } from './dto/update-registro_de_trabajo.dto';
-import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class RegistroDeTrabajosService {

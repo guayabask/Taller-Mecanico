@@ -1,6 +1,6 @@
 
 export interface ActiveUserInterface {
-    nombre_usuario: string;
-    correo_electronico: string;
+    usuario_nombre: string;
+    email: string;
     role: string;
 }

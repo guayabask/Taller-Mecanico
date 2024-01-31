@@ -26,12 +26,13 @@ const Modal = ({ children, id }) => {
 
         <button
           onClick={() => hideModal(id)}
-          className="w-7 h-7 bg-[#1f2937] flex items-center justify-center absolute top-4 right-5 rounded text-2xl text-white z-40"
+          className="w-9 h-9 bg-[#f36257] flex items-center justify-center absolute top-4 right-5 rounded text-2xl text-white z-40"
         >
           &times;
         </button>
       </div>
     </div>
+    
   );
 };
 

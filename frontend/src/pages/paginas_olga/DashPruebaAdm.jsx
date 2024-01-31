@@ -3,113 +3,83 @@ import Modal from "../../components/componentes_olga/modal";
 import { openModal } from "../../components/componentes_olga/modal";
 import { GrAdd } from "react-icons/gr";
 import { BsPencilSquare } from "react-icons/bs";
+import Formulario from "../../components/componentes_olga/form_modal";
+import { FaRegTrashCan } from "react-icons/fa6";
+import { LiaEyeSolid } from "react-icons/lia";
 
 const DashEjemplo = () => {
   return (
     <>
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex items-center">
+      <Modal id="crear-modal">
+        <h1 className="text-2xl font-bold mb-7 text-black">
+          CREAR REGISTRO
+        </h1>
+        <Formulario />
+      </Modal>
+      <Modal id="Edit-modal">
+        <h1 className="text-2xl font-bold mb-7 text-black">
+          EDITAR REGISTRO
+        </h1>
+        <Formulario />
+      </Modal>
 
-        <BsPencilSquare className="text-6xl cursor-pointer mr-3" onClick={() => openModal("Edit-modal")} />
+      <div className="w-full h-[70vh] flex flex-col items-center justify-center pt-[5rem]">
+        <h1 className=" w-[70%] text-black mb-10 font-bold text-2xl">Bienvenido nombre_administrador</h1>
 
-        <button onClick={() => openModal("product-modal")} className="bg-lime-500 py-2 px-4 rounded-2xl text-xl text-white flex items-center">
+
+        <button onClick={() => openModal("crear-modal")} className="bg-lime-500 py-2 px-4 rounded-2xl text-xl text-white flex ml-auto mr-[5%]">
           <GrAdd className="mr-2 text-2xl" /> AÑADIR REGISTROS
         </button>
 
+
+        <div className="flex items-center mb-5 justify-between w-[70%]">
+          <input
+            type="text"
+            placeholder="buscar..."
+            className="px-2 py-1 border border-gray-300 rounded-md mr-4"
+          />
+        </div>
+        <br />
+
+        <table className="w-full max-w-[80%] mr-[5%] bg-white border border-black rounded-md overflow-hidden shadow-md ml-auto">
+          <thead className="bg-gray-200">
+            <tr>
+              <th className="py-2">Id</th>
+              <th className="py-2">Contacto</th>
+              <th className="py-2">Descripcion</th>
+              <th className="py-2">Mecanico_encargado</th>
+              <th className="py-2">$ x hora</th>
+              <th className="py-2">Horas</th>
+              <th className="py-2">Estatus</th>
+              <th className="py-2">Costos</th>
+              <th className="py-2">Material utilizado</th>
+              <th className="py-2">Opciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="py-2 text-center"></td>
+              <td className="py-2 text-center">Nombre</td>
+              <td className="py-2 text-center">Descripcion</td>
+              <td className="py-2 text-center">Mecanico 1</td>
+              <td className="py-2 text-center">10:00 AM</td>
+              <td className="py-2 text-center">2</td>
+              <td className="py-2 text-center">En  Proceso</td>
+              <td className="py-2 text-center">$ 1000</td>
+              <td className="py-2 text-center">Piezas</td>
+              <td className="py-2 flex items-center">
+                <LiaEyeSolid className="text-2xl cursor-pointer ml-3" />
+                <BsPencilSquare
+                  className="text-2xl cursor-pointer ml-6"
+                  onClick={() => openModal("Edit-modal")}
+                />
+                <FaRegTrashCan className="text-2xl cursor-pointer ml-5" />
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
       </div>
-
-      <Modal id="Edit-modal">
-        <h1 className="text-2xl font-semibold mb-7 text-white">Login</h1>
-        <form className="w-[450px]">
-          <div className="mb-5">
-            <input
-              className="w-full py-2 px-4 rounded bg-[#4b5563] text-white  focus:outline-none"
-              type="email"
-              placeholder="Enter your email"
-            />
-          </div>
-
-          <div className="mb-5">
-            <input
-              className="w-full py-2 px-4 rounded bg-[#4b5563] text-white  focus:outline-none"
-              type="password"
-              placeholder="Password"
-            />
-          </div>
-          <button className="w-full text-white py-2 px-4 rounded text-[16px] bg-[#1c64f2]">
-            Login to your account
-          </button>
-        </form>
-      </Modal>
-
-      <Modal id="product-modal">
-        <h1 className="text-2xl font-bold mb-7 text-black">
-          Crear Registro
-        </h1>
-        <form className="w-[1024px]">
-          <div className="mb-5 flex items-center justify-between gap-5">
-            <label className="text-xl font-semibold mb-7 text-black">Nombre dueño:</label>
-            <input
-              className="w-full py-2 px-2 rounded-xl bg-white text-black focus:outline-none"
-              type="text"
-              placeholder="Name"
-            />
-            <label className="text-xl font-semibold mb-7 text-black">Contacto:</label>
-            <input
-              className="w-full py-2 px-2 rounded-xl bg-white text-black focus:outline-none"
-              type="number"
-              placeholder="contacto"
-            />
-          </div>
-          <div className="mb-5 flex items-center justify-between gap-5">
-            <label className="text-xl font-semibold mb-7 text-black">Mecánico a cargo:</label>
-            <select id="countries" className="py-2 px-2 rounded-xl bg-white text-black focus:outline-none text-xl focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="seleccionar">
-              <option value="US">United States</option>
-              <option value="CA">Canada</option>
-              <option value="FR">France</option>
-              <option value="DE">Germany</option>
-            </select>
-            <label className="text-xl font-semibold mb-7 text-black">Nombre dueño:</label>
-            <input
-              className="w-full py-2 px-2 rounded-xl bg-white text-black focus:outline-none"
-              type="text"
-              placeholder="Product Name"
-            />
-          </div>
-          <div className="mb-5 flex items-center justify-between gap-5">
-            <label className="text-xl font-semibold mb-7 text-black">Nombre dueño:</label>
-            <input
-              className="w-full py-2 px-2 rounded-xl bg-white text-black focus:outline-none"
-              type="text"
-              placeholder="Product Name"
-            />
-            <label className="text-xl font-semibold mb-7 text-black">Nombre dueño:</label>
-            <input
-              className="w-full py-2 px-2 rounded-xl bg-white text-black focus:outline-none"
-              type="text"
-              placeholder="Product Name"
-            />
-          </div>
-          <div className="mb-5 flex items-center justify-between gap-5">
-            <label className="text-xl font-semibold mb-7 text-black">Nombre dueño:</label>
-            <input
-              className="w-full py-2 px-2 rounded-xl bg-white text-black focus:outline-none"
-              type="text"
-              placeholder="Product Name"
-            />
-            <label className="text-xl font-semibold mb-7 text-black">Nombre dueño:</label>
-            <input
-              className="w-full py-2 px-2 rounded-xl bg-white text-black focus:outline-none"
-              type="text"
-              placeholder="Product Name"
-            />
-          </div>
-
-          <button className=" text-white py-2 px-4 rounded text-[16px] bg-[#1c64f2]">
-            Add a Product
-          </button>
-        </form>
-      </Modal>
     </>
   );
 }

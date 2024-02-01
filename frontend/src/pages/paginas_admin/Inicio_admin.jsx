@@ -4,5 +4,6 @@ import TablaInformacionAdmin from "../../components/componentes_admin/Tabla_info
 export default function InicioAdmin() {
     return (<div className="">
         <TablaInformacionAdmin/>
+        
     </div>)
 }

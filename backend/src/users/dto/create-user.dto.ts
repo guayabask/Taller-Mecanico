@@ -9,10 +9,8 @@ export class CreateUserDto {
     
     contraseña: string;
 
-    id_pregunta_control_id: string;
-
     @IsOptional()
-    foto_perfil: string;
+    id_pregunta_control_id: string;
 
     @IsOptional()
     role: string;

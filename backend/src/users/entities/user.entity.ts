@@ -19,8 +19,6 @@ export class User {
     @Column()
     id_pregunta_control_id: string;
 
-    @Column()
-    foto_perfil: string;
 
     @Column( {type: 'enum', default: Role.cliente, enum: Role })
     role: string;

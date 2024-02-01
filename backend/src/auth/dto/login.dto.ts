@@ -10,5 +10,8 @@ export class LoginDto {
     @IsString()
     @MinLength(3)
     contraseña: string;
+
+    @IsOptional()
+    role: string;
     
 }

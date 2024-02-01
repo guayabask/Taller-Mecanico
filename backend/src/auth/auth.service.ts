@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, Post, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { RegisterDto } from './dto/register.dto';
 
@@ -34,7 +34,7 @@ export class AuthService {
         } 
     }
 
-    async login({correo_electronico, contraseña}: LoginDto){
+    async login({correo_electronico, contraseña, role}: LoginDto){
         const user = await this.usersService.findOneByEmailWithPassword(correo_electronico);
         if (!user){
             throw new UnauthorizedException("Chale brother el correo esta mal");
@@ -44,14 +44,17 @@ export class AuthService {
             throw new UnauthorizedException("Chale brother la contra es incorrecta");
         }
 
-        const payload = { correo_electronico: user.correo_electronico, role: user.role};
+        // Include role in the payload
+        const payload = { correo_electronico: user.correo_electronico, role: user.role };
 
         const token = await this.jwtService.signAsync(payload)
         return {
             token,
-            correo_electronico
+            correo_electronico,
+            role: user.role // Optionally, include role in the response
         }
     }
+
     async perfil_cliente({correo_electronico, role}: {correo_electronico: string, role: string}){
         return await this.usersService.findOneByEmail(correo_electronico)
     }
@@ -63,5 +66,4 @@ export class AuthService {
     async perfil_admin({correo_electronico, role}: {correo_electronico: string, role: string}){
         return await this.usersService.findOneByEmail(correo_electronico)
     }
-
 }

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import inicio from "./../../assets/images/inicio.png";
+import { Link } from "react-router-dom";
 
 const Registro = () => {
   const [username, setUsername] = useState("");
@@ -22,82 +23,43 @@ const Registro = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div
-        className="relative w-4/5 sm:w-3/5 md:w-2/5 lg:w-1/3 h-542 p-8 shadow-md rounded-xl text-center font-lalezar"
-        style={{ backgroundColor: "#D9D9D9" }}
-      >
-        {/* Agregando el icono grande */}
-        <img src={inicio} alt="Icono Grande" className="w-260 h-260 mx-auto mb-4 rounded-full" />
-
-        <h2 className="text-6xl font-normal mb-4 leading-16 tracking-normal text-center">REGISTRA TU USUARIO</h2>
-        <h2 className="text-xl font-semibold mb-4">Por favor llena todos los campos</h2>
-        <hr className="border-gray-700 my-5" />
-
-        <div className="mb-2 flex items-center justify-center">
-          {/* Agregando el icono pequeño para "Ingresa tu usuario" */}
-          <div className="w-8 h-8 mr-4" style={{ backgroundImage: "url(url_de_tu_icono_pequeno)", backgroundSize: "cover", backgroundPosition: "center" }}></div>
-        </div>
-
-        <div className="mb-2 flex justify-between">
-          <div className="w-50">
-            <input
-              type="text"
-              className="border w-full py-2 px-3 rounded"
-              placeholder="Crea tu usuario"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
+    <>
+      <div className="h-screen w-screen flex flex-col items-center justify-center bg-gray-100 ">
+        <div className=" flex flex-col w-fit px-8 p-4 shadow-md rounded-xl items-center font-lalezar h-fit gap-2 " style={{ backgroundColor: "#D9D9D9" }}>
+          <div className="flex flex-col -mt-[6rem] fixed items-center">
+            <img src={inicio} className="w-[80%]" />
           </div>
-          <div className="w-50">
-            <input
-              type="text"
-              className="border w-full py-2 px-3 rounded"
-              placeholder="Registra un correo"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-        </div>
+          <div className="flex flex-col items-center m-6 -mb-3 p-2 pt-24">
+            <h2 className="text-5xl font-semibold tracking-normal text-center uppercase">Registra tu usuario</h2>
 
-        <div className="mb-2 flex justify-between">
-          <div className="w-50">
-            <input
-              type="password"
-              className="border w-full py-2 px-3 rounded"
-              placeholder="Crea una contraseña"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
           </div>
-          <div className="w-50">
-            <input
-              type="password"
-              className="border w-full py-2 px-3 rounded"
-              placeholder="Confirma la contraseña"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
+          <h2 className="text-lg font-semibold">Por favor llena todos los campos</h2>
+          <hr className="border-gray-700 w-72" />
+          {/* Agregando el icono pequeño para "Ingresa tu usuario" 
+            <div className="w-8" style={{ backgroundImage: "url(url_de_tu_icono_pequeno)", backgroundSize: "cover", backgroundPosition: "center" }}></div>
+            <div className="w-8" style={{ backgroundImage: "url(url_de_tu_icono_pequeno)", backgroundSize: "cover", backgroundPosition: "center" }}></div>
+          */}
+
+          <div className="w-full flex flex-row gap-2 m-2">
+            <input type="text" name="nombre_usuario" className="border w-full p-2 px-3 rounded-lg" placeholder="Ingresa un nombre de usuario"/>
+            <input type="email" name="correo_electronico" className="border w-full p-2 px-3 rounded-lg" placeholder="Ingresa tu correo electronico"/>
           </div>
-        </div>
+          <div className="w-full flex flex-row gap-2 m-2">
+            <input type="password" name="contraseña" className="border w-full p-2 px-3 rounded-lg" placeholder="Ingresa tu contraseña"/>
+            <input type="password" name="contraseña" className="border w-full p-2 px-3 rounded-lg" placeholder="Confirma tu contraseña"/>
+          </div>
 
-        <button
-          className="bg-red-700 text-white py-2 px-8 font-bold hover:bg-red-800"
-          onClick={handleLogin}
-        >
-          Registrarse
-        </button>
+          <button className="bg-red-700 text-white p-2 px-4 font-bold hover:bg-red-900 rounded-xl">Registrarse</button>
+          <div className=" p-1 flex flex-col">
+            
+            <div className=" w-full justify-center flex flex-row gap-2">
+              <Link to="/"><p className="block text-left text-[#3a3a3a] text-sm font-workSans font-bold mb-2">Regresar al inicio de sesión</p></Link>
+            </div>
+          </div>
 
-        <div className="mt-4 flex items-center justify-center">
-          <p className="text-base font-workSans font-semibold text-black">
-            ¿Ya tienes una cuenta?
-          </p>
-          <p onClick={handleCreateAccount} className="text-base font-workSans font-semibold text-red-500 ml-2 cursor-pointer">
-            Inicia sesión aquí
-          </p>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

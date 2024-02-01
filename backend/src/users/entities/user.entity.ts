@@ -28,6 +28,8 @@ export class User {
     @DeleteDateColumn()
     fecha_de_finalizacion: Date;
 
-    
-
+    @OneToMany(() => RegistroDeTrabajo, (registro_de_trabajo) => registro_de_trabajo.usuario_registro_)
+    registro_de_trabajos_usuarios: RegistroDeTrabajo[];
 }
+
+

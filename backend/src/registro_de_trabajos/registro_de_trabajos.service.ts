@@ -8,6 +8,8 @@ import { TiposDeTrabajo } from 'src/tipos_de_trabajo/entities/tipos_de_trabajo.e
 import { EstatusTrabajo } from 'src/estatus_trabajos/entities/estatus_trabajo.entity';
 import { PrecioHora } from 'src/precio_horas/entities/precio_hora.entity';
 import { TiposDeVehiculo } from 'src/tipos_de_vehiculo/entities/tipos_de_vehiculo.entity';
+import { User } from 'src/users/entities/user.entity';
+import { UpdateRegistroDeTrabajoDto } from './dto/update-registro_de_trabajo.dto';
 
 @Injectable()
 export class RegistroDeTrabajosService {
@@ -29,6 +31,8 @@ export class RegistroDeTrabajosService {
     @InjectRepository(TiposDeVehiculo)
     private readonly tipovehiculoRepository: Repository<TiposDeVehiculo>,
 
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
 
   ) { }
 
@@ -43,7 +47,7 @@ export class RegistroDeTrabajosService {
 
     const tipo_de_vehiculo_ = await this.tipovehiculoRepository.findOneBy({ tipo_de_vehiculo: createRegistroDeTrabajoDto.tipo_vehiculo})
 
-
+    const usuario_registro_ = await this.userRepository.findOneBy({ nombre_usuario : createRegistroDeTrabajoDto.usuario_c})
 
     if (!hora_precio_){
       throw new BadRequestException("Precio por hora inexistente")
@@ -58,6 +62,10 @@ export class RegistroDeTrabajosService {
       throw new BadRequestException("No existe ese tipo de estatus brother")
     }
 
+    if (!usuario_registro_){
+      throw new BadRequestException("No existe ese usuario brother")
+    }
+
     
     return await this.registrodetrabajoRepository.save({
       ...createRegistroDeTrabajoDto,
@@ -65,6 +73,7 @@ export class RegistroDeTrabajosService {
       estatus_trabajo_,
       hora_precio_,
       tipo_de_vehiculo_,
+      usuario_registro_
     })
 
   }
@@ -77,6 +86,25 @@ export class RegistroDeTrabajosService {
     return await this.registrodetrabajoRepository.findOneBy({id_registro});
   }
 
+  async update(id_registro: number, updateRegistroDeTrabajoDto: UpdateRegistroDeTrabajoDto) {
+    const registro = await this.registrodetrabajoRepository.findOneBy({id_registro});
+
+    if (!registro) {
+      throw new BadRequestException("Registro de trabajo no encontrado");
+    }
+
+    // Update properties if they exist in the DTO
+    if (updateRegistroDeTrabajoDto.nombre_cliente !== undefined) {
+      registro.nombre_cliente = updateRegistroDeTrabajoDto.nombre_cliente;
+    }
+    if (updateRegistroDeTrabajoDto.telefono_celular !== undefined) {
+      registro.telefono_celular = updateRegistroDeTrabajoDto.telefono_celular;
+    }
+    // Update other properties in a similar manner...
+
+    // Save the updated registro
+    return await this.registrodetrabajoRepository.save(registro);
+  }
 
   async remove(id_registro: number) {
     return await this.registrodetrabajoRepository.softDelete({ id_registro })

@@ -1,5 +1,5 @@
 
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateRegistroDeTrabajoDto {
     @IsNotEmpty()
@@ -61,5 +61,8 @@ export class CreateRegistroDeTrabajoDto {
 
     @IsNotEmpty()
     tipo_vehiculo: string;
+
+    @IsOptional()
+    usuario_c: string;
 }
 

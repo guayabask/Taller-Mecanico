@@ -81,12 +81,10 @@ export class RegistroDeTrabajo {
         tipo_de_vehiculo_: TiposDeVehiculo;    
 
         //Vinculacion con tabla usuario
-        @ManyToOne(() => User)
-        @JoinColumn ({ name: 'mecanico', referencedColumnName: 'user.usuario_nombre', })
-        user: User;
-        
-        @Column()
-        mecanico: string;
+        @ManyToOne(() => User, (user) => user.id,{
+            eager: true
+        })
+        usuario_registro_: User;
 
         
 

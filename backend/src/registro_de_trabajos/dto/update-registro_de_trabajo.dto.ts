@@ -64,4 +64,7 @@ export class UpdateRegistroDeTrabajoDto {
 
     @IsOptional()
     tipo_vehiculo?: string;
+
+    @IsOptional()
+    usuario_c?: string;
 }

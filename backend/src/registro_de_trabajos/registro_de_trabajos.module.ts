@@ -15,9 +15,9 @@ import { UsersModule } from 'src/users/users.module';
 import { UsersService } from 'src/users/users.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([RegistroDeTrabajo]), TiposDeTrabajoModule, EstatusTrabajosModule, PrecioHorasModule, TiposDeVehiculoModule],
+  imports: [TypeOrmModule.forFeature([RegistroDeTrabajo]), TiposDeTrabajoModule, EstatusTrabajosModule, PrecioHorasModule, TiposDeVehiculoModule, UsersModule],
   controllers: [RegistroDeTrabajosController],
-  providers: [RegistroDeTrabajosService, TiposDeTrabajoService, EstatusTrabajosService, PrecioHorasService, TiposDeVehiculoService],
+  providers: [RegistroDeTrabajosService, TiposDeTrabajoService, EstatusTrabajosService, PrecioHorasService, TiposDeVehiculoService, UsersService],
   exports: [],
 })
 export class RegistroDeTrabajosModule {}

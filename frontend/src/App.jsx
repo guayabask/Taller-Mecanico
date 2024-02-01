@@ -1,17 +1,44 @@
 import { Routes, Route } from 'react-router-dom';
 import PantallaLogin from "./pages/PantallaLogin";
-import NavbarAdmin from './components/NavbarAdmin';
-import PantallaPerfil from './pages/PantallaPerfil';
 import DashEjemplo from './pages/paginas_olga/DashPruebaAdm';
 import PantallaZ from './pages/paginas_zamora/PantallaZ';
 import PantallaM from './pages/paginas_marcos/PantallaM';
+import PantallaRegistro from './pages/PantallaRegistro';
+import PantallaAPregunta from './pages/PaginaAPregunta';
+import PantallaManerasLogin from './pages/PantallaManerasLogin';
+import InicioAdmin from './pages/paginas_admin/inicio_admin';
+import SidebarAdmin from './components/componentes_admin/SidebarAdmin';
+import SidebarUser from './components/SidebarUser';
+import InicioCliente from './pages/paginas_cliente/Inicio_cliente';
+import Nosotros from './components/componentes_marco/nosotros';
+import AdministrarUsuarios from './pages/paginas_admin/Administrar_Usuarios';
+import SidebarMecanico from './components/componentes_mecanico/SidebarMecanico';
+import InicioMecanico from './pages/paginas_mecanico/InicioMecanico';
+import PantallaPerfil from './pages/paginas_cliente/PantallaPerfil';
 
 export default function App() {
   return (<div>
     <Routes>
-      <Route path='/' element={<NavbarAdmin/>}>
-        <Route path="/login" element={<PantallaLogin/>}/>
-        <Route path="/perfil" element={<PantallaPerfil/>}/>
+
+      <Route path="/" element={<PantallaLogin/>}/>
+      <Route path="/registro" element={<PantallaRegistro/>}/>
+      <Route path="/pregunta-de-seguridad" element={<PantallaAPregunta/>}/>
+      <Route path="/maneras-de-iniciar-sesion" element={<PantallaManerasLogin/>}/>
+
+      <Route path='/' element={<SidebarAdmin/>}>
+        <Route path="/administrador" element={<InicioAdmin/>}/>
+        <Route path="/administrar-usuarios" element={<AdministrarUsuarios/>}/>
+      </Route>
+
+      <Route path='/' element={<SidebarMecanico/>}>
+        <Route path="/mecanico" element={<InicioMecanico/>}/>
+        <Route path="/administrar-usuarios" element={<AdministrarUsuarios/>}/>
+      </Route>
+
+      <Route path='/' element={<SidebarUser/>}>
+      <Route path="/perfil" element={<PantallaPerfil/>}/>
+        <Route path="/cliente" element={<InicioCliente/>}/>
+        <Route path="/nosotros" element={<Nosotros/>}/>
       </Route>
 
       //Esta pantalla sera tu unica visualizacion de los componentes que haga cada quien

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import inicio from "./../../assets/images/inicio.png";
+import { Link } from "react-router-dom";
 
 const Casi = () => {
   const [selectedQuestion, setSelectedQuestion] = useState("");
@@ -17,50 +18,33 @@ const Casi = () => {
   ];
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div
-        className="relative w-4/5 sm:w-3/5 md:w-2/5 lg:w-1/2 p-8 shadow-md rounded-xl text-center font-lalezar"
-        style={{ backgroundColor: "#D9D9D9" }}
-      >
-        {/* Agregando el icono grande */}
-        <img src={inicio} alt="Icono Grande" className="w-260 h-260 mx-auto mb-4 rounded-full" />
+    <>
+      <div className="h-screen w-screen flex flex-col items-center justify-center bg-gray-100 ">
+        <div className=" flex flex-col w-fit px-8 p-4 shadow-md rounded-xl items-center font-lalezar h-fit gap-2 " style={{ backgroundColor: "#D9D9D9" }}>
+          <div className="flex flex-col -mt-[6rem] fixed items-center">
+            <img src={inicio} className="w-[80%]" />
+          </div>
+          <div className="flex flex-col items-center mb-2 p-2 pt-24">
+            <h2 className="text-5xl font-semibold tracking-normal text-center uppercase mt-4">opciones de inicio</h2>
 
-        <h2 className="text-6xl font-normal mb-4 leading-16 tracking-normal text-center">¡YA CASI!</h2>
-        <h2 className="text-xl font-semibold mb-4">Responde una pregunta en caso de olvidar tu contraseña</h2>
-        <hr className="border-gray-700 my-5" />
+          </div>
+          <h2 className="text-lg font-semibold">Escoge el metodo que desees</h2>
+          <hr className="border-gray-700 w-96" />
+          {/* Agregando el icono pequeño para "Ingresa tu usuario" 
+            <div className="w-8" style={{ backgroundImage: "url(url_de_tu_icono_pequeno)", backgroundSize: "cover", backgroundPosition: "center" }}></div>
+            <div className="w-8" style={{ backgroundImage: "url(url_de_tu_icono_pequeno)", backgroundSize: "cover", backgroundPosition: "center" }}></div>
+          */}
 
-        <div className="mb-4">
-          <label className="block text-left text-base font-workSans font-semibold mb-2">Escoge tu pregunta:</label>
-          <select
-            className="border w-full py-2 px-3 rounded"
-            value={selectedQuestion}
-            onChange={(e) => setSelectedQuestion(e.target.value)}
-          >
-            <option value="" disabled>Selecciona una pregunta</option>
-            {questions.map((question, index) => (
-              <option key={index} value={question}>{question}</option>
-            ))}
-          </select>
+          <div className="w-full flex flex-col items-center gap-2 m-2 bg-[#b4b4b4] rounded-2xl p-2">
+            <label className="block text-left text-[#3a3a3a] text-xl font-workSans font-bold mb-2"><Link to="">Pregunta de seguridad</Link></label>
+            <hr className="border-gray-700 w-96" />
+            <label className="block text-left text-[#3a3a3a] text-xl font-workSans font-bold mb-2"><Link to="">Correo electronico</Link></label>
+          </div>
+
+          <label className="block text-left text-[#3a3a3a] text-sm font-workSans font-bold mb-2"><Link to="/">Regresar a inicio de sesión</Link></label>
         </div>
-
-        <div className="mb-4">
-          <input
-            type="text"
-            className="border w-full py-2 px-3 pl-12 rounded"
-            placeholder="Registrar tu respuesta"
-            value={answer}
-            onChange={(e) => setAnswer(e.target.value)}
-          />
-        </div>
-
-        <button
-          className="bg-red-700 text-white py-2 px-8 font-bold hover:bg-red-800 rounded"
-          onClick={handleLogin}
-        >
-          Continuar
-        </button>
       </div>
-    </div>
+    </>
   );
 };
 

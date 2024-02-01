@@ -17,7 +17,7 @@ import { AuthModule } from './auth/auth.module';
       port: 3306,
       username: 'root',
       password: '',
-      database: 'taller_mecanico',
+      database: 'test',
       autoLoadEntities: true,
       synchronize: true,
     }),

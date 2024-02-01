@@ -7,6 +7,6 @@ import Contactanos from "../../components/componentes_marco/contactanos"
 export default function PantallaM() {
     return (
     <>
-    <Contactanos/>
+    <Inicio/>
     </>)
 }

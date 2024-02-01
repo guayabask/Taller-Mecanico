@@ -1,7 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaRegSquarePlus } from "react-icons/fa6";
 
 export default function TablaInformacionAdmin() {
+    const [codigoBusqueda, setCodigoBusqueda] = useState("");
+    const [datosTabla, setDatosTabla] = useState([]);
+
+    useEffect(() => {
+        fetch(`http://localhost:3000/api/v1/registro-de-trabajos?id=${codigoBusqueda}`)
+            .then((response) => response.json())
+            .then((data) => {
+                if (Array.isArray(data)) {
+                    setDatosTabla(data);
+                } else {
+                    console.error("La respuesta de la API no es un array:", data);
+                }
+            })
+            .catch((error) => console.error("Error fetching data:", error));
+    }, [codigoBusqueda]);
+
+    const handleBusquedaClick = () => {
+        setDatosTabla([]);
+    }
+
     return (<div className="p-8">
 
         {/*Nesesito que jalen de la api la informacion de la tabla esta es el api:
@@ -15,12 +35,17 @@ export default function TablaInformacionAdmin() {
 
         <div className="flex flex-row items-center justify-between ">
             <div className="w-full bg-green-700 flex flex-row justify-start items-center gap-2 m-2 rounded-lg cursor-pointer">
-                <FaRegSquarePlus className="ml-4 text-white cursor-pointer"/><label className=" p-2 rounded-lg text-white cursor-pointer">Añadir registro </label> 
+                <FaRegSquarePlus className="ml-4 text-white cursor-pointer" /><label className=" p-2 rounded-lg text-white cursor-pointer">Añadir registro </label>
             </div>
 
             <div className="w-full  flex flex-row justify-start items-center gap-2 m-2">
-                <input placeholder="Escriba aqui el folio del vehiculo" className="w-[25rem] p-1 h-fit rounded-lg border-2 m-2" />
-                <button className="bg-blue-600 p-2 rounded-lg text-white ">Buscar</button>
+                <input placeholder="Escriba aqui el folio del vehiculo" className="w-[25rem] p-1 h-fit rounded-lg border-2 m-2"
+                    value={codigoBusqueda}
+                    onChange={(e) => setCodigoBusqueda(e.target.value)}
+                />
+                <button className="bg-blue-600 p-2 rounded-lg text-white "
+                    onClick={handleBusquedaClick}
+                >Buscar</button>
             </div>
         </div>
 
@@ -36,30 +61,41 @@ export default function TablaInformacionAdmin() {
                     <thead className="bg-red-900 text-white">
                         <tr>
                             <th>Id</th>
-                            <th>Foto</th>
-                            <th>Contacto</th>
-                            <th>Descripcion</th>
-                            <th>Mecanico_encargado</th>
-                            <th>$ x hora</th>
-                            <th>Horas</th>
-                            <th>Estatus</th>
-                            <th>Costos</th>
-                            <th>Material utilizado</th>
+                            <th>nombre_cliente</th>
+                            <th>telefono</th>
+                            <th>correo</th>
+                            <th>modelo</th>
+                            <th>placas</th>
+                            <th>año</th>
+                            <th>color</th>
+                            <th>descripcion</th>
+                            <th>cantidad horas</th>
+                            <th>precio material</th>
+                            <th>precio fijo</th>
+                            <th>total</th>
+                            <th>inicio</th>
+                            <th>finalizacion</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Imagen</td>
-                            <td>Nombre</td>
-                            <td>Descripcion</td>
-                            <td>Mecanico 1</td>
-                            <td>10:00 AM</td>
-                            <td>2</td>
-                            <td>En Proceso</td>
-                            <td>$ 1000</td>
-                            <td>Piezas</td>
-                        </tr>
+                        {datosTabla.map((registro) => (
+                            <tr key={registro.id}></tr>,
+                            <tr key={registro.nombre_cliente}></tr>,
+                            <tr key={registro.telefono_celular}></tr>,
+                            <tr key={registro.correo_electronico}></tr>,
+                            <tr key={registro.modelo_vehiculo}></tr>,
+                            <tr key={registro.placas}></tr>,
+                            <tr key={registro.año_vehiculo}></tr>,
+                            <tr key={registro.color_vehiculo}></tr>,
+                            <tr key={registro.descripcion_de_trabajo}></tr>,
+                            <tr key={registro.cantidad_de_horas}></tr>,
+                            <tr key={registro.precio_de_material}></tr>,
+                            <tr key={registro.precio_fijo}></tr>,
+                            <tr key={registro.costo_total}></tr>,
+                            <tr key={registro.tipo}></tr>,
+                            <tr key={registro.estatus}></tr>,
+                            <tr key={registro.precio_hora}></tr>
+                        ))}
                     </tbody>
                 </table>
             </div>

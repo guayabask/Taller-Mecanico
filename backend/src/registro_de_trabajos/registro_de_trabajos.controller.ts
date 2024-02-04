@@ -13,25 +13,22 @@ import { UpdateRegistroDeTrabajoDto } from './dto/update-registro_de_trabajo.dto
 export class RegistroDeTrabajosController {
   constructor(private readonly registroDeTrabajosService: RegistroDeTrabajosService) {}
   
-  @Auth(Role.mecanico)
+
   @Post()
   create(@Body() createRegistroDeTrabajoDto: CreateRegistroDeTrabajoDto, @ActiveUser() user: ActiveUserInterface) {
     return this.registroDeTrabajosService.create(createRegistroDeTrabajoDto);
   }
 
-  @Auth(Role.mecanico)
   @Get()
   findAll() {
     return this.registroDeTrabajosService.findAll();
   }
 
-  @Auth(Role.mecanico)
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.registroDeTrabajosService.findOne(id);
   }
 
-  @Auth(Role.mecanico)
   @Patch(':id')
   updateRegistroDeTrabajo(@Param('id') id: number, @Body() updateRegistroDeTrabajoDto: UpdateRegistroDeTrabajoDto) {
     return this.registroDeTrabajosService.update(id, updateRegistroDeTrabajoDto);

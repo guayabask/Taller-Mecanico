@@ -53,21 +53,22 @@ export class AuthController {
     return req.user;
     }
 
-    /*@Get('perfil-admin')
+    @Get('perfil-admin')
     @Auth(Role.admin)
     perfil_admin(
-    @ActiveUser()
-    user: ActiveUserInterface,) {
-    return this.authService.perfil_admin(user)
-    }
+        @Request()
+        req: RequestWithUser,
+        ) {
+        return req.user;
+        }
 
     @Get('perfil-cliente')
     @Auth(Role.cliente)
     perfil_cliente(
-    @ActiveUser()
-    user: ActiveUserInterface,) {
-    return this.authService.perfil_cliente(user)
-    }*/
-
+        @Request()
+        req: RequestWithUser,
+        ) {
+        return req.user;
+        }
 
 }

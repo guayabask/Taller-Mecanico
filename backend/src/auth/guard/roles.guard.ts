@@ -22,6 +22,7 @@ export class RolesGuard implements CanActivate {
     // si es administrador lo dejamos hacer lo que sea :D
     if (user.role === Role.admin) return true;
 
+    if (user.role === Role.mecanico) return true;
 
     return user.role === rolRequerido;
   }

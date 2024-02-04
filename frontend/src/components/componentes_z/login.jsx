@@ -8,7 +8,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   const loginUser = () => {
-    axios.post(`http://localhost:3000/api/v1/auth/login`, {
+    axios.post(`https://localhost:3000/api/v1/auth/login`, {
       correo_electronico: email,
       contraseña: password
     })

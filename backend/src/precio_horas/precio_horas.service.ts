@@ -7,29 +7,28 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class PrecioHorasService {
-
   constructor(
-    @InjectRepository (PrecioHora)
+    @InjectRepository(PrecioHora)
     private readonly preciohoraRepository: Repository<PrecioHora>,
-  ){}
-  
+  ) {}
+
   async create(createPrecioHoraDto: CreatePrecioHoraDto) {
-      return await this.preciohoraRepository.save(createPrecioHoraDto)
+    return await this.preciohoraRepository.save(createPrecioHoraDto);
   }
 
   async findAll() {
-      return await this.preciohoraRepository.find();
+    return await this.preciohoraRepository.find();
   }
 
   async findOne(id: number) {
-      return `This action returns a #${id} precioHora`;
+    return `This action returns a #${id} precioHora`;
   }
 
   async update(id: number, updatePrecioHoraDto: UpdatePrecioHoraDto) {
-      return `This action updates a #${id} precioHora`;
+    return `This action updates a #${id} precioHora`;
   }
 
   async remove(id: number) {
-      return `This action removes a #${id} precioHora`;
+    return `This action removes a #${id} precioHora`;
   }
 }

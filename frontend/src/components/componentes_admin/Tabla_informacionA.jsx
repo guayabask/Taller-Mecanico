@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios'
-import FormularioAdmin from "./FormularioAdmin";
 import FormularioAdminRegistro from "./FormularioAdminRegistros";
+import { PiTrashSimpleFill } from "react-icons/pi";
+import { LuFileEdit } from "react-icons/lu";
+import { MdOutlineMenuBook } from "react-icons/md";
 
 export default function TablaInformacionAdmin() {
     const [users, setUsers] = useState([]);
@@ -14,7 +16,7 @@ export default function TablaInformacionAdmin() {
 
     const fetchUsers = async () => {
         try {
-            const response = await axios.get("http://localhost:3000/api/v1/registro-de-trabajos");
+            const response = await axios.get("https://localhost:3000/api/v1/registro-de-trabajos");
             setUsers(response.data);
         } catch (error) {
             console.error("Error fetching users:", error);
@@ -23,7 +25,7 @@ export default function TablaInformacionAdmin() {
 
     //Eliminar
     const HandeDelte = async (id) => {
-        const response = await axios.delete(`http://localhost:3000/api/v1/registro-de-trabajos/${id}`)
+        const response = await axios.delete(`https://localhost:3000/api/v1/registro-de-trabajos/${id}`)
 
         if (response.status === 200) {
             alert("Se borro correctamente")
@@ -48,6 +50,14 @@ export default function TablaInformacionAdmin() {
     const handleClearSearch = () => {
         setSearchId('');
         setSearchedUser(null);
+    };
+
+    //numero con guines
+    const formatPhoneNumber = (phoneNumber) => {
+        if (phoneNumber.length === 10) {
+            return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6)}`;
+        }
+        return phoneNumber;
     };
 
     return (
@@ -75,87 +85,69 @@ export default function TablaInformacionAdmin() {
                 </div>
                 <label className="text-gray-700 font-bold text-2xl">Tabla de registros</label>
             </div>
-            <div className=" border-dashed">
-                <div className="flex items-center justify-center h-fit mb-4 rounded flex-col gap-6">
-                    <div className="container">
-                        <div className="">
-                            <table className="w-fit text-sm text-left text-gray-500 dark:text-gray-400 shadow-md shadow-[#4f4f4f]">
-                                <thead className="text-xs text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400 p-2">
-                                    <tr >
-                                        <th className="p-1">Folio</th>
-                                        <th className="p-1">Cliente</th>
-                                        <th className="p-1">Teléfono</th>
-                                        <th className="p-1">Correo</th>
-                                        <th className="p-">Modelo vehiculo</th>
-                                        <th className="p-1">Placas</th>
-                                        <th className="p-1">AÑO</th>
-                                        <th className="p-1">Color</th>
-                                        <th className="p-1">horas</th>
-                                        <th className="p-1">Costo total</th>
-                                        <th className="p-1">Estatus</th>
-                                        <th className="p-1">Fecha de llegada</th>
-                                        <th></th>
-                                        <th>Opciones</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {searchedUser ? (
-                                        <tr>
-                                            <td className="m-2 flex items-center justify-center">{searchedUser.id_registro}</td>
-                                            <td>{searchedUser.nombre_cliente}</td>
-                                            <td className="m-2 flex items-center justify-center">{searchedUser.telefono_celular}</td>
-                                            <td >{searchedUser.correo_electronico}</td>
-                                            <td className="m-2 flex items-center justify-center">{searchedUser.modelo_vehiculo}</td>
-                                            <td >{searchedUser.placas}</td>
-                                            <td className="m-2 flex items-center justify-center">{searchedUser.año_vehiculo}</td>
-                                            <td>{searchedUser.color_vehiculo}</td>
-                                            <td className="m-2 flex items-center justify-center">{searchedUser.cantidad_de_horas}</td>
-                                            <td>{searchedUser.costo_total}</td>
-                                            <td className="m-1 flex items-center justify-center">{searchedUser.tipoTrabajo_id}</td>
-                                            <td>{searchedUser.fecha_de_inicio}</td>
-                                            <td>
-                                                <button className="m-2 bg-purple-800">Editar</button>
-                                            </td>
-                                            <td>
-                                                <button onClick={() => HandeDelte(registro.id_registro)} className="m-2 bg-purple-800">Eliminar</button>
-                                            </td>
-                                            <td>
-                                                <button className="m-2 bg-purple-800">Ver</button>
-                                            </td>
-                                        </tr>
-                                    ) : (
-                                        users.map((registro, index) => (
-                                            <tr key={index}>
-                                                <td className="m-2 flex items-center justify-center">{index + 1}</td>
-                                                <td>{registro.nombre_cliente}</td>
-                                                <td>{registro.telefono_celular}</td>
-                                                <td>{registro.correo_electronico}</td>
-                                                <td>{registro.modelo_vehiculo}</td>
-                                                <td>{registro.placas}</td>
-                                                <td>{registro.año_vehiculo}</td>
-                                                <td>{registro.color_vehiculo}</td>
-                                                <td>{registro.cantidad_de_horas}</td>
-                                                <td>{registro.costo_total}</td>
-                                                <td>{registro.tipoTrabajo_id}</td>
-                                                <td>{registro.fecha_de_inicio}</td>
-                                                <td>
-                                                    <button className="m-2 bg-purple-800">Editar</button>
-                                                </td>
-                                                <td>
-                                                    <button onClick={() => HandeDelte(registro.id_registro)} className="m-2 bg-purple-800">Eliminar</button>
-                                                </td>
-                                                <td>
-                                                    <button className="m-2 bg-purple-800">Ver</button>
-                                                </td>
-                                            </tr>
-                                        ))
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+            <div className="">
+                <table className="w-full text-sm text-center dark:text-gray-400 shadow-md shadow-[#4f4f4f] ">
+                    <thead className="text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400">
+                        <tr className="">
+                            <th className="pt-2 pb-2 pr-1 pl-1">Folio</th>
+                            <th className="pr-1 pl-1">Cliente</th>
+                            <th className="pr-1 pl-1">Teléfono</th>
+                            <th className="pr-1 pl-1">Correo</th>
+                            <th className="pr-1 pl-1">Vehiculo</th>
+                            <th className="pr-1 pl-1">Placas</th>
+                            <th className="pr-1 pl-1">AÑO</th>
+                            <th className="pr-1 pl-1">Color</th>
+                            <th className="pr-1 pl-1">horas</th>
+                            <th className="pr-1 pl-1">Costo total</th>
+                            <th className="pr-1 pl-1">Fecha de llegada</th>
+                            <th className="pr-1 pl-1">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {searchedUser ? (
+                            <tr className="hover:bg-gray-300 hover:text-gray-800">
+                                <td className="pt-2 pb-2 pr-1 pl-1">{searchedUser.id_registro}</td>
+                                <td className="pr-1 pl-1">{searchedUser.nombre_cliente}</td>
+                                <td className="pr-1 pl-1">{formatPhoneNumber(searchedUser.telefono_celular)}</td>
+                                <td className="pr-1 pl-1">{searchedUser.correo_electronico}</td>
+                                <td className="pr-1 pl-1">{searchedUser.modelo_vehiculo}</td>
+                                <td className="pr-1 pl-1">{searchedUser.placas}</td>
+                                <td className="pr-1 pl-1">{searchedUser.año_vehiculo}</td>
+                                <td className="pr-1 pl-1">{searchedUser.color_vehiculo}</td>
+                                <td className="pr-1 pl-1">{searchedUser.cantidad_de_horas}</td>
+                                <td className="pr-1 pl-1">{searchedUser.costo_total}</td>
+                                <td className="pr-1 pl-1">{searchedUser.fecha_de_inicio.substring(0, 10)}</td>
+                                <td className="pr-1 pl-1 flex flex-row items-center justify-center pt-2 gap-2">
+                                    <button className="text-2xl text-emerald-700"><LuFileEdit /></button>
+                                    <button className="text-2xl text-blue-700"><MdOutlineMenuBook /></button>
+                                    <button onClick={() => HandeDelte(searchedUser.id_registro)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
+                                </td>
+                            </tr>
+                        ) : (
+                            users.map((registro, index) => (
+                                <tr key={index} className="hover:bg-gray-300 hover:text-gray-800">
+                                    <td className="pt-2 pb-2 pr-1 pl-1">{index + 1}</td>
+                                    <td className="pr-1 pl-1">{registro.nombre_cliente}</td>
+                                    <td className="pr-1 pl-1">{formatPhoneNumber(registro.telefono_celular)}</td>
+                                    <td className="pr-1 pl-1">{registro.correo_electronico}</td>
+                                    <td className="pr-1 pl-1">{registro.modelo_vehiculo}</td>
+                                    <td className="pr-1 pl-1">{registro.placas}</td>
+                                    <td className="pr-1 pl-1">{registro.año_vehiculo}</td>
+                                    <td className="pr-1 pl-1">{registro.color_vehiculo}</td>
+                                    <td className="pr-1 pl-1">{registro.cantidad_de_horas} hrs</td>
+                                    <td className="pr-1 pl-1">$ {registro.costo_total}</td>
+                                    <td className="pr-1 pl-1">{registro.fecha_de_inicio.substring(0, 10)}</td>
+                                    <td className="pr-1 pl-1 flex flex-row items-center justify-center pt-2 gap-2">
+                                        <button className="text-2xl text-emerald-700" onClick={() => navigate(`/editar-registro/${users.id}`)}><LuFileEdit /></button>
+                                        <button className="text-2xl text-blue-700"><MdOutlineMenuBook /></button>
+                                        <button onClick={() => HandeDelte(registro.id_registro)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
+                                    </td>
+                                </tr>
+                            ))
+                        )}
+                    </tbody>
+                </table>
+
             </div>
         </div>
     );

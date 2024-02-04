@@ -11,10 +11,9 @@ export default function SidebarAdmin() {
                         <label className="text-white text-center justify-center text-xl pt-6 font-bold mb-2 uppercase">Dashboard administrador</label>
                         <img src={Inicio} className="mx-auto mb-5 w-[80%]" />
                     </div>
-                    <div className="flex flex-col items-center justify-center w-full gap-4">
-                        <button className="text-white  text-lg font-semibold hover:bg-red-800 w-full p-4">Mi Perfil</button>
-                        <button className="text-white text-lg font-semibold hover:bg-red-800 w-full p-4"><Link to="/administrador">Trabajos</Link></button>
-                        <button className="text-white text-lg font-semibold hover:bg-red-800 w-full p-4"><Link to="/administrar-usuarios">Administrar usuarios</Link></button>
+                    <div className="flex flex-col items-center justify-center w-full">
+                        <button className="text-white text-lg font-semibold hover:bg-red-800 w-full p-4"><Link to="/administrador">Gestión de trabajos</Link></button>
+                        <button className="text-white text-lg font-semibold hover:bg-red-800 w-full p-4"><Link to="/administrar-usuarios">Gestión de usuarios</Link></button>
                     </div>
                 </div>
 

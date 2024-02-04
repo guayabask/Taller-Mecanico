@@ -4,8 +4,8 @@ import { ValidationPipe } from '@nestjs/common';
 import * as fs from 'fs'
 
 const httpsOptions = {
-  key: fs.readFileSync('./secrets/create-cert-key.pem'),
-  cert: fs.readFileSync('./secrets/create-cert.pem'),
+  key: fs.readFileSync('./localhost-key.pem'),
+  cert: fs.readFileSync('./localhost.pem'),
 };
 
 async function bootstrap() {
@@ -23,7 +23,7 @@ async function bootstrap() {
 
   // Enable CORS
   app.enableCors({
-    origin: 'http://localhost:5173', // Specify your frontend URL here
+    origin: 'https://localhost:5173', // Specify your frontend URL here
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true, // Allow credentials such as cookies
   });

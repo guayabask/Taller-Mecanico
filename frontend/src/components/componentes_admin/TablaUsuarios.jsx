@@ -12,7 +12,7 @@ export default function TablaUsuarios() {
     }, [])
 
     const fetchUsers = async () => {
-        const response = await axios.get("http://localhost:3000/api/v1/users")
+        const response = await axios.get("https://localhost:3000/api/v1/users")
         setUsers(response.data)
         console.log('Datos de la api')
         console.log(response)
@@ -20,7 +20,7 @@ export default function TablaUsuarios() {
     
     //Eliminar
     const HandeDelte = async (id) => {
-        const response = await axios.delete(`http://localhost:3000/api/v1/users/${id}`)
+        const response = await axios.delete(`https://localhost:3000/api/v1/users/${id}`)
 
         if (response.status == 200) {
             alert("Se borro correctamente")

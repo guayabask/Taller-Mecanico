@@ -2,13 +2,8 @@ import React from "react";
 import Inicio from "./../componentes_marco/inicio.png";
 
 export default function Perfil() {
-    const userData = {
-        usuario: "Jonh200",
-        nombre: "John",
-        apellido: "Doe",
-        correo: "john.doe@example.com",
-        hobbies: ["Viajar", "Leer", "Deportes"]
-    };
+    
+    
 
     return (
         <div className="flex">

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import FormularioAdmin from "./FormularioAdmin";
 
 export default function TablaUsuarios() {
+
     //Consultas
     const [Users, setUsers] = useState([])
     useEffect(() => {
@@ -16,6 +17,7 @@ export default function TablaUsuarios() {
         console.log('Datos de la api')
         console.log(response)
     }
+    
     //Eliminar
     const HandeDelte = async (id) => {
         const response = await axios.delete(`http://localhost:3000/api/v1/users/${id}`)

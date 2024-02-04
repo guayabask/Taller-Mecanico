@@ -1,104 +1,162 @@
 import React, { useEffect, useState } from "react";
-import { FaRegSquarePlus } from "react-icons/fa6";
+import axios from 'axios'
+import FormularioAdmin from "./FormularioAdmin";
+import FormularioAdminRegistro from "./FormularioAdminRegistros";
 
 export default function TablaInformacionAdmin() {
-    const [codigoBusqueda, setCodigoBusqueda] = useState("");
-    const [datosTabla, setDatosTabla] = useState([]);
+    const [users, setUsers] = useState([]);
+    const [searchId, setSearchId] = useState('');
+    const [searchedUser, setSearchedUser] = useState(null);
 
     useEffect(() => {
-        fetch(`http://localhost:3000/api/v1/registro-de-trabajos?id=${codigoBusqueda}`)
-            .then((response) => response.json())
-            .then((data) => {
-                if (Array.isArray(data)) {
-                    setDatosTabla(data);
-                } else {
-                    console.error("La respuesta de la API no es un array:", data);
-                }
-            })
-            .catch((error) => console.error("Error fetching data:", error));
-    }, [codigoBusqueda]);
+        fetchUsers();
+    }, []);
 
-    const handleBusquedaClick = () => {
-        setDatosTabla([]);
+    const fetchUsers = async () => {
+        try {
+            const response = await axios.get("http://localhost:3000/api/v1/registro-de-trabajos");
+            setUsers(response.data);
+        } catch (error) {
+            console.error("Error fetching users:", error);
+        }
+    };
+
+    //Eliminar
+    const HandeDelte = async (id) => {
+        const response = await axios.delete(`http://localhost:3000/api/v1/registro-de-trabajos/${id}`)
+
+        if (response.status === 200) {
+            alert("Se borro correctamente")
+        } else {
+            alert("Un show medio raro")
+        }
+        fetchUsers()
     }
 
-    return (<div className="p-8">
+    //Buscar 
+    const handleSearch = () => {
+        const foundUser = users.find(user => user.id_registro === parseInt(searchId));
+        if (foundUser) {
+            setSearchedUser(foundUser);
+        } else {
+            setSearchedUser(null);
+            alert("Usuario no encontrado");
+        }
+    };
 
-        {/*Nesesito que jalen de la api la informacion de la tabla esta es el api:
+    // Vaciar búsqueda
+    const handleClearSearch = () => {
+        setSearchId('');
+        setSearchedUser(null);
+    };
 
-        localhost:3000/api/v1/registro-de-trabajos
-
-        lo mismo de toda la vida un mapeo, pero el mapeo debe funcionar a base un codigo de busqueda
-        el codigo de busqueda sera el id, donde se hara la validacion, aqui arriba hay un input y un boton de busqueda
-        cuando se busque se muestran los datos de sus avances, pero tampocos muchos datos.
-    */}
-
-        <div className="flex flex-row items-center justify-between ">
-            <div className="w-full bg-green-700 flex flex-row justify-start items-center gap-2 m-2 rounded-lg cursor-pointer">
-                <FaRegSquarePlus className="ml-4 text-white cursor-pointer" /><label className=" p-2 rounded-lg text-white cursor-pointer">Añadir registro </label>
-            </div>
-
-            <div className="w-full  flex flex-row justify-start items-center gap-2 m-2">
-                <input placeholder="Escriba aqui el folio del vehiculo" className="w-[25rem] p-1 h-fit rounded-lg border-2 m-2"
-                    value={codigoBusqueda}
-                    onChange={(e) => setCodigoBusqueda(e.target.value)}
-                />
-                <button className="bg-blue-600 p-2 rounded-lg text-white "
-                    onClick={handleBusquedaClick}
-                >Buscar</button>
-            </div>
-        </div>
-
-
-        <div className="w-full m-2">
-            <div className="rounded-lg bg-gray-200 mb-2 text-normal p-4">
-                <div className="flex flex-col gap-1">
-                    <label className="text-xl font-bold ">Seguimiento de vehiculos</label>
-                    <p className="text-sm border-b">En este apartado usted proda estar al tanto de los vehiculos que este trabajando</p>
+    return (
+        <div className="text-black flex flex-col m-8">
+            <div className="">
+                <div className="w-full flex flex-row justify-between items-center gap-2 m-2">
+                    <div className="bg-green-600 p-2 py-1 font-bold rounded-lg text-white flex flex-row items-center gap-2 shadow-md shadow-[#4f4f4f]">
+                        <FormularioAdminRegistro />
+                        <div className="border-white text-2xl font-black mb-1 cursor-pointer">+</div>
+                    </div>
+                    <div className="gap-2 flex ">
+                        <input
+                            placeholder="Escriba aquí el ID"
+                            className="w-[20rem] p-1 h-fit rounded-lg border-2 shadow-md shadow-[#4f4f4f] "
+                            value={searchId}
+                            onChange={(e) => setSearchId(e.target.value)}
+                        />
+                        <button className="bg-blue-600 p-2 font-bold rounded-lg text-white shadow-md shadow-[#4f4f4f]" onClick={handleSearch}>
+                            Buscar por ID
+                        </button>
+                        <button className="bg-red-600 p-2 font-bold rounded-lg text-white shadow-md shadow-[#4f4f4f]" onClick={handleClearSearch}>
+                            Vaciar búsqueda
+                        </button>
+                    </div>
                 </div>
-
-                <table className="w-full border-collapse mt-4 table-auto text-sm">
-                    <thead className="bg-red-900 text-white">
-                        <tr>
-                            <th>Id</th>
-                            <th>nombre_cliente</th>
-                            <th>telefono</th>
-                            <th>correo</th>
-                            <th>modelo</th>
-                            <th>placas</th>
-                            <th>año</th>
-                            <th>color</th>
-                            <th>descripcion</th>
-                            <th>cantidad horas</th>
-                            <th>precio material</th>
-                            <th>precio fijo</th>
-                            <th>total</th>
-                            <th>inicio</th>
-                            <th>finalizacion</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {datosTabla.map((registro) => (
-                            <tr key={registro.id}></tr>,
-                            <tr key={registro.nombre_cliente}></tr>,
-                            <tr key={registro.telefono_celular}></tr>,
-                            <tr key={registro.correo_electronico}></tr>,
-                            <tr key={registro.modelo_vehiculo}></tr>,
-                            <tr key={registro.placas}></tr>,
-                            <tr key={registro.año_vehiculo}></tr>,
-                            <tr key={registro.color_vehiculo}></tr>,
-                            <tr key={registro.descripcion_de_trabajo}></tr>,
-                            <tr key={registro.cantidad_de_horas}></tr>,
-                            <tr key={registro.precio_de_material}></tr>,
-                            <tr key={registro.precio_fijo}></tr>,
-                            <tr key={registro.costo_total}></tr>,
-                            <tr key={registro.tipo}></tr>,
-                            <tr key={registro.estatus}></tr>,
-                            <tr key={registro.precio_hora}></tr>
-                        ))}
-                    </tbody>
-                </table>
+                <label className="text-gray-700 font-bold text-2xl">Tabla de registros</label>
+            </div>
+            <div className=" border-dashed">
+                <div className="flex items-center justify-center h-fit mb-4 rounded flex-col gap-6">
+                    <div className="container">
+                        <div className="">
+                            <table className="w-fit text-sm text-left text-gray-500 dark:text-gray-400 shadow-md shadow-[#4f4f4f]">
+                                <thead className="text-xs text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400 p-2">
+                                    <tr >
+                                        <th className="p-1">Folio</th>
+                                        <th className="p-1">Cliente</th>
+                                        <th className="p-1">Teléfono</th>
+                                        <th className="p-1">Correo</th>
+                                        <th className="p-">Modelo vehiculo</th>
+                                        <th className="p-1">Placas</th>
+                                        <th className="p-1">AÑO</th>
+                                        <th className="p-1">Color</th>
+                                        <th className="p-1">horas</th>
+                                        <th className="p-1">Costo total</th>
+                                        <th className="p-1">Estatus</th>
+                                        <th className="p-1">Fecha de llegada</th>
+                                        <th></th>
+                                        <th>Opciones</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {searchedUser ? (
+                                        <tr>
+                                            <td className="m-2 flex items-center justify-center">{searchedUser.id_registro}</td>
+                                            <td>{searchedUser.nombre_cliente}</td>
+                                            <td className="m-2 flex items-center justify-center">{searchedUser.telefono_celular}</td>
+                                            <td >{searchedUser.correo_electronico}</td>
+                                            <td className="m-2 flex items-center justify-center">{searchedUser.modelo_vehiculo}</td>
+                                            <td >{searchedUser.placas}</td>
+                                            <td className="m-2 flex items-center justify-center">{searchedUser.año_vehiculo}</td>
+                                            <td>{searchedUser.color_vehiculo}</td>
+                                            <td className="m-2 flex items-center justify-center">{searchedUser.cantidad_de_horas}</td>
+                                            <td>{searchedUser.costo_total}</td>
+                                            <td className="m-1 flex items-center justify-center">{searchedUser.tipoTrabajo_id}</td>
+                                            <td>{searchedUser.fecha_de_inicio}</td>
+                                            <td>
+                                                <button className="m-2 bg-purple-800">Editar</button>
+                                            </td>
+                                            <td>
+                                                <button onClick={() => HandeDelte(registro.id_registro)} className="m-2 bg-purple-800">Eliminar</button>
+                                            </td>
+                                            <td>
+                                                <button className="m-2 bg-purple-800">Ver</button>
+                                            </td>
+                                        </tr>
+                                    ) : (
+                                        users.map((registro, index) => (
+                                            <tr key={index}>
+                                                <td className="m-2 flex items-center justify-center">{index + 1}</td>
+                                                <td>{registro.nombre_cliente}</td>
+                                                <td>{registro.telefono_celular}</td>
+                                                <td>{registro.correo_electronico}</td>
+                                                <td>{registro.modelo_vehiculo}</td>
+                                                <td>{registro.placas}</td>
+                                                <td>{registro.año_vehiculo}</td>
+                                                <td>{registro.color_vehiculo}</td>
+                                                <td>{registro.cantidad_de_horas}</td>
+                                                <td>{registro.costo_total}</td>
+                                                <td>{registro.tipoTrabajo_id}</td>
+                                                <td>{registro.fecha_de_inicio}</td>
+                                                <td>
+                                                    <button className="m-2 bg-purple-800">Editar</button>
+                                                </td>
+                                                <td>
+                                                    <button onClick={() => HandeDelte(registro.id_registro)} className="m-2 bg-purple-800">Eliminar</button>
+                                                </td>
+                                                <td>
+                                                    <button className="m-2 bg-purple-800">Ver</button>
+                                                </td>
+                                            </tr>
+                                        ))
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>)
+    );
 }

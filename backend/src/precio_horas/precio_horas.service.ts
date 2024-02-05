@@ -21,14 +21,14 @@ export class PrecioHorasService {
   }
 
   async findOne(id: number) {
-    return `This action returns a #${id} precioHora`;
+    return await this.preciohoraRepository.findOneBy({id})
   }
 
   async update(id: number, updatePrecioHoraDto: UpdatePrecioHoraDto) {
-    return `This action updates a #${id} precioHora`;
+    return await this.preciohoraRepository.update({id}, updatePrecioHoraDto)
   }
 
   async remove(id: number) {
-    return `This action removes a #${id} precioHora`;
+    return await this.preciohoraRepository.softRemove({id})
   }
 }

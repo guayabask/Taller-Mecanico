@@ -22,7 +22,7 @@ export class EstatusTrabajosService {
   }
 
   async findOne(id: number) {
-    return `This action returns a #${id} estatusTrabajo`;
+    return await this.estatustrabajoRepository.findOneBy({id})
   }
 
   async update(id: number, updateEstatusTrabajoDto: UpdateEstatusTrabajoDto) {
@@ -30,6 +30,6 @@ export class EstatusTrabajosService {
   }
 
   async remove(id: number) {
-    return `This action removes a #${id} estatusTrabajo`;
+    return await this.estatustrabajoRepository.softRemove({id})
   }
 }

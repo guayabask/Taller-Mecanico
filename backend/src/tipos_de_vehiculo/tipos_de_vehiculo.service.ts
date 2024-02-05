@@ -23,7 +23,7 @@ export class TiposDeVehiculoService {
   }
 
   async findOne(id: number) {
-    return `This action returns a #${id} tiposDeVehiculo`;
+    return await this.tipovehiculoRepository.findOneBy({id})
   }
 
   async update(id: number, updateTiposDeVehiculoDto: UpdateTiposDeVehiculoDto) {
@@ -31,6 +31,6 @@ export class TiposDeVehiculoService {
   }
 
   async remove(id: number) {
-    return `This action removes a #${id} tiposDeVehiculo`;
+    return await this.tipovehiculoRepository.softRemove({id})
   }
 }

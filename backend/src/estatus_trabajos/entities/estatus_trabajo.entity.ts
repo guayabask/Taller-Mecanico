@@ -1,5 +1,5 @@
 import { RegistroDeTrabajo } from "src/registro_de_trabajos/entities/registro_de_trabajo.entity";
-import { Column, Entity, OneToMany } from "typeorm";
+import { Column, DeleteDateColumn, Entity, OneToMany } from "typeorm";
 
 @Entity()
 export class EstatusTrabajo {
@@ -9,6 +9,9 @@ export class EstatusTrabajo {
 
     @Column({ length:30 })
     tipo_estatus: string;
+
+    @DeleteDateColumn()
+    fecha_de_finalizacion: Date;
 
     @OneToMany(() => RegistroDeTrabajo, (registro_de_trabajo) => registro_de_trabajo.estatus_trabajo_)
     registro_de_trabajos_estatus: RegistroDeTrabajo[];

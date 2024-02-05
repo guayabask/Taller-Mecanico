@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Tabla_Usuarios() {
+export default function Tabla_Usuarios() {zz
     return (<div className="p-8">
 
         {/*Nesesito que jalen de la api la informacion de la tabla esta es el api:

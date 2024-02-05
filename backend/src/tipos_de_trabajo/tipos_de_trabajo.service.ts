@@ -22,7 +22,7 @@ export class TiposDeTrabajoService {
   }
 
   async findOne(id: number) {
-    return `This action returns a #${id} tiposDeTrabajo`;
+    return await this.tiposdetrabajoRepository.findOneBy({id});
   }
 
   async update(id: number, updateTiposDeTrabajoDto: UpdateTiposDeTrabajoDto) {
@@ -30,6 +30,6 @@ export class TiposDeTrabajoService {
   }
 
   async remove(id: number) {
-    return `This action removes a #${id} tiposDeTrabajo`;
+    return await this.tiposdetrabajoRepository.softDelete({id})
   }
 }

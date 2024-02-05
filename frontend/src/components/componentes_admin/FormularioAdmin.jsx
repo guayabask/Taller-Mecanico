@@ -22,7 +22,7 @@ export default function FormularioAdmin() {
             onSubmit={async (values, actions) => {
               console.log(values)
 
-              var res = await axios.post('http://localhost:3000/api/v1/users', values)
+              var res = await axios.post('https://localhost:3000/api/v1/users', values)
               actions.resetForm()
               alert('Datos agregados correctamente')
               window.location = '/administrar-usuarios';

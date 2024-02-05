@@ -15,6 +15,7 @@ import AdministrarUsuarios from './pages/paginas_admin/Administrar_Usuarios';
 import SidebarMecanico from './components/componentes_mecanico/SidebarMecanico';
 import InicioMecanico from './pages/paginas_mecanico/InicioMecanico';
 import PantallaPerfil from './pages/paginas_cliente/PantallaPerfil';
+import EditarRegistro from './pages/paginas_admin/EditarRegistro';
 
 export default function App() {
   return (<div>
@@ -28,6 +29,7 @@ export default function App() {
       <Route path='/' element={<SidebarAdmin/>}>
         <Route path="/administrador" element={<InicioAdmin/>}/>
         <Route path="/administrar-usuarios" element={<AdministrarUsuarios/>}/>
+        <Route path="/editar-registro/:id" element={<EditarRegistro/>}/>
       </Route>
 
       <Route path='/' element={<SidebarMecanico/>}>

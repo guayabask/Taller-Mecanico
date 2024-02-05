@@ -25,17 +25,17 @@ export class RegistroDeTrabajosController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.registroDeTrabajosService.findOne(id);
+  findOne(@Param('id') id_registro: number) {
+    return this.registroDeTrabajosService.findOne(id_registro);
   }
 
   @Patch(':id')
-  updateRegistroDeTrabajo(@Param('id') id: number, @Body() updateRegistroDeTrabajoDto: UpdateRegistroDeTrabajoDto) {
-    return this.registroDeTrabajosService.update(id, updateRegistroDeTrabajoDto);
+  updateRegistroDeTrabajo(@Param('id') id_registro: number, @Body() updateRegistroDeTrabajoDto: UpdateRegistroDeTrabajoDto) {
+    return this.registroDeTrabajosService.update(id_registro, updateRegistroDeTrabajoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: number) {
-    return this.registroDeTrabajosService.remove(id);
+  remove(@Param('id') id_registro: number) {
+    return this.registroDeTrabajosService.remove(id_registro);
   }
 }

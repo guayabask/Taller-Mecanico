@@ -59,7 +59,7 @@ export class RegistroDeTrabajosService {
       throw new BadRequestException("No existe ese tipo de estatus brother")
     }
     if (!tipo_de_vehiculo_ ){
-      throw new BadRequestException("No existe ese tipo de vehiculo brother")
+      throw new BadRequestException("No existe ese tipo de estatus brother")
     }
 
     if (!usuario_registro_){

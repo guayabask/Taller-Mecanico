@@ -9,6 +9,9 @@ import { MdOutlineMenuBook } from "react-icons/md";
 import FormularioTipo_vehuiculo from "./FormularioTipo_vehuiculo";
 
 export default function TablaInformacionAdmin() {
+
+    const navigate = useNavigate()
+
     const [users, setUsers] = useState([]);
     const [tipoTrabajo, setTipoTrabajo] = useState([]);
     const [tipoEstatus, setTipoEstatus] = useState([]);
@@ -211,9 +214,9 @@ export default function TablaInformacionAdmin() {
                                     <td className="pr-1 pl-1">$ {registro.costo_total}</td>
                                     <td className="pr-1 pl-1">{registro.fecha_de_inicio.substring(0, 10)}</td>
                                     <td className="pr-1 pl-1 flex flex-row items-center justify-center pt-2 gap-2">
-                                        <button className="text-2xl text-emerald-700" onClick={() => navigate(`/editar-registro/${users.id}`)}><LuFileEdit /></button>
+                                        <button className="text-2xl text-emerald-700" onClick={() => navigate(`/editar-registro/${users.id_registro}`)}><LuFileEdit /></button>
                                         <button className="text-2xl text-blue-700"><MdOutlineMenuBook /></button>
-                                        <button onClick={() => HandeDelte(registro.id_registro)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
+                                        <button onClick={() => HandeDelte(registro.id)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
                                     </td>
                                 </tr>
                             ))

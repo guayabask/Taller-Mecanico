@@ -4,7 +4,7 @@ import { Formik } from 'formik'
 import { BsPlusCircleFill } from "react-icons/bs";
 import { IoCloseCircle } from "react-icons/io5";
 
-export default function FormularioAdminRegistro() {
+export default function FormularioAdminRegistro({}) {
     const [show, setShow] = useState(false);
     const [tipodVehiculo, setTipoVehiculo] = useState([]);
     const [tipodTrabajo, setTipoTrabajo] = useState([]);

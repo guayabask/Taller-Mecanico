@@ -35,9 +35,6 @@ export default function Login() {
       case "mecanico":
         window.location = "/mecanico";
         break;
-      case "cliente":
-        window.location = "/cliente";
-        break;
       default:
         alert("Rol desconocido");
     }
@@ -65,10 +62,10 @@ export default function Login() {
               <label className="font-workSans text-sm font-semibold">¿Se te olvidó tu contraseña?</label>
               <Link to="/maneras-de-iniciar-sesion"><label className="text-red-500 font-workSans text-sm font-bold cursor-pointer hover:text-red-900">Más opciones de inicio</label></Link>
             </div>
-            <div className=" w-full justify-center flex flex-row gap-2">
+            {/*<div className=" w-full justify-center flex flex-row gap-2">
               <p className="font-workSans text-sm font-semibold">¿No tienes una cuenta?</p>
               <Link to="/registro"><p className="text-red-500 font-workSans text-sm font-bold cursor-pointer hover:text-red-900">¡Crea una aqui!</p></Link>
-            </div>
+              </div>*/}
           </div>
         </div>
       </div>

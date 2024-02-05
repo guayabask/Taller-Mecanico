@@ -15,17 +15,17 @@ export default function FormularioAdmin() {
               correo_electronico: "",
               role: "",
               id_pregunta_id: "",
-              Password: ""
+              contraseña: ""
             }}
 
             //ver los valores que agrega el usuario  
             onSubmit={async (values, actions) => {
-              console.log(values)
+              console.log("Form submitted with values:", values);
 
-              var res = await axios.post('https://localhost:3000/api/v1/users', values)
+              var res = await axios.post('https://localhost:3000/api/v1/auth/register', values)
               actions.resetForm()
               alert('Datos agregados correctamente')
-              window.location = '/administrar-usuarios';
+              window.location = '/administrador';
 
             }}
           >
@@ -36,7 +36,7 @@ export default function FormularioAdmin() {
                 <div className="flex flex-wrap -mx-3 mb-6">
                   <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Nombre</label>
-                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Carlos" name="Nombre" onChange={handleChange} value={values.nombre_usuario} />
+                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" type="text" placeholder="Carlos" name="nombre_usuario" onChange={handleChange} value={values.nombre_usuario} />
                   </div>
                   <div className="w-full md:w-1/2 px-3">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
@@ -46,7 +46,7 @@ export default function FormularioAdmin() {
                       className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                       type="text"
                       placeholder="Jaguar"
-                      name="Apellido"
+                      name="id_pregunta_id"
                       onChange={handleChange}
                       value={values.id_pregunta_id}
                     />
@@ -59,7 +59,7 @@ export default function FormularioAdmin() {
                       className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                       type="email"
                       placeholder="ejemplo@email.com"
-                      name="Email"
+                      name="correo_electronico"
                       onChange={handleChange}
                       value={values.correo_electronico}
                     />
@@ -72,37 +72,34 @@ export default function FormularioAdmin() {
                       className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                       type="password"
                       placeholder="******"
-                      name="Password"
+                      name="contraseña"
                       onChange={handleChange}
-                      value={values.Password}
+                      value={values.contraseña}
                     />
 
                     <p className="text-gray-600 text-xs italic">Mínimo 6 caracteres</p>
                   </div>
                 </div>
                 <div className="flex flex-wrap -mx-3 mb-2">
-                  
-                    
+
+
                   <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Rol
                     </label>
                     <select className="block w-fit bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" placeholder="Guayabo" name="role" onChange={handleChange} value={values.role}>
-                      <option className="text-gray-700">admin</option>
-                      <option className="text-gray-700">mecanico</option>
-                      <option className="text-gray-700">cliente</option>
                     </select>
                   </div>
                 </div>
                 <div className="flex flex-row justify-center gap-8">
-                  <button className="bg-[#257a8d] hover:bg-[#204a53]  text-gray-300 font-semibold hover:text-white py-0  border border-gray-700 hover:border-transparent rounded" type='onSubmit'>
-                  Agregar
-                </button>
-                <label onClick={() => setShow(!true)} className="bg-[#8d2525] hover:bg-[#53202f] cursor-pointer text-gray-300 font-semibold hover:text-white p-2 border border-gray-700 hover:border-transparent rounded">
-                  Cancelar
-                </label>
+                  <button className="bg-[#257a8d] hover:bg-[#204a53]  text-gray-300 font-semibold hover:text-white py-0  border border-gray-700 hover:border-transparent rounded" type='submit'>
+                    Agregar
+                  </button>
+                  <label onClick={() => setShow(!true)} className="bg-[#8d2525] hover:bg-[#53202f] cursor-pointer text-gray-300 font-semibold hover:text-white p-2 border border-gray-700 hover:border-transparent rounded">
+                    Cancelar
+                  </label>
                 </div>
-                
+
               </form>
             )}
           </Formik>

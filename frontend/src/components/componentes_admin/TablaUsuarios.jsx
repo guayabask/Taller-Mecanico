@@ -31,7 +31,7 @@ export default function TablaUsuarios() {
     }
     const navigate = useNavigate()
     return (
-        <div className="text-black flex flex-col">
+        <div className=" text-black flex flex-col ml-[6rem] mt-4">
             
             <div className="">
                 <div className="bg-green-600 w-fit p-2 rounded-xl text-white font-bold flex flex-row items-center justify-center gap-2 cursor-pointer"><FormularioAdmin className="cursor-pointer"/><div className="border-white text-2xl font-black mb-1 cursor-pointer">+</div></div>

@@ -7,6 +7,7 @@ import { PiTrashSimpleFill } from "react-icons/pi";
 import { LuFileEdit } from "react-icons/lu";
 import { MdOutlineMenuBook } from "react-icons/md";
 import FormularioTipo_vehuiculo from "./FormularioTipo_vehuiculo";
+import { useNavigate } from "react-router-dom";
 
 export default function TablaInformacionAdmin() {
 
@@ -137,7 +138,7 @@ export default function TablaInformacionAdmin() {
     };
 
     return (
-        <div className="text-black flex flex-col m-8">
+        <div className="text-black flex flex-col ml-[6rem] mt-4">
             <div className="">
                 <div className="w-full flex flex-row justify-between items-center gap-2 m-2">
                     <div className="bg-green-600 p-2 py-1 font-bold rounded-lg text-white flex flex-row items-center gap-2 shadow-md shadow-[#4f4f4f]">
@@ -162,21 +163,20 @@ export default function TablaInformacionAdmin() {
                 <label className="text-gray-700 font-bold text-2xl">Tabla de registros</label>
             </div>
             <div className="">
-                <table className="w-full text-sm text-center dark:text-gray-400 shadow-md shadow-[#4f4f4f] ">
+                <table className="w-fit text-xs text-center dark:text-gray-400 shadow-md shadow-[#4f4f4f] ">
                     <thead className="text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400">
                         <tr className="">
-                            <th className="pt-2 pb-2 pr-1 pl-1">Folio</th>
-                            <th className="pr-1 pl-1">Cliente</th>
-                            <th className="pr-1 pl-1">Teléfono</th>
-                            <th className="pr-1 pl-1">Correo</th>
-                            <th className="pr-1 pl-1">Vehiculo</th>
-                            <th className="pr-1 pl-1">Placas</th>
-                            <th className="pr-1 pl-1">AÑO</th>
-                            <th className="pr-1 pl-1">Color</th>
-                            <th className="pr-1 pl-1">horas</th>
-                            <th className="pr-1 pl-1">Costo total</th>
-                            <th className="pr-1 pl-1">Fecha de llegada</th>
-                            <th className="pr-1 pl-1">Opciones</th>
+                            <th className="pt-1 pb-1">Folio</th>
+                            <th className="">Cliente</th>
+                            <th className="">Teléfono</th>
+                            <th className="">Correo</th>
+                            <th className="">Vehiculo</th>
+                            <th className="">Placas</th>
+                            <th className="">Color</th>
+                            <th className="">horas</th>
+                            <th className="">Costo total</th>
+                            <th className="">Fecha de llegada</th>
+                            <th className="">Opciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -188,7 +188,6 @@ export default function TablaInformacionAdmin() {
                                 <td className="pr-1 pl-1">{searchedUser.correo_electronico}</td>
                                 <td className="pr-1 pl-1">{searchedUser.modelo_vehiculo}</td>
                                 <td className="pr-1 pl-1">{searchedUser.placas}</td>
-                                <td className="pr-1 pl-1">{searchedUser.año_vehiculo}</td>
                                 <td className="pr-1 pl-1">{searchedUser.color_vehiculo}</td>
                                 <td className="pr-1 pl-1">{searchedUser.cantidad_de_horas}</td>
                                 <td className="pr-1 pl-1">{searchedUser.costo_total}</td>
@@ -202,18 +201,17 @@ export default function TablaInformacionAdmin() {
                         ) : (
                             users.map((registro, index) => (
                                 <tr key={index} className="hover:bg-gray-300 hover:text-gray-800">
-                                    <td className="pt-2 pb-2 pr-1 pl-1">{index + 1}</td>
-                                    <td className="pr-1 pl-1">{registro.nombre_cliente}</td>
-                                    <td className="pr-1 pl-1">{formatPhoneNumber(registro.telefono_celular)}</td>
-                                    <td className="pr-1 pl-1">{registro.correo_electronico}</td>
-                                    <td className="pr-1 pl-1">{registro.modelo_vehiculo}</td>
-                                    <td className="pr-1 pl-1">{registro.placas}</td>
-                                    <td className="pr-1 pl-1">{registro.año_vehiculo}</td>
-                                    <td className="pr-1 pl-1">{registro.color_vehiculo}</td>
-                                    <td className="pr-1 pl-1">{registro.cantidad_de_horas} hrs</td>
-                                    <td className="pr-1 pl-1">$ {registro.costo_total}</td>
-                                    <td className="pr-1 pl-1">{registro.fecha_de_inicio.substring(0, 10)}</td>
-                                    <td className="pr-1 pl-1 flex flex-row items-center justify-center pt-2 gap-2">
+                                    <td className="pt-1 pb-1">{index + 1}</td>
+                                    <td className="">{registro.nombre_cliente}</td>
+                                    <td className="">{formatPhoneNumber(registro.telefono_celular)}</td>
+                                    <td className="">{registro.correo_electronico}</td>
+                                    <td className="">{registro.modelo_vehiculo}</td>
+                                    <td className="">{registro.placas}</td>
+                                    <td className="">{registro.color_vehiculo}</td>
+                                    <td className="">{registro.cantidad_de_horas} hrs</td>
+                                    <td className="">$ {registro.costo_total}</td>
+                                    <td className="">{registro.fecha_de_inicio.substring(0, 10)}</td>
+                                    <td className="flex flex-row items-center justify-center pt-2 gap-2">
                                         <button className="text-2xl text-emerald-700" onClick={() => navigate(`/editar-registro/${users.id_registro}`)}><LuFileEdit /></button>
                                         <button className="text-2xl text-blue-700"><MdOutlineMenuBook /></button>
                                         <button onClick={() => HandeDelte(registro.id)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
@@ -223,7 +221,7 @@ export default function TablaInformacionAdmin() {
                         )}
                     </tbody>
                 </table>
-                <div className="flex mt-10">
+                <div className="flex flex-row gap-4 mt-4 mb-4">
                     <div className="flex flex-col gap-4">
                         <div className="bg-green-600 p-2 py-1 font-bold rounded-lg text-white flex flex-row items-center gap-2 shadow-md shadow-[#4f4f4f]">
                             <FormularioTipo_trabajo />
@@ -303,7 +301,7 @@ export default function TablaInformacionAdmin() {
                     </div>
                     <div className="flex flex-col gap-4">
                         <div className="bg-green-600 p-2 py-1 font-bold rounded-lg text-white flex flex-row items-center gap-2 shadow-md shadow-[#4f4f4f]">
-                            <FormularioTipo_Estatus />
+                            <FormularioTipo_Estatus/>
                         </div>
                         <table className="w-full text-sm text-center dark:text-gray-400 shadow-md shadow-[#4f4f4f]">
                             <thead className="text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400">

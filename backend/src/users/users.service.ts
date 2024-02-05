@@ -34,7 +34,7 @@ export class UsersService {
   }
 
   async findOne(id: number) {
-    return `This action returns a #${id} user`;
+    return await this.userRepository.findOneBy({id})
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
@@ -42,6 +42,6 @@ export class UsersService {
   }
 
   async remove(id: number) {
-    return `This action removes a #${id} user`;
+    return await this.userRepository.softRemove({id})
   }
 }

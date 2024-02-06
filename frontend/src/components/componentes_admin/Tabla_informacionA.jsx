@@ -8,8 +8,17 @@ import { LuFileEdit } from "react-icons/lu";
 import { MdOutlineMenuBook } from "react-icons/md";
 import FormularioTipo_vehuiculo from "./FormularioTipo_vehuiculo";
 import { useNavigate } from "react-router-dom";
+import { IoCloseCircle } from "react-icons/io5";
 
 export default function TablaInformacionAdmin() {
+    const [show, setShow] = useState(false)
+    const [selectedRecord, setSelectedRecord] = useState(null);
+
+    const handleShow = (id, users) => {
+        const record = users.find(user => user.id_registro === id);
+        setSelectedRecord(record);
+        setShow(true);
+    };
 
     const navigate = useNavigate()
 
@@ -214,7 +223,96 @@ export default function TablaInformacionAdmin() {
                                         <td className="">{registro.fecha_de_inicio.substring(0, 10)}</td>
                                         <td className="flex flex-row items-center justify-center pt-2 gap-2">
                                             <button className="text-2xl text-emerald-700" onClick={() => navigate(`/editar-registro/${registro.id_registro}`)}><LuFileEdit /></button>
-                                            <button className="text-2xl text-blue-700"><MdOutlineMenuBook /></button>
+
+                                            <button className="text-2xl text-blue-700" onClick={() => handleShow(registro.id_registro, users)}><MdOutlineMenuBook /></button>
+
+                                            {show && selectedRecord && (
+                                                <div className="fixed flex bg-black bg-opacity-20 w-screen h-screen top-[0rem] left-0 justify-center items-center">
+                                                    <div className="flex flex-col w-fit px-8 p-4 shadow-md rounded-xl items-center font-lalezar h-fit gap-2" style={{ backgroundColor: "#D9D9D9" }}>
+                                                        <label onClick={() => setShow(false)} className="text-red-600 hover:text-red-900 cursor-pointer text-3xl mb-2 flex flex-row w-full justify-end"> <IoCloseCircle /></label>
+                                                        <div className="w-fit h-fit p-6 bg-white">
+
+                                                            <label className="block uppercase tracking-wide text-gray-700 font-bold mb-2 bg-gray-400 text-base">Datos de cliente:</label>
+                                                            <div className="flex flex-row w-full gap-2">
+                                                                <div className="md:w-1/3">
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Nombre del Cliente</label>
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.nombre_cliente}</label>
+                                                                </div>
+                                                                <div className="md:w-1/3">
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Teléfono Celular</label>
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.telefono_celular}</label>
+                                                                </div>
+                                                                <div className="md:w-1/3">
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Correo Electrónico</label>
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.correo_electronico}</label>
+                                                                </div>
+                                                            </div>
+                                                            <label className="block uppercase tracking-wide text-gray-800 font-bold mb-2 bg-gray-400 text-base">Información del vehiculo:</label>
+                                                            <div className="flex flex-wrap ">
+                                                                <div className="w-full md:w-1/3 px-2">
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Modelo del Vehículo</label>
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.modelo_vehiculo}</label>
+                                                                </div>
+                                                                <div className="w-full md:w-1/3 px-2">
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Color del Vehículo</label>
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.color_vehiculo}</label>
+                                                                </div>
+                                                                <div className="w-full md:w-1/3 px-2 flex flex-row">
+                                                                    <div className="w-full md:w-5/6 px-2">
+                                                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Placas</label>
+                                                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.placas}</label>
+                                                                    </div>
+                                                                    <div className="w-full px-2">
+                                                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Año del vehiculo</label>
+                                                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.año_vehiculo}</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="w-full md:w-1/3 px-2">
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1">Tipo de vehiculo</label>
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.tipo_de_vehiculo}</label>
+                                                                </div>
+                                                            </div>
+                                                            <label className="block uppercase tracking-wide text-gray-700 font-bold mb-2 bg-gray-400 text-base">Información de trabajo:</label>
+                                                            <div className="flex flex-wrap">
+                                                                <div className="w-full md:w-1/3 px-2">
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1">Tipo de Trabajo</label>
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.tipoTrabajo_id}</label>
+                                                                </div>
+                                                                <div className="w-full md:w-1/6 px-2 mb-6 md:mb-0 items-center flex flex-col">
+
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Cantidad de Horas</label>
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.cantidad_de_horas}</label>
+
+
+                                                                </div>
+                                                                <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Precio de Material</label>
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.precio_de_material}</label>
+                                                                </div>
+                                                            </div>
+                                                            <div className="flex flex-wrap">
+                                                                <div className="w-full md:w-1/3 px-2">
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1">Mecanico a cargo</label>
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.nombre_cliente}</label>
+                                                                </div>
+                                                                <div className="w-full md:w-1/3 px-2">
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1">Estatus de Trabajo</label>
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.nombre_cliente}</label>
+                                                                </div>
+                                                            </div>
+                                                            <div className="flex flex-wrap">
+                                                                <div className="w-full px-3 mb-6 md:mb-0">
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Descripción de Trabajo</label>
+                                                                    <label className="appearance-none block w-full h-[5rem] bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal">{selectedRecord.nombre_cliente}</label>
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                            <div className="flex flex-row justify-center gap-8">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
                                             <button onClick={() => HandeDelte(registro.id_registro)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
                                         </td>
                                     </tr>

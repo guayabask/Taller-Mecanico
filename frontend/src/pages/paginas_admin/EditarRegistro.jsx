@@ -104,35 +104,20 @@ export default function EditarRegistro() {
     })
 
     useEffect(() => {
-
         const loadRegistro = async () => {
-            const response = await axios.get(`https://localhost:3000/api/v1/registro-de-trabajos/${id}`)
-            console.log(response);
-            SetRegistros({
-                nombre_cliente: response.data.nombre_cliente,
-                telefono_celular: response.data.telefono_celular,
-                correo_electronico: response.data.correo_electronico,
-                modelo_vehiculo: response.data.modelo_vehiculo,
-                placas: response.data.placas,
-                año_vehiculo: response.data.año_vehiculo,
-                color_vehiculo: response.data.color_vehiculo,
-                descripcion_de_trabajo: response.data.descripcion_de_trabajo,
-                cantidad_de_horas: response.data.cantidad_de_horas,
-                precio_de_material: response.data.precio_de_material,
-                precio_fijo: response.data.precio_fijo,
-                costo_total: response.data.costo_total,
-                tipo: response.data.tipo,
-                estatus: response.data.estatus,
-                precio_hora: response.data.precio_hora,
-                tipo_vehiculo: response.data.tipo_vehiculo,
-                usuario_c: response.data.usuario_c
-            })
+            try {
+                const response = await axios.get(`https://localhost:3000/api/v1/registro-de-trabajos/${params.id}`);
+                SetRegistros(response.data);
+            } catch (error) {
+                console.error("Error fetching registro de trabajo:", error);
+            }
         };
-        loadRegistro(); //Ejecutar el método buscar usuario
-    }, []);
+        loadRegistro();
+    }, [params.id]);
 
     const navigate = useNavigate()
     return (<>
+    <div className='fixed flex bg-black/40 w-screen h-screen top-[0rem] left-0 justify-center items-center'>
         <Formik
             initialValues={Registros}
             enableReinitialize={true}
@@ -311,5 +296,7 @@ export default function EditarRegistro() {
                 </form>
             )}
         </Formik>
+    </div>
+        
     </>)
 }

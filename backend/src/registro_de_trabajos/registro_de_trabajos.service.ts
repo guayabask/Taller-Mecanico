@@ -13,9 +13,7 @@ import { UpdateRegistroDeTrabajoDto } from './dto/update-registro_de_trabajo.dto
 
 @Injectable()
 export class RegistroDeTrabajosService {
-
   constructor(
-
     @InjectRepository(RegistroDeTrabajo)
     private readonly registrodetrabajoRepository: Repository<RegistroDeTrabajo>,
 
@@ -25,7 +23,7 @@ export class RegistroDeTrabajosService {
     @InjectRepository(EstatusTrabajo)
     private readonly estatustrabajoRepository: Repository<EstatusTrabajo>,
 
-    @InjectRepository (PrecioHora)
+    @InjectRepository(PrecioHora)
     private readonly preciohoraRepository: Repository<PrecioHora>,
 
     @InjectRepository(TiposDeVehiculo)
@@ -33,49 +31,55 @@ export class RegistroDeTrabajosService {
 
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-
-  ) { }
+  ) {}
 
   async create(createRegistroDeTrabajoDto: CreateRegistroDeTrabajoDto) {
-    
     //Envio de datos de tabla tipo de trabajo
-    const tipo_trabajo_ = await this.tiposdetrabajoRepository.findOneBy({ tipo_de_trabajo: createRegistroDeTrabajoDto.tipo})
+    const tipo_trabajo_ = await this.tiposdetrabajoRepository.findOneBy({
+      tipo_de_trabajo: createRegistroDeTrabajoDto.tipo,
+    });
 
-    const estatus_trabajo_ = await this.estatustrabajoRepository.findOneBy({ tipo_estatus: createRegistroDeTrabajoDto.estatus})
+    const estatus_trabajo_ = await this.estatustrabajoRepository.findOneBy({
+      tipo_estatus: createRegistroDeTrabajoDto.estatus,
+    });
 
-    const hora_precio_ = await this.preciohoraRepository.findOneBy({ precio_por_hora: +createRegistroDeTrabajoDto.precio_hora });
+    const hora_precio_ = await this.preciohoraRepository.findOneBy({
+      precio_por_hora: +createRegistroDeTrabajoDto.precio_hora,
+    });
 
-    const tipo_de_vehiculo_ = await this.tipovehiculoRepository.findOneBy({ tipo_de_vehiculo: createRegistroDeTrabajoDto.tipo_vehiculo})
+    const tipo_de_vehiculo_ = await this.tipovehiculoRepository.findOneBy({
+      tipo_de_vehiculo: createRegistroDeTrabajoDto.tipo_vehiculo,
+    });
 
-    const usuario_registro_ = await this.userRepository.findOneBy({ nombre_usuario : createRegistroDeTrabajoDto.usuario_c})
+    const usuario_registro_ = await this.userRepository.findOneBy({
+      nombre_usuario: createRegistroDeTrabajoDto.usuario_c,
+    });
 
-    if (!hora_precio_){
-      throw new BadRequestException("Precio por hora inexistente")
+    if (!hora_precio_) {
+      throw new BadRequestException('Precio por hora inexistente');
     }
-    if (!tipo_trabajo_ ){
-      throw new BadRequestException("No existe ese tipo de chamba brother")
+    if (!tipo_trabajo_) {
+      throw new BadRequestException('No existe ese tipo de chamba brother');
     }
-    if (!estatus_trabajo_ ){
-      throw new BadRequestException("No existe ese tipo de estatus brother")
+    if (!estatus_trabajo_) {
+      throw new BadRequestException('No existe ese tipo de estatus brother');
     }
-    if (!tipo_de_vehiculo_ ){
-      throw new BadRequestException("No existe ese tipo de estatus brother")
-    }
-
-    if (!usuario_registro_){
-      throw new BadRequestException("No existe ese usuario brother")
+    if (!tipo_de_vehiculo_) {
+      throw new BadRequestException('No existe ese tipo de estatus brother');
     }
 
-    
+    if (!usuario_registro_) {
+      throw new BadRequestException('No existe ese usuario brother');
+    }
+
     return await this.registrodetrabajoRepository.save({
       ...createRegistroDeTrabajoDto,
       tipo_trabajo_,
       estatus_trabajo_,
       hora_precio_,
       tipo_de_vehiculo_,
-      usuario_registro_
-    })
-
+      usuario_registro_,
+    });
   }
 
   async findAll() {
@@ -83,20 +87,35 @@ export class RegistroDeTrabajosService {
   }
 
   async findOne(id_registro: number) {
-    return await this.registrodetrabajoRepository.findOneBy({id_registro});
+    return await this.registrodetrabajoRepository.findOneBy({ id_registro });
   }
 
-  async update(id_registro: number, updateRegistroDeTrabajoDto: UpdateRegistroDeTrabajoDto) {
-    const registro = await this.registrodetrabajoRepository.findOneBy({id_registro});
+  async update(
+    id_registro: number,
+    updateRegistroDeTrabajoDto: UpdateRegistroDeTrabajoDto,
+  ) {
+    const registro = await this.registrodetrabajoRepository.findOneBy({
+      id_registro,
+    });
 
     if (!registro) {
-      throw new BadRequestException("Registro de trabajo no encontrado");
+      throw new BadRequestException('Registro de trabajo no encontrado');
     }
 
-    return await this.registrodetrabajoRepository.update({id_registro}, updateRegistroDeTrabajoDto)
+    // Update properties if they exist in the DTO
+    if (updateRegistroDeTrabajoDto.nombre_cliente !== undefined) {
+      registro.nombre_cliente = updateRegistroDeTrabajoDto.nombre_cliente;
+    }
+    if (updateRegistroDeTrabajoDto.telefono_celular !== undefined) {
+      registro.telefono_celular = updateRegistroDeTrabajoDto.telefono_celular;
+    }
+    // Update other properties in a similar manner...
+
+    // Save the updated registro
+    return await this.registrodetrabajoRepository.save(registro);
   }
 
   async remove(id_registro: number) {
-    return await this.registrodetrabajoRepository.softDelete({ id_registro })
+    return await this.registrodetrabajoRepository.softDelete({ id_registro });
   }
 }

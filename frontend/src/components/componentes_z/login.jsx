@@ -2,10 +2,16 @@ import React, { useState } from "react";
 import inicio from "./../../assets/images/inicio.png";
 import axios from 'axios';
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [token, setToken] = useState(null);
+  const [showVerificationModal, setShowVerificationModal] = useState(false);
+  const [verificationToken, setVerificationToken] = useState("");
+  const navigate = useNavigate();
 
   const loginUser = () => {
     axios.post(`https://localhost:3000/api/v1/auth/login`, {
@@ -13,9 +19,23 @@ export default function Login() {
       contraseña: password
     })
       .then(response => {
-        const { role } = response.data;
+        const { token, role, userId } = response.data; // Asumiendo que obtienes el ID del usuario al iniciar sesión
+
+        setToken(token); // Almacena el token en el estado
         localStorage.setItem('userRole', role); // Guarda el rol en el almacenamiento local
-        handleRoleRedirect(role); // Redirige según el rol
+
+        if (role === "mecanico") {
+          localStorage.setItem('userId', userId); // Guarda el ID del mecánico si el rol es "mecanico"
+        }
+
+        if (token) {
+          setShowVerificationModal(true); // Muestra la ventana de verificación
+          axios.post("https://localhost:3000/api/v1/correo", {
+            correo: email,
+          });
+        } else {
+          handleRoleRedirect(role); // Redirige según el rol
+        }
       })
       .catch(error => {
         if (error.response && error.response.status === 401) {
@@ -40,6 +60,25 @@ export default function Login() {
     }
   };
 
+  const handleSubmitCodigo = async () => {
+    // Validar que el código sea correcto
+    try {
+      const codigoValido = await axios.post(
+        `https://localhost:3000/api/v1/correo/validar`,
+        {
+          codigo: verificationToken,
+          correo: email,
+        }
+      );
+      if (codigoValido.data) {
+        Cookies.set("token", token, { expires: 1 / 8 }); // 3 horas de duración
+        handleRoleRedirect(localStorage.getItem("userRole")); // Redirige según el rol almacenado
+      }
+    } catch (error) {
+      console.error("Error al validar el código:", error);
+    }
+  };
+
   return (
     <>
       <div className="h-screen w-screen flex flex-col items-center justify-center bg-gray-100">
@@ -57,18 +96,19 @@ export default function Login() {
             <input type="password" name="contraseña" className="border w-full p-2 px-3 rounded-lg" placeholder="Ingresa tu contraseña" onChange={(event) => setPassword(event.target.value)} />
           </div>
           <button className="bg-red-700 text-white p-2 px-4 font-bold hover:bg-red-900 rounded-xl" onClick={loginUser}>Acceder</button>
-          <div className=" p-1 flex flex-col">
-            <div className=" w-full justify-center flex flex-row gap-2">
-              <label className="font-workSans text-sm font-semibold">¿Se te olvidó tu contraseña?</label>
-              <Link to="/maneras-de-iniciar-sesion"><label className="text-red-500 font-workSans text-sm font-bold cursor-pointer hover:text-red-900">Más opciones de inicio</label></Link>
-            </div>
-            {/*<div className=" w-full justify-center flex flex-row gap-2">
-              <p className="font-workSans text-sm font-semibold">¿No tienes una cuenta?</p>
-              <Link to="/registro"><p className="text-red-500 font-workSans text-sm font-bold cursor-pointer hover:text-red-900">¡Crea una aqui!</p></Link>
-              </div>*/}
-          </div>
+
         </div>
       </div>
+
+      {showVerificationModal && (
+        <div className="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-75 flex justify-center items-center">
+          <div className="bg-white rounded-lg p-8">
+            <h2 className="text-xl font-semibold mb-4">Ingresa el código de verificación</h2>
+            <input type="text" value={verificationToken} onChange={(e) => setVerificationToken(e.target.value)} className="border border-gray-400 rounded-lg px-4 py-2 mb-4" />
+            <button onClick={handleSubmitCodigo} className="bg-red-700 text-white p-2 px-4 font-bold hover:bg-red-900 rounded-xl">Verificar</button>
+          </div>
+        </div>
+      )}
     </>
   );
 }

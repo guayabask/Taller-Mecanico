@@ -12,7 +12,6 @@ export default function SidebarMecanico() {
                         <img src={Inicio} className="mx-auto mb-5 w-[80%]" />
                     </div>
                     <div className="flex flex-col items-center justify-center w-full gap-4">
-                        <button className="text-white  text-lg font-semibold hover:bg-red-800 w-full p-4">Mi Perfil</button>
                         <button className="text-white text-lg font-semibold hover:bg-red-800 w-full p-4"><Link to="/administrador">Trabajos</Link></button>
                     </div>
                 </div>

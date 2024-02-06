@@ -8,6 +8,7 @@ import { PrecioHorasModule } from './precio_horas/precio_horas.module';
 import { TiposDeVehiculoModule } from './tipos_de_vehiculo/tipos_de_vehiculo.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { CorreoController } from './correo/correo.controller';
 
 @Module({
   imports: [
@@ -29,7 +30,7 @@ import { AuthModule } from './auth/auth.module';
     UsersModule,
     AuthModule,
   ],
-  controllers: [],
+  controllers: [CorreoController],
   providers: [],
 })
 export class AppModule {}

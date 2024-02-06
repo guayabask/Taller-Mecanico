@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from 'axios'
 import { Formik } from 'formik'
+import { BsPlusCircleFill } from "react-icons/bs";
+import { IoCloseCircle } from "react-icons/io5";
 
 export default function FormularioAdminRegistro() {
     const [show, setShow] = useState(false);
@@ -10,7 +12,7 @@ export default function FormularioAdminRegistro() {
             <label onClick={() => setShow(true)} className="cursor-pointer">Crear Tipo de trabajo</label>
             {show &&
                 <div className="text-black">
-                    <div className="absolute flex bg-black/40 w-screen h-screen top-[0rem] left-0 justify-center items-center">
+                    <div className="fixed flex bg-black/40 w-screen h-screen top-[0rem] left-0 justify-center items-center">
                         <Formik
                             initialValues={{
                                 tipo_de_trabajo: "",
@@ -44,8 +46,11 @@ export default function FormularioAdminRegistro() {
                             }}
                         >
                             {({ handleChange, handleSubmit, values, setFieldValue }) => (
-                                <form className="w-full max-w-lg h-[34rem] p-4 bg-white" onSubmit={handleSubmit}>
-                                    <label className="block uppercase tracking-wide text-gray-700 text-lg font-bold mb-2">Agregar Tipo de trabajo</label>
+                                <form className="w-full max-w-lg h-fit p-4 bg-white" onSubmit={handleSubmit}>
+                                    <div className="flex flex-row justify-between">
+                                        <label className="block uppercase tracking-wide text-gray-700 font-bold mb-2 text-base">Agregar nuevo registro</label>
+                                        <label onClick={() => setShow(false)} className="text-red-600 hover:text-red-900 cursor-pointer text-3xl mb-2"> <IoCloseCircle /></label>
+                                    </div>
                                     <div className="flex flex-wrap -mx-3 mb-6">
                                         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Tipo de Trabajo</label>
@@ -67,9 +72,6 @@ export default function FormularioAdminRegistro() {
                                     </div>
                                     <div className="flex flex-row justify-center gap-8 mt-4">
                                         <button className="bg-blue-600 p-2 font-bold rounded-lg text-white shadow-md shadow-[#4f4f4f]" type="submit">Agregar</button>
-                                        <label onClick={() => setShow(false)} className="bg-[#8d2525] hover:bg-[#53202f] cursor-pointer text-gray-300 font-semibold hover:text-white p-2 border border-gray-700 hover:border-transparent rounded">
-                                            Cancelar
-                                        </label>
                                     </div>
                                 </form>
                             )}

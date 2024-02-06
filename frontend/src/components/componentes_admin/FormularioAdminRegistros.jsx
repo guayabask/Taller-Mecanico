@@ -4,7 +4,7 @@ import { Formik } from 'formik'
 import { BsPlusCircleFill } from "react-icons/bs";
 import { IoCloseCircle } from "react-icons/io5";
 
-export default function FormularioAdminRegistro({}) {
+export default function FormularioAdminRegistro({ }) {
     const [show, setShow] = useState(false);
     const [tipodVehiculo, setTipoVehiculo] = useState([]);
     const [tipodTrabajo, setTipoTrabajo] = useState([]);
@@ -67,10 +67,10 @@ export default function FormularioAdminRegistro({}) {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-    
+
         // Convertir solo los campos necesarios a números enteros
         const numericValue = name === 'precio_de_material' || name === 'precio_hora' ? parseInt(value, 10) : value;
-    
+
         setValues(prevState => ({
             ...prevState,
             [name]: numericValue
@@ -81,7 +81,7 @@ export default function FormularioAdminRegistro({}) {
             <label onClick={() => setShow(true)} className="cursor-pointer">Crear registro</label>
             {show &&
                 <div className="text-black">
-                    <div className="absolute flex bg-black/40 w-screen h-screen top-[0rem] left-0 justify-center items-center">
+                    <div className="fixed flex bg-black/40 w-screen h-screen top-[0rem] left-0 justify-center items-center">
                         <Formik
                             initialValues={{
                                 nombre_cliente: "",
@@ -103,14 +103,24 @@ export default function FormularioAdminRegistro({}) {
                                 usuario_c: ""
                             }}
                             onSubmit={async (values, actions) => {
-                                values.costo_total = 10;
-                                values.precio_fijo = 10;
+
                                 values.precio_de_material = parseInt(values.precio_de_material, 10); // El segundo argumento indica la base numérica, en este caso 10 (decimal)
                                 values.precio_hora = parseInt(values.precio_hora, 10);
                                 if (PrecioH.length > 0) {
                                     values.precio_hora = parseInt(PrecioH[0].precio_por_hora, 10);
                                 }
+
                                 
+
+                                if (values.precio_fijo === "") {
+                                    values.precio_fijo = 0
+                                }
+                                if (values.costo_total === "") {
+                                    values.costo_total = 0
+                                }
+                                if (values.cantidad_de_horas === "") {
+                                    values.cantidad_de_horas = 0
+                                }
                                 console.log(values);
                                 console.log(values)
                                 try {
@@ -187,6 +197,7 @@ export default function FormularioAdminRegistro({}) {
                                                 value={values.tipo_vehiculo}
                                                 onChange={handleChange}
                                             >
+                                                <option>Escoger tipo de vehiculo</option>
                                                 {tipodVehiculo.map((vehiculo) => (
                                                     <option key={vehiculo.id} value={vehiculo.tipo_vehiculo}>{vehiculo.tipo_de_vehiculo}</option>
                                                 ))}
@@ -209,6 +220,7 @@ export default function FormularioAdminRegistro({}) {
                                             </select>
                                         </div>
                                         <div className="w-full md:w-1/6 px-2 mb-6 md:mb-0 items-center flex flex-col">
+
                                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Cantidad de Horas</label>
                                             <div className="flex flex-row items-center justify-center gap-2">
                                                 <input
@@ -225,6 +237,8 @@ export default function FormularioAdminRegistro({}) {
                                                     <BsPlusCircleFill className="text-2xl" />
                                                 </button>
                                             </div>
+
+
                                         </div>
                                         <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
                                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Precio de Material</label>
@@ -234,9 +248,9 @@ export default function FormularioAdminRegistro({}) {
                                                 placeholder="Precio de Material"
                                                 name="precio_de_material"
                                                 min="0"
-                                                step="1" // Solo permite ingresar números enteros
+                                                step="1"
                                                 onChange={(e) => {
-                                                    const value = parseInt(e.target.value); // Convertir a entero en lugar de flotante
+                                                    const value = parseInt(e.target.value);
                                                     handleChange({
                                                         target: {
                                                             name: 'precio_de_material',
@@ -257,6 +271,7 @@ export default function FormularioAdminRegistro({}) {
                                                 value={values.usuario_c}
                                                 onChange={handleChange}
                                             >
+                                                <option>Poner mecanico a cargo</option>
                                                 {Mecanico.map((mecanico, index) => (
                                                     <option key={index} value={mecanico.usuario_c}>{mecanico.nombre_usuario}</option>
                                                 ))}
@@ -270,6 +285,7 @@ export default function FormularioAdminRegistro({}) {
                                                 value={values.estatus}
                                                 onChange={handleChange}
                                             >
+                                                <option>Escoger estatus</option>
                                                 {tipodEstatus.map((estatuss, index) => (
                                                     <option key={index} value={estatuss.estatus}>{estatuss.tipo_estatus}</option>
                                                 ))}

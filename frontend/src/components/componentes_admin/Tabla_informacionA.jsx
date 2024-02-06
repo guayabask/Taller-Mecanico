@@ -64,7 +64,7 @@ export default function TablaInformacionAdmin() {
             const response = await axios.get("https://localhost:3000/api/v1/registro-de-trabajos");
             setUsers(response.data);
         } catch (error) {
-            console.error("Error fetching users:", error);
+            console.error("Error fetching registro:", error);
         }
     };
 
@@ -138,9 +138,9 @@ export default function TablaInformacionAdmin() {
     };
 
     return (
-        <div className="text-black flex flex-col ml-[6rem] mt-4">
+        <div className="text-black flex flex-col ml-[6rem] mt-4 ">
             <div className="">
-                <div className="w-full flex flex-row justify-between items-center gap-2 m-2">
+                <div className="w-full flex flex-row justify-between items-center gap-2 mt-3 mb-4">
                     <div className="bg-green-600 p-2 py-1 font-bold rounded-lg text-white flex flex-row items-center gap-2 shadow-md shadow-[#4f4f4f]">
                         <FormularioAdminRegistro />
                         <div className="border-white text-2xl font-black mb-1 cursor-pointer">+</div>
@@ -163,7 +163,7 @@ export default function TablaInformacionAdmin() {
                 <label className="text-gray-700 font-bold text-2xl">Tabla de registros</label>
             </div>
             <div className="">
-                <table className="w-fit text-xs text-center dark:text-gray-400 shadow-md shadow-[#4f4f4f] ">
+                <table className="w-full text-xs text-center dark:text-gray-400 shadow-md shadow-[#4f4f4f] ">
                     <thead className="text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400">
                         <tr className="">
                             <th className="pt-1 pb-1">Folio</th>
@@ -212,130 +212,100 @@ export default function TablaInformacionAdmin() {
                                     <td className="">$ {registro.costo_total}</td>
                                     <td className="">{registro.fecha_de_inicio.substring(0, 10)}</td>
                                     <td className="flex flex-row items-center justify-center pt-2 gap-2">
-                                        <button className="text-2xl text-emerald-700" onClick={() => navigate(`/editar-registro/${users.id_registro}`)}><LuFileEdit /></button>
+                                        <button className="text-2xl text-emerald-700" onClick={() => navigate(`/editar-registro/${registro.id_registro}`)}><LuFileEdit /></button>
                                         <button className="text-2xl text-blue-700"><MdOutlineMenuBook /></button>
-                                        <button onClick={() => HandeDelte(registro.id)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
+                                        <button onClick={() => HandeDelte(registro.id_registro)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
                                     </td>
                                 </tr>
                             ))
                         )}
                     </tbody>
                 </table>
-                <div className="flex flex-row gap-4 mt-4 mb-4">
-                    <div className="flex flex-col gap-4">
-                        <div className="bg-green-600 p-2 py-1 font-bold rounded-lg text-white flex flex-row items-center gap-2 shadow-md shadow-[#4f4f4f]">
-                            <FormularioTipo_trabajo />
-                        </div>
-                        <table className="w-full text-sm text-center dark:text-gray-400 shadow-md shadow-[#4f4f4f] ">
-                            <thead className="text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
-                                    <th>Id</th>
-                                    <th>tipo de trabajo</th>
-                                    <th>valor de tipo</th>
-                                    <th>opciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {searcheTrabajo ? (
-                                    <tr className="hover:bg-gray-300 hover:text-gray-800">
-                                        <td className="pt-2 pb-2 pr-1 pl-1">{searcheTrabajo.id}</td>
-                                        <td className="pt-2 pb-2 pr-1 pl-1">{searcheTrabajo.tipo_de_trabajo}</td>
-                                        <td className="pt-2 pb-2 pr-1 pl-1">{searcheTrabajo.valor_de_tipo}</td>
+
+            </div>
+            <div className="absolute flex flex-col gap-4 ml-[51rem] mb-4 w-[21rem] mt-4">
+                <div className="flex flex-col gap-4 items-center">
+                    <div className="bg-green-600 p-2 py-1 font-bold rounded-lg text-white flex flex-row items-center gap-2 shadow-md shadow-[#4f4f4f] w-fit">
+                        <FormularioTipo_trabajo />
+                    </div>
+                    <table className="w-full text-sm text-center dark:text-gray-400 shadow-md shadow-[#4f4f4f] ">
+                        <thead className="text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th>Id</th>
+                                <th>tipo de trabajo</th>
+                                <th>valor de tipo</th>
+                                <th>opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                tipoTrabajo.map((registro, index) => (
+                                    <tr key={index} className="hover:bg-gray-300 hover:text-gray-800">
+                                        <td className="pt-2 pb-2 pr-1 pl-1">{index + 1}</td>
+                                        <td className="pt-2 pb-2 pr-1 pl-1">{registro.tipo_de_trabajo}</td>
+                                        <td className="pt-2 pb-2 pr-1 pl-1">{registro.valor_de_tipo}</td>
                                         <td className="pr-1 pl-1 flex flex-row items-center justify-center pt-2 gap-2">
-                                            <button className="text-2xl text-emerald-700"><LuFileEdit /></button>
-                                            <button onClick={() => trabajoDelte(searcheTrabajo.id)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
+                                            <button onClick={() => trabajoDelte(registro.id)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
                                         </td>
                                     </tr>
-                                ) : (
-                                    tipoTrabajo.map((registro, index) => (
-                                        <tr key={index} className="hover:bg-gray-300 hover:text-gray-800">
-                                            <td className="pt-2 pb-2 pr-1 pl-1">{registro.id}</td>
-                                            <td className="pt-2 pb-2 pr-1 pl-1">{registro.tipo_de_trabajo}</td>
-                                            <td className="pt-2 pb-2 pr-1 pl-1">{registro.valor_de_tipo}</td>
-                                            <td className="pr-1 pl-1 flex flex-row items-center justify-center pt-2 gap-2">
-                                                <button className="text-2xl text-emerald-700"><LuFileEdit /></button>
-                                                <button onClick={() => trabajoDelte(registro.id)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
-                                            </td>
-                                        </tr>
-                                    ))
-                                )}
-                            </tbody>
-                        </table>
+                                ))
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div className="flex flex-col gap-4 items-center">
+                    <div className="bg-green-600 p-2 py-1 font-bold rounded-lg text-white flex flex-row items-center gap-2 shadow-md shadow-[#4f4f4f] w-fit">
+                        <FormularioTipo_vehuiculo />
                     </div>
-                    <div className="flex flex-col gap-4">
-                        <div className="bg-green-600 p-2 py-1 font-bold rounded-lg text-white flex flex-row items-center gap-2 shadow-md shadow-[#4f4f4f]">
-                            <FormularioTipo_vehuiculo />
-                        </div>
-                        <table className="w-full text-sm text-center dark:text-gray-400 shadow-md shadow-[#4f4f4f] ">
-                            <thead className="text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
-                                    <th>Id</th>
-                                    <th>tipo de vehiculo</th>
-                                    <th>opciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {searcheVehiculo ? (
-                                    <tr className="hover:bg-gray-300 hover:text-gray-800">
-                                        <td className="pt-2 pb-2 pr-1 pl-1">{searcheVehiculo.id}</td>
-                                        <td className="pt-2 pb-2 pr-1 pl-1">{searcheVehiculo.tipo_de_vehiculo}</td>
+                    <table className="w-full text-sm text-center dark:text-gray-400 shadow-md shadow-[#4f4f4f] ">
+                        <thead className="text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th>Id</th>
+                                <th>tipo de vehiculo</th>
+                                <th>opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                tipoVehiculo.map((registro, index) => (
+                                    <tr key={index} className="hover:bg-gray-300 hover:text-gray-800">
+                                        <td className="pt-2 pb-2 pr-1 pl-1">{registro.id}</td>
+                                        <td className="pt-2 pb-2 pr-1 pl-1">{registro.tipo_de_vehiculo}</td>
                                         <td className="pr-1 pl-1 flex flex-row items-center justify-center pt-2 gap-2">
-                                            <button className="text-2xl text-emerald-700"><LuFileEdit /></button>
-                                            <button onClick={() => vehiculoDelete(searcheVehiculo.id)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
+                                            <button onClick={() => vehiculoDelete(registro.id)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
                                         </td>
                                     </tr>
-                                ) : (
-                                    tipoVehiculo.map((registro, index) => (
-                                        <tr key={index} className="hover:bg-gray-300 hover:text-gray-800">
-                                            <td className="pt-2 pb-2 pr-1 pl-1">{registro.id}</td>
-                                            <td className="pt-2 pb-2 pr-1 pl-1">{registro.tipo_de_vehiculo}</td>
-                                            <td className="pr-1 pl-1 flex flex-row items-center justify-center pt-2 gap-2">
-                                                <button className="text-2xl text-emerald-700"><LuFileEdit /></button>
-                                                <button onClick={() => vehiculoDelete(registro.id)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
-                                            </td>
-                                        </tr>
-                                    ))
-                                )}
-                            </tbody>
-                        </table>
+                                ))
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div className="flex flex-col gap-4 items-center">
+                    <div className="bg-green-600 p-2 py-1 font-bold rounded-lg text-white flex flex-row items-center gap-2 shadow-md shadow-[#4f4f4f] w-fit">
+                        <FormularioTipo_Estatus />
                     </div>
-                    <div className="flex flex-col gap-4">
-                        <div className="bg-green-600 p-2 py-1 font-bold rounded-lg text-white flex flex-row items-center gap-2 shadow-md shadow-[#4f4f4f]">
-                            <FormularioTipo_Estatus/>
-                        </div>
-                        <table className="w-full text-sm text-center dark:text-gray-400 shadow-md shadow-[#4f4f4f]">
-                            <thead className="text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
-                                    <th>Id</th>
-                                    <th>tipo estatus</th>
-                                    <th>opciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {searchedEstatus ? (
-                                    <tr className="hover:bg-gray-300 hover:text-gray-800">
-                                        <td className="pt-2 pb-2 pr-1 pl-1">{searchedEstatus.id}</td>
-                                        <td className="pt-2 pb-2 pr-1 pl-1">{searchedEstatus.tipo_estatus}</td>
+                    <table className="w-full text-sm text-center dark:text-gray-400 shadow-md shadow-[#4f4f4f]">
+                        <thead className="text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th>Id</th>
+                                <th>tipo estatus</th>
+                                <th>opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                tipoEstatus.map((registro, index) => (
+                                    <tr key={index} className="hover:bg-gray-300 hover:text-gray-800">
+                                        <td className="pt-2 pb-2 pr-1 pl-1">{registro.id}</td>
+                                        <td className="pt-2 pb-2 pr-1 pl-1">{registro.tipo_estatus}</td>
                                         <td className="pr-1 pl-1 flex flex-row items-center justify-center pt-2 gap-2">
-                                            <button className="text-2xl text-emerald-700"><LuFileEdit /></button>
-                                            <button onClick={() => estatusDelete(searchedEstatus.id)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
+                                            <button onClick={() => estatusDelete(registro.id)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
                                         </td>
                                     </tr>
-                                ) : (
-                                    tipoEstatus.map((registro, index) => (
-                                        <tr key={index} className="hover:bg-gray-300 hover:text-gray-800">
-                                            <td className="pt-2 pb-2 pr-1 pl-1">{registro.id}</td>
-                                            <td className="pt-2 pb-2 pr-1 pl-1">{registro.tipo_estatus}</td>
-                                            <td className="pr-1 pl-1 flex flex-row items-center justify-center pt-2 gap-2">
-                                                <button className="text-2xl text-emerald-700"><LuFileEdit /></button>
-                                                <button onClick={() => estatusDelete(registro.id)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
-                                            </td>
-                                        </tr>
-                                    ))
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
+                                ))
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

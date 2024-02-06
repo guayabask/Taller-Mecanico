@@ -37,8 +37,8 @@ export class UsersService {
     return await this.userRepository.findOneBy({id})
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  updateUser(id: number, user: UpdateUserDto) {
+    return this.userRepository.update({ id }, user)
   }
 
   async remove(id: number) {

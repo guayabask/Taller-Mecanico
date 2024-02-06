@@ -6,6 +6,8 @@ import { IoCloseCircle } from "react-icons/io5";
 
 const FormularioAdmin = () => {
   const [Show, setShow] = useState(false)
+  const [Shows, setShows] = useState(false)
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,7 +26,6 @@ const FormularioAdmin = () => {
         id_pregunta_control_id: idPreguntaControl,
         role: rol // Incluir id_pregunta_control_id en la solicitud POST
       });
-      alert("En hora buena");
       window.location = "/administrar-usuarios";
       console.log("Respuesta del servidor:", response.data);
       // Aquí puedes hacer algo con la respuesta, como redirigir al usuario o mostrar un mensaje de éxito.
@@ -83,10 +84,19 @@ const FormularioAdmin = () => {
 
             {error && <p className="text-red-500">{error}</p>}
 
-            <button className="bg-red-700 text-white p-2 px-4 font-bold hover:bg-red-900 rounded-xl" onClick={handleRegister}>Registrar usuario</button>
-            <div className=" p-1 flex flex-col">
+            <button className="bg-red-700 text-white p-2 px-4 font-bold hover:bg-red-900 rounded-xl" onClick={() => setShows(true)}>Continuar</button>
+            {Shows ?
+              <div className="fixed flex bg-black/40 w-screen h-screen top-[0rem] left-0 justify-center items-center">
+                <div className=" flex flex-col w-fit px-8 p-4 shadow-md rounded-xl items-center font-lalezar h-fit gap-2 " style={{ backgroundColor: "#D9D9D9" }}>
+                  <label onClick={() => setShows(false)} className="text-red-600 hover:text-red-900 cursor-pointer text-3xl mb-2 flex flex-row w-full justify-end"> <IoCloseCircle /></label>
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Por el momento editar esta en mantenimiento y no padra editar</label>
+                  <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">¿Esta seguro de subir los datos?</label>
+                  <button className="bg-red-700 text-white p-2 px-4 font-bold hover:bg-red-900 rounded-xl" onClick={handleRegister}>Registrar usuario</button>
+                </div>
 
-            </div>
+              </div>
+
+              : null}
           </div>
         </div>
       </div>

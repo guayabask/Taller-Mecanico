@@ -138,92 +138,95 @@ export default function TablaInformacionAdmin() {
     };
 
     return (
-        <div className="text-black flex flex-col ml-[6rem] mt-4 ">
-            <div className="">
-                <div className="w-full flex flex-row justify-between items-center gap-2 mt-3 mb-4">
-                    <div className="bg-green-600 p-2 py-1 font-bold rounded-lg text-white flex flex-row items-center gap-2 shadow-md shadow-[#4f4f4f]">
-                        <FormularioAdminRegistro />
-                        <div className="border-white text-2xl font-black mb-1 cursor-pointer">+</div>
+        <div className="text-black flex flex-row gap-6 ml-[6rem] mt-4 ">
+            <div >
+                <div className="">
+                    <div className="w-full flex flex-row justify-between items-center gap-2 mt-3 mb-4">
+                        <div className="bg-green-600 p-2 py-1 font-bold rounded-lg text-white flex flex-row items-center gap-2 shadow-md shadow-[#4f4f4f]">
+                            <FormularioAdminRegistro />
+                            <div className="border-white text-2xl font-black mb-1 cursor-pointer">+</div>
+                        </div>
+                        <div className="gap-2 flex ">
+                            <input
+                                placeholder="Escriba aquí el ID"
+                                className="w-[20rem] p-1 h-fit rounded-lg border-2 shadow-md shadow-[#4f4f4f] "
+                                value={searchId}
+                                onChange={(e) => setSearchId(e.target.value)}
+                            />
+                            <button className="bg-blue-600 p-2 font-bold rounded-lg text-white shadow-md shadow-[#4f4f4f]" onClick={handleSearch}>
+                                Buscar por ID
+                            </button>
+                            <button className="bg-red-600 p-2 font-bold rounded-lg text-white shadow-md shadow-[#4f4f4f]" onClick={handleClearSearch}>
+                                Vaciar búsqueda
+                            </button>
+                        </div>
                     </div>
-                    <div className="gap-2 flex ">
-                        <input
-                            placeholder="Escriba aquí el ID"
-                            className="w-[20rem] p-1 h-fit rounded-lg border-2 shadow-md shadow-[#4f4f4f] "
-                            value={searchId}
-                            onChange={(e) => setSearchId(e.target.value)}
-                        />
-                        <button className="bg-blue-600 p-2 font-bold rounded-lg text-white shadow-md shadow-[#4f4f4f]" onClick={handleSearch}>
-                            Buscar por ID
-                        </button>
-                        <button className="bg-red-600 p-2 font-bold rounded-lg text-white shadow-md shadow-[#4f4f4f]" onClick={handleClearSearch}>
-                            Vaciar búsqueda
-                        </button>
-                    </div>
+                    <label className="text-gray-700 font-bold text-2xl">Tabla de registros</label>
                 </div>
-                <label className="text-gray-700 font-bold text-2xl">Tabla de registros</label>
-            </div>
-            <div className="">
-                <table className="w-full text-xs text-center dark:text-gray-400 shadow-md shadow-[#4f4f4f] ">
-                    <thead className="text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400">
-                        <tr className="">
-                            <th className="pt-1 pb-1">Folio</th>
-                            <th className="">Cliente</th>
-                            <th className="">Teléfono</th>
-                            <th className="">Correo</th>
-                            <th className="">Vehiculo</th>
-                            <th className="">Placas</th>
-                            <th className="">Color</th>
-                            <th className="">horas</th>
-                            <th className="">Costo total</th>
-                            <th className="">Fecha de llegada</th>
-                            <th className="">Opciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {searchedUser ? (
-                            <tr className="hover:bg-gray-300 hover:text-gray-800">
-                                <td className="pt-2 pb-2 pr-1 pl-1">{searchedUser.id_registro}</td>
-                                <td className="pr-1 pl-1">{searchedUser.nombre_cliente}</td>
-                                <td className="pr-1 pl-1">{formatPhoneNumber(searchedUser.telefono_celular)}</td>
-                                <td className="pr-1 pl-1">{searchedUser.correo_electronico}</td>
-                                <td className="pr-1 pl-1">{searchedUser.modelo_vehiculo}</td>
-                                <td className="pr-1 pl-1">{searchedUser.placas}</td>
-                                <td className="pr-1 pl-1">{searchedUser.color_vehiculo}</td>
-                                <td className="pr-1 pl-1">{searchedUser.cantidad_de_horas}</td>
-                                <td className="pr-1 pl-1">{searchedUser.costo_total}</td>
-                                <td className="pr-1 pl-1">{searchedUser.fecha_de_inicio.substring(0, 10)}</td>
-                                <td className="pr-1 pl-1 flex flex-row items-center justify-center pt-2 gap-2">
-                                    <button className="text-2xl text-emerald-700"><LuFileEdit /></button>
-                                    <button className="text-2xl text-blue-700"><MdOutlineMenuBook /></button>
-                                    <button onClick={() => HandeDelte(searchedUser.id_registro)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
-                                </td>
+                <div className="">
+                    <table className="w-full text-xs text-center dark:text-gray-400 shadow-md shadow-[#4f4f4f] ">
+                        <thead className="text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400">
+                            <tr className="">
+                                <th className="pt-1 pb-1">Folio</th>
+                                <th className="">Cliente</th>
+                                <th className="">Teléfono</th>
+                                <th className="">Correo</th>
+                                <th className="">Vehiculo</th>
+                                <th className="">Placas</th>
+                                <th className="">Color</th>
+                                <th className="">horas</th>
+                                <th className="">Costo total</th>
+                                <th className="">Fecha de llegada</th>
+                                <th className="">Opciones</th>
                             </tr>
-                        ) : (
-                            users.map((registro, index) => (
-                                <tr key={index} className="hover:bg-gray-300 hover:text-gray-800">
-                                    <td className="pt-1 pb-1">{index + 1}</td>
-                                    <td className="">{registro.nombre_cliente}</td>
-                                    <td className="">{formatPhoneNumber(registro.telefono_celular)}</td>
-                                    <td className="">{registro.correo_electronico}</td>
-                                    <td className="">{registro.modelo_vehiculo}</td>
-                                    <td className="">{registro.placas}</td>
-                                    <td className="">{registro.color_vehiculo}</td>
-                                    <td className="">{registro.cantidad_de_horas} hrs</td>
-                                    <td className="">$ {registro.costo_total}</td>
-                                    <td className="">{registro.fecha_de_inicio.substring(0, 10)}</td>
-                                    <td className="flex flex-row items-center justify-center pt-2 gap-2">
-                                        <button className="text-2xl text-emerald-700" onClick={() => navigate(`/editar-registro/${registro.id_registro}`)}><LuFileEdit /></button>
+                        </thead>
+                        <tbody>
+                            {searchedUser ? (
+                                <tr className="hover:bg-gray-300 hover:text-gray-800">
+                                    <td className="pt-2 pb-2 pr-1 pl-1">{searchedUser.id_registro}</td>
+                                    <td className="pr-1 pl-1">{searchedUser.nombre_cliente}</td>
+                                    <td className="pr-1 pl-1">{formatPhoneNumber(searchedUser.telefono_celular)}</td>
+                                    <td className="pr-1 pl-1">{searchedUser.correo_electronico}</td>
+                                    <td className="pr-1 pl-1">{searchedUser.modelo_vehiculo}</td>
+                                    <td className="pr-1 pl-1">{searchedUser.placas}</td>
+                                    <td className="pr-1 pl-1">{searchedUser.color_vehiculo}</td>
+                                    <td className="pr-1 pl-1">{searchedUser.cantidad_de_horas}</td>
+                                    <td className="pr-1 pl-1">{searchedUser.costo_total}</td>
+                                    <td className="pr-1 pl-1">{searchedUser.fecha_de_inicio.substring(0, 10)}</td>
+                                    <td className="pr-1 pl-1 flex flex-row items-center justify-center pt-2 gap-2">
+                                        <button className="text-2xl text-emerald-700"><LuFileEdit /></button>
                                         <button className="text-2xl text-blue-700"><MdOutlineMenuBook /></button>
-                                        <button onClick={() => HandeDelte(registro.id_registro)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
+                                        <button onClick={() => HandeDelte(searchedUser.id_registro)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
                                     </td>
                                 </tr>
-                            ))
-                        )}
-                    </tbody>
-                </table>
+                            ) : (
+                                users.map((registro, index) => (
+                                    <tr key={index} className="hover:bg-gray-300 hover:text-gray-800">
+                                        <td className="pt-1 pb-1">{index + 1}</td>
+                                        <td className="">{registro.nombre_cliente}</td>
+                                        <td className="">{formatPhoneNumber(registro.telefono_celular)}</td>
+                                        <td className="">{registro.correo_electronico}</td>
+                                        <td className="">{registro.modelo_vehiculo}</td>
+                                        <td className="">{registro.placas}</td>
+                                        <td className="">{registro.color_vehiculo}</td>
+                                        <td className="">{registro.cantidad_de_horas} hrs</td>
+                                        <td className="">$ {registro.costo_total}</td>
+                                        <td className="">{registro.fecha_de_inicio.substring(0, 10)}</td>
+                                        <td className="flex flex-row items-center justify-center pt-2 gap-2">
+                                            <button className="text-2xl text-emerald-700" onClick={() => navigate(`/editar-registro/${registro.id_registro}`)}><LuFileEdit /></button>
+                                            <button className="text-2xl text-blue-700"><MdOutlineMenuBook /></button>
+                                            <button onClick={() => HandeDelte(registro.id_registro)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
 
+                </div>
             </div>
-            <div className="absolute flex flex-col gap-4 ml-[51rem] mb-4 w-[21rem] mt-4">
+
+            <div className="flex flex-col gap-4 mt-4">
                 <div className="flex flex-col gap-4 items-center">
                     <div className="bg-green-600 p-2 py-1 font-bold rounded-lg text-white flex flex-row items-center gap-2 shadow-md shadow-[#4f4f4f] w-fit">
                         <FormularioTipo_trabajo />

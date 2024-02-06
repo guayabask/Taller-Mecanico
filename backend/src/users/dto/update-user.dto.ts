@@ -5,5 +5,5 @@ export class UpdateUserDto {
     correo_electronico?: string;
     contraseña?: string;
     id_pregunta_control_id?: string;
-    role?: string;
+    role?: Role;
 }

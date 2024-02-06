@@ -6,6 +6,8 @@ import { IoCloseCircle } from "react-icons/io5";
 
 export default function FormularioAdminRegistro({ }) {
     const [show, setShow] = useState(false);
+
+    const [Shows, setShows] = useState(false);
     const [tipodVehiculo, setTipoVehiculo] = useState([]);
     const [tipodTrabajo, setTipoTrabajo] = useState([]);
     const [tipodEstatus, setTipoEstatus] = useState([]);
@@ -103,15 +105,6 @@ export default function FormularioAdminRegistro({ }) {
                                 usuario_c: ""
                             }}
                             onSubmit={async (values, actions) => {
-
-                                values.precio_de_material = parseInt(values.precio_de_material, 10); // El segundo argumento indica la base numérica, en este caso 10 (decimal)
-                                values.precio_hora = parseInt(values.precio_hora, 10);
-                                if (PrecioH.length > 0) {
-                                    values.precio_hora = parseInt(PrecioH[0].precio_por_hora, 10);
-                                }
-
-                                
-
                                 if (values.precio_fijo === "") {
                                     values.precio_fijo = 0
                                 }
@@ -121,12 +114,27 @@ export default function FormularioAdminRegistro({ }) {
                                 if (values.cantidad_de_horas === "") {
                                     values.cantidad_de_horas = 0
                                 }
+                                if (values.precio_de_material === "") {
+                                    values.precio_de_material = 0
+                                }
+                                if (values.precio_hora === "") {
+                                    values.precio_hora = 0
+                                }
+
+                                values.precio_de_material = parseInt(values.precio_de_material, 10); // El segundo argumento indica la base numérica, en este caso 10 (decimal)
+                                values.precio_hora = parseInt(values.precio_hora, 10);
+                                if (PrecioH.length > 0) {
+                                    values.precio_hora = parseInt(PrecioH[0].precio_por_hora, 10);
+                                }
+
+
+
+
                                 console.log(values);
                                 console.log(values)
                                 try {
                                     await axios.post('https://localhost:3000/api/v1/registro-de-trabajos', values);
                                     actions.resetForm();
-                                    alert('Registro creado correctamente');
                                     window.location = '/administrador';
                                 } catch (error) {
                                     console.error('Error al crear el registro:', error);
@@ -299,7 +307,20 @@ export default function FormularioAdminRegistro({ }) {
                                         </div>
                                     </div>
                                     <div className="flex flex-row justify-center gap-8">
-                                        <button className="bg-blue-600 p-2 font-bold rounded-lg text-white shadow-md shadow-[#4f4f4f]" type="submit">Agregar</button>
+                                        
+                                        <label className="bg-red-700 text-white p-2 px-4 font-bold hover:bg-red-900 rounded-xl cursor-pointer" onClick={() => setShows(true)}>Continuar</label>
+                                        {Shows ?
+                                            <div className="fixed flex bg-black/40 w-screen h-screen top-[0rem] left-0 justify-center items-center">
+                                                <div className=" flex flex-col w-fit px-8 p-4 shadow-md rounded-xl items-center font-lalezar h-fit gap-2 " style={{ backgroundColor: "#D9D9D9" }}>
+                                                    <label onClick={() => setShows(false)} className="text-red-600 hover:text-red-900 cursor-pointer text-3xl mb-2 flex flex-row w-full justify-end"> <IoCloseCircle/></label>
+                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Por el momento editar esta en mantenimiento y no padra editar</label>
+                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">¿Esta seguro de subir los datos?</label>
+                                                    <button className="bg-blue-600 p-2 font-bold rounded-lg text-white shadow-md shadow-[#4f4f4f]" type="submit">Agregar</button>
+                                                </div>
+
+                                            </div>
+
+                                            : null}
                                     </div>
                                 </form>
                             )}

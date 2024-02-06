@@ -29,6 +29,8 @@ export class UsersService {
     });
   }
 
+  
+
   async findAll() {
     return await this.userRepository.find();
   }
@@ -37,8 +39,8 @@ export class UsersService {
     return await this.userRepository.findOneBy({id})
   }
 
-  updateUser(id: number, user: UpdateUserDto) {
-    return this.userRepository.update({ id }, user)
+  updateUser(id: number, updateUser: UpdateUserDto) {
+    return this.userRepository.update({ id }, updateUser)
   }
 
   async remove(id: number) {

@@ -93,17 +93,7 @@ export class RegistroDeTrabajosService {
       throw new BadRequestException("Registro de trabajo no encontrado");
     }
 
-    // Update properties if they exist in the DTO
-    if (updateRegistroDeTrabajoDto.nombre_cliente !== undefined) {
-      registro.nombre_cliente = updateRegistroDeTrabajoDto.nombre_cliente;
-    }
-    if (updateRegistroDeTrabajoDto.telefono_celular !== undefined) {
-      registro.telefono_celular = updateRegistroDeTrabajoDto.telefono_celular;
-    }
-    // Update other properties in a similar manner...
-
-    // Save the updated registro
-    return await this.registrodetrabajoRepository.save(registro);
+    return await this.registrodetrabajoRepository.update({id_registro}, updateRegistroDeTrabajoDto)
   }
 
   async remove(id_registro: number) {

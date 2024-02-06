@@ -96,9 +96,6 @@ export default function TablaUsuarios() {
                                             Rol
                                         </th>
                                         <th scope="col" className="px-6 py-3">
-                                            Editar
-                                        </th>
-                                        <th scope="col" className="px-6 py-3">
                                             eliminar
                                         </th>
                                     </tr>
@@ -121,9 +118,6 @@ export default function TablaUsuarios() {
                                                     {userss.role}
                                                 </td>
                                                 <td className="px-6 py-4">
-                                                    <label className="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer" onClick={() => navigate(`/editar-usuario/${userss.id}`)}> Editar</label>
-                                                </td>
-                                                <td className="px-6 py-4">
                                                     <label className="font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer" onClick={() => HandeDelte(userss.id)}>
                                                         Borrar
                                                     </label>
@@ -144,9 +138,6 @@ export default function TablaUsuarios() {
                                                 </td>
                                                 <td className="px-6 py-4">
                                                     {users.role}
-                                                </td>
-                                                <td className="px-6 py-4">
-                                                    <label className="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer" onClick={() => navigate(`/editar-usuario/${users.id}`)}> Editar</label>
                                                 </td>
                                                 <td className="px-6 py-4">
                                                     <label className="font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer" onClick={() => HandeDelte(users.id)}>

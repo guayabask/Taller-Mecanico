@@ -49,7 +49,7 @@ export default function FormularioAdminRegistro({ }) {
                                 costo_total: "",
                                 precio_fijo: "",
                                 precio_por_hora: "",
-                                estatus: "",
+                                estatus: false,
                                 tipo_trabajo: "",
                                 tipo_vehiculo: "",
                                 usuario_c: ""
@@ -73,6 +73,7 @@ export default function FormularioAdminRegistro({ }) {
                                 if (values.estatus === "") {
                                     values.estatus = false
                                 }
+                                values.estatus = false
 
                                 console.log(values)
                                 try {

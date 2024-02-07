@@ -10,6 +10,14 @@ export default function EditarRegistro() {
     const [show, setShow] = useState(false);
     const [Mecanico, setMecanico] = useState([]);
 
+    const [estatus, setEstatus] = useState(false);
+
+    const handleFinalizarTrabajo = (event) => {
+        event.preventDefault(); // Evitar que el formulario se envíe
+        setEstatus(true);
+    };
+
+
     const params = useParams()
     console.log(params)
     var id = params;
@@ -53,7 +61,7 @@ export default function EditarRegistro() {
                 precio_de_material: response.data.precio_de_material,
                 precio_fijo: response.data.precio_fijo,
                 costo_total: response.data.costo_total,
-                tipo_trabajo: response.data.tipo,
+                tipo_trabajo: response.data.tipo_trabajo,
                 estatus: response.data.estatus,
                 precio_por_hora: response.data.precio_por_hora,
                 tipo_vehiculo: response.data.tipo_vehiculo,
@@ -64,9 +72,12 @@ export default function EditarRegistro() {
     }, [params.id]);
 
 
+
+
     useEffect(() => {
         fetchMecanico()
     }, []);
+
     const fetchMecanico = async () => {
         try {
             const response = await axios.get("https://localhost:3000/api/v1/users");
@@ -115,23 +126,17 @@ export default function EditarRegistro() {
                         const costoTotal = (values.precio_de_material * 1.3) + updatedValues.precio_fijo;
                         updatedValues.costo_total = costoTotal;
                         values.costo_total = costoTotal;
-                    } else if (values.tipo_trabajo === "revision"){
+                    } else if (values.tipo_trabajo === "revision") {
                         const costoTotal = (updatedValues.precio_fijo + 450)
                         updatedValues.costo_total = costoTotal;
                         values.costo_total = costoTotal;
                     }
-                    
 
                     values.precio_fijo = updatedValues
 
                     if (values.estatus === "") {
                         values.estatus = false
                     }
-                    
-                    
-
-
-
 
                     console.log(updatedValues);
 
@@ -141,7 +146,7 @@ export default function EditarRegistro() {
                     alert('Datos actualizados correctamente')
                     if (res.status == 200) {
                         //Redirecciomar 
-                        window.location = '/administrador';
+                        //window.location = '/administrador';
                     }
                     else {
                         alert("Succedio un error")
@@ -149,178 +154,354 @@ export default function EditarRegistro() {
                 }}>
                 {({ handleChange, handleSubmit, values }) => (
                     <form className="w-fit h-fit p-6 bg-white" onSubmit={handleSubmit}>
-                        <div className="flex flex-row justify-between">
-                            <label className="block uppercase tracking-wide text-gray-700 font-bold mb-2 text-base">Agregar nuevo registro</label>
-                            <Link to="/administrador"><label className="text-red-600 hover:text-red-900 cursor-pointer text-3xl mb-2"> <IoCloseCircle /></label></Link>
-                        </div>
-                        <label className="block uppercase tracking-wide text-gray-700 font-bold mb-2 bg-gray-400 text-base">Datos de cliente:</label>
-                        <div className="flex flex-row w-full gap-2">
-                            <div className="md:w-1/3">
-                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Nombre del Cliente</label>
-                                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" type="text" placeholder="Nombre del Cliente" name="nombre_cliente" onChange={handleChange} value={values.nombre_cliente} />
-                            </div>
-                            <div className="md:w-1/3">
-                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Teléfono Celular</label>
-                                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" type="text" placeholder="Teléfono Celular" name="telefono_celular" onChange={handleChange} value={values.telefono_celular} />
-                            </div>
-                            <div className="md:w-1/3">
-                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Correo Electrónico</label>
-                                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" type="text" placeholder="Correo Electrónico" name="correo_electronico" onChange={handleChange} value={values.correo_electronico} />
-                            </div>
-                        </div>
-                        <label className="block uppercase tracking-wide text-gray-800 font-bold mb-2 bg-gray-400 text-base">Información del vehiculo:</label>
-                        <div className="flex flex-wrap ">
-                            <div className="w-full md:w-1/3 px-2">
-                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Modelo del Vehículo</label>
-                                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" type="text" placeholder="Modelo del Vehículo" name="modelo_vehiculo" onChange={handleChange} value={values.modelo_vehiculo} />
-                            </div>
-                            <div className="w-full md:w-1/3 px-2">
-                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Color del Vehículo</label>
-                                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" type="text" placeholder="Color del Vehículo" name="color_vehiculo" onChange={handleChange} value={values.color_vehiculo} />
-                            </div>
-                            <div className="w-full md:w-1/3 px-2 flex flex-row">
-                                <div className="w-full md:w-5/6 px-2">
-                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Placas</label>
-                                    <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" type="text" placeholder="Placas" name="placas" onChange={handleChange} value={values.placas} />
-                                </div>
-                                <div className="w-full px-2">
-                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 custom-dropdown">Año del vehiculo</label>
-                                    <select
-                                        className="md:w-5/6 block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal"
-                                        name="año_vehiculo"
-                                        value={values.año_vehiculo}
-                                        onChange={handleChange}
-                                    >
-                                        <option value="">Escoger año</option>
-                                        <option value="2024">2024</option>
-                                        <option value="2023">2023</option>
-                                        <option value="2022">2022</option>
-                                        <option value="2021">2021</option>
-                                        <option value="2020">2020</option>
-                                        <option value="2019">2019</option>
-                                        <option value="2018">2018</option>
-                                        <option value="2017">2017</option>
-                                        <option value="2016">2016</option>
-                                        <option value="2015">2015</option>
-                                        <option value="2014">2014</option>
-                                        <option value="2013">2013</option>
-                                        <option value="2012">2012</option>
-                                        <option value="2011">2011</option>
-                                        <option value="2010">2010</option>
-                                        <option value="2009">2009</option>
-                                        <option value="2008">2008</option>
-                                        <option value="2007">2007</option>
-                                        <option value="2006">2006</option>
-                                        <option value="2005">2005</option>
-                                        <option value="2004">2004</option>
-                                        <option value="2003">2003</option>
-                                        <option value="2002">2002</option>
-                                        <option value="2001">2001</option>
-                                        <option value="2000">2000</option>
-                                        <option value="1999">1999</option>
-                                        <option value="1998">1998</option>
-                                        <option value="1997">1997</option>
-                                        <option value="1996">1996</option>
-                                        <option value="1995">1995</option>
-                                        <option value="1994">1994</option>
-                                        <option value="1993">1993</option>
-                                        <option value="1992">1992</option>
-                                        <option value="1991">1991</option>
-                                        <option value="1990">1990</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div className="w-full md:w-1/3 px-2">
-                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1">Tipo de vehiculo</label>
-                                <select
-                                    className="md:w-5/6 block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" name="tipo_vehiculo" value={values.tipo_vehiculo} onChange={handleChange}>
-                                    <option>Tipo de vehiculo</option>
-                                    <option value="Estandar">Estandar</option>
-                                    <option value="Automatico">Automatico</option>
-                                </select>
-                            </div>
-                        </div>
-                        <label className="block uppercase tracking-wide text-gray-700 font-bold mb-2 bg-gray-400 text-base">Información de trabajo:</label>
-                        <div className="flex flex-wrap">
-                            <div className="w-full md:w-1/3 px-2">
-                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1">Tipo de Trabajo</label>
-                                <select
-                                    className="md:w-5/6 block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" name="tipo_trabajo" value={values.tipo_trabajo} onChange={handleChange}>
-                                    <option>Tipo de trabajo</option>
-                                    <option value="reparacion_mecanica">Reparación mecanica</option>
-                                    <option value="reparacion_chapa_pintura">Reparación chapa y pintura</option>
-                                    <option value="revision">Revisión general</option>
-                                </select>
-                            </div>
-                            <div className="w-full md:w-1/6 px-2 mb-6 md:mb-0 items-center flex flex-col">
-                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Cantidad de Horas</label>
-                                <div className="flex flex-row items-center justify-center gap-2">
-                                    <input
-                                        readOnly
-                                        className="appearance-none block w-full bg-gray-200 md:w-1/3 text-gray-700 rounded py-2 px-2 mb-2 leading-tight focus:outline-none font-normal"
-                                        name="cantidad_de_horas"
-                                        value={values.cantidad_de_horas || 0}
-                                        onChange={handleChange}
-                                    />
-                                    <button className="appearance-none block pb-2 px-2 leading-tight text-blue-600 cursor-pointer"
-                                        type="button"
-                                        onClick={() => handleChange({ target: { name: 'cantidad_de_horas', value: parseInt(values.cantidad_de_horas) + 1 || 1 } })}
-                                    >
-                                        <BsPlusCircleFill className="text-2xl" />
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
-                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Precio de Material</label>
-                                <input
-                                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal"
-                                    type="number"
-                                    placeholder="Precio de Material"
-                                    name="precio_de_material"
-                                    min="0"
-                                    step="1" // Solo permite ingresar números enteros
-                                    onChange={(e) => {
-                                        const value = parseInt(e.target.value); // Convertir a entero en lugar de flotante
-                                        handleChange({
-                                            target: {
-                                                name: 'precio_de_material',
-                                                value: isNaN(value) ? '' : value
-                                            }
-                                        });
-                                    }}
-                                    value={values.precio_de_material}
-                                />
 
+                        {values.estatus ? (
+                            <>
+                                <div className="flex flex-row justify-between">
+                                    <label className="block uppercase tracking-wide text-gray-700 font-bold mb-2 text-base">Editar registro</label>
+                                    <Link to="/administrador"><label className="text-red-600 hover:text-red-900 cursor-pointer text-3xl mb-2"> <IoCloseCircle /></label></Link>
+                                </div>
+                                <label className="block uppercase tracking-wide text-gray-700 font-bold mb-2 bg-gray-400 text-base">Datos de cliente:</label>
+                                <div className="flex flex-row w-full gap-2">
+                                    <div className="md:w-1/3">
+                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Nombre del Cliente</label>
+                                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" type="text" readOnly placeholder="Nombre del Cliente" name="nombre_cliente" onChange={handleChange} value={values.nombre_cliente} />
+                                    </div>
+                                    <div className="md:w-1/3">
+                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Teléfono Celular</label>
+                                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" type="text" placeholder="Teléfono Celular" name="telefono_celular" onChange={handleChange} value={values.telefono_celular} />
+                                    </div>
+                                    <div className="md:w-1/3">
+                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Correo Electrónico</label>
+                                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" type="text" placeholder="Correo Electrónico" name="correo_electronico" onChange={handleChange} value={values.correo_electronico} />
+                                    </div>
+                                </div>
+                                <label className="block uppercase tracking-wide text-gray-800 font-bold mb-2 bg-gray-400 text-base">Información del vehiculo:</label>
+                                <div className="flex flex-wrap ">
+                                    <div className="w-full md:w-1/3 px-2">
+                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Modelo del Vehículo</label>
+                                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" type="text" placeholder="Modelo del Vehículo" name="modelo_vehiculo" onChange={handleChange} value={values.modelo_vehiculo} />
+                                    </div>
+                                    <div className="w-full md:w-1/3 px-2">
+                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Color del Vehículo</label>
+                                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" type="text" placeholder="Color del Vehículo" name="color_vehiculo" onChange={handleChange} value={values.color_vehiculo} />
+                                    </div>
+                                    <div className="w-full md:w-1/3 px-2 flex flex-row">
+                                        <div className="w-full md:w-5/6 px-2">
+                                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Placas</label>
+                                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" type="text" placeholder="Placas" name="placas" onChange={handleChange} value={values.placas} />
+                                        </div>
+                                        <div className="w-full px-2">
+                                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 custom-dropdown">Año del vehiculo</label>
+                                            <select
+                                                className="md:w-5/6 block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal"
+                                                name="año_vehiculo"
+                                                value={values.año_vehiculo}
+                                                onChange={handleChange}
+                                            >
+                                                <option value="">Escoger año</option>
+                                                <option value="2024">2024</option>
+                                                <option value="2023">2023</option>
+                                                <option value="2022">2022</option>
+                                                <option value="2021">2021</option>
+                                                <option value="2020">2020</option>
+                                                <option value="2019">2019</option>
+                                                <option value="2018">2018</option>
+                                                <option value="2017">2017</option>
+                                                <option value="2016">2016</option>
+                                                <option value="2015">2015</option>
+                                                <option value="2014">2014</option>
+                                                <option value="2013">2013</option>
+                                                <option value="2012">2012</option>
+                                                <option value="2011">2011</option>
+                                                <option value="2010">2010</option>
+                                                <option value="2009">2009</option>
+                                                <option value="2008">2008</option>
+                                                <option value="2007">2007</option>
+                                                <option value="2006">2006</option>
+                                                <option value="2005">2005</option>
+                                                <option value="2004">2004</option>
+                                                <option value="2003">2003</option>
+                                                <option value="2002">2002</option>
+                                                <option value="2001">2001</option>
+                                                <option value="2000">2000</option>
+                                                <option value="1999">1999</option>
+                                                <option value="1998">1998</option>
+                                                <option value="1997">1997</option>
+                                                <option value="1996">1996</option>
+                                                <option value="1995">1995</option>
+                                                <option value="1994">1994</option>
+                                                <option value="1993">1993</option>
+                                                <option value="1992">1992</option>
+                                                <option value="1991">1991</option>
+                                                <option value="1990">1990</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="w-full md:w-1/3 px-2">
+                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1">Tipo de vehiculo</label>
+                                        <select
+                                            className="md:w-5/6 block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" name="tipo_vehiculo" value={values.tipo_vehiculo} onChange={handleChange}>
+                                            <option>Tipo de vehiculo</option>
+                                            <option value="Estandar">Estandar</option>
+                                            <option value="Automatico">Automatico</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <label className="block uppercase tracking-wide text-gray-700 font-bold mb-2 bg-gray-400 text-base">Información de trabajo:</label>
+                                <div className="flex flex-wrap">
+                                    <div className="w-full md:w-1/3 px-2">
+                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1">Tipo de Trabajo</label>
+                                        <select
+                                            className="md:w-5/6 block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal"
+                                            name="tipo_trabajo"
+                                            value={values.tipo_trabajo}
+                                            onChange={handleChange}>
+                                            <option>Tipo de trabajo</option>
+                                            <option value="reparacion_mecanica">Reparación mecanica</option>
+                                            <option value="reparacion_chapa_pintura">Reparación chapa y pintura</option>
+                                            <option value="revision">Revisión general</option>
+                                        </select>
+                                    </div>
+                                    <div className="w-full md:w-1/6 px-2 mb-6 md:mb-0 items-center flex flex-col">
+                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Cantidad de Horas</label>
+                                        <div className="flex flex-row items-center justify-center gap-2">
+                                            <input
+                                                readOnly
+                                                className="appearance-none block w-full bg-gray-200 md:w-1/3 text-gray-700 rounded py-2 px-2 mb-2 leading-tight focus:outline-none font-normal"
+                                                name="cantidad_de_horas"
+                                                value={values.cantidad_de_horas || 0}
+                                                onChange={handleChange}
+                                            />
+                                            <button className="appearance-none block pb-2 px-2 leading-tight text-blue-600 cursor-pointer"
+                                                type="button"
+                                                onClick={() => handleChange({ target: { name: 'cantidad_de_horas', value: parseInt(values.cantidad_de_horas) + 1 || 1 } })}>
+                                                <BsPlusCircleFill className="text-2xl" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
+                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Precio de Material</label>
+                                        <input
+                                            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal"
+                                            type="number"
+                                            placeholder="Precio de Material"
+                                            name="precio_de_material"
+                                            min="0"
+                                            step="1" // Solo permite ingresar números enteros
+                                            onChange={(e) => {
+                                                const value = parseInt(e.target.value); // Convertir a entero en lugar de flotante
+                                                handleChange({
+                                                    target: {
+                                                        name: 'precio_de_material',
+                                                        value: isNaN(value) ? '' : value
+                                                    }
+                                                });
+                                            }}
+                                            value={values.precio_de_material}
+                                        />
+
+                                    </div>
+                                    <div className="w-full md:w-1/4 flex flex-col px-2">
+                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1" >Estatus de Trabajo</label>
+                                        <div className='flex flex-row items-center gap-2'>
+                                            <label className="block uppercase text-blue-700 tracking-wide  text-xs font-bold mb-1" >{values.estatus ? 'Finalizado' : 'En proceso'}</label>
+                                            <button
+                                                className="bg-red-600 p-2 font-bold rounded-lg cursor-pointer text-white shadow-md shadow-[#4f4f4f] text-center w-fit"
+                                                onClick={handleFinalizarTrabajo}
+                                            >
+                                                Finalizar trabajo
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div className="flex flex-wrap">
+
+
+                                </div>
+                                <div className="flex flex-wrap">
+                                    <div className="w-full px-3 mb-6 md:mb-0">
+                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Descripción de Trabajo</label>
+                                        <textarea className="appearance-none block w-full h-[5rem] bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" placeholder="Descripción de Trabajo" name="descripcion_de_trabajo" onChange={handleChange} value={values.descripcion_de_trabajo} />
+                                    </div>
+                                </div>
+                                <div className="flex flex-row justify-center gap-8">
+                                    <button className="bg-blue-600 p-2 font-bold rounded-lg text-white shadow-md shadow-[#4f4f4f]" type="submit">Agregar</button>
+                                </div>
+                            </>
+                        ) : (
+                            <div>
+                                <div className="flex flex-row justify-between">
+                                    <label className="block uppercase tracking-wide text-gray-700 font-bold mb-2 text-base">Editar registro</label>
+                                    <Link to="/administrador"><label className="text-red-600 hover:text-red-900 cursor-pointer text-3xl mb-2"> <IoCloseCircle /></label></Link>
+                                </div>
+                                <label className="block uppercase tracking-wide text-gray-700 font-bold mb-2 bg-gray-400 text-base">Datos de cliente:</label>
+                                <div className="flex flex-row w-full gap-2">
+                                    <div className="md:w-1/3">
+                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Nombre del Cliente</label>
+                                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" type="text" placeholder="Nombre del Cliente" name="nombre_cliente" onChange={handleChange} value={values.nombre_cliente} />
+                                    </div>
+                                    <div className="md:w-1/3">
+                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Teléfono Celular</label>
+                                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" type="text" placeholder="Teléfono Celular" name="telefono_celular" onChange={handleChange} value={values.telefono_celular} />
+                                    </div>
+                                    <div className="md:w-1/3">
+                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Correo Electrónico</label>
+                                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" type="text" placeholder="Correo Electrónico" name="correo_electronico" onChange={handleChange} value={values.correo_electronico} />
+                                    </div>
+                                </div>
+                                <label className="block uppercase tracking-wide text-gray-800 font-bold mb-2 bg-gray-400 text-base">Información del vehiculo:</label>
+                                <div className="flex flex-wrap ">
+                                    <div className="w-full md:w-1/3 px-2">
+                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Modelo del Vehículo</label>
+                                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" type="text" placeholder="Modelo del Vehículo" name="modelo_vehiculo" onChange={handleChange} value={values.modelo_vehiculo} />
+                                    </div>
+                                    <div className="w-full md:w-1/3 px-2">
+                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Color del Vehículo</label>
+                                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" type="text" placeholder="Color del Vehículo" name="color_vehiculo" onChange={handleChange} value={values.color_vehiculo} />
+                                    </div>
+                                    <div className="w-full md:w-1/3 px-2 flex flex-row">
+                                        <div className="w-full md:w-5/6 px-2">
+                                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Placas</label>
+                                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" type="text" placeholder="Placas" name="placas" onChange={handleChange} value={values.placas} />
+                                        </div>
+                                        <div className="w-full px-2">
+                                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 custom-dropdown">Año del vehiculo</label>
+                                            <select
+                                                className="md:w-5/6 block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal"
+                                                name="año_vehiculo"
+                                                value={values.año_vehiculo}
+                                                onChange={handleChange}
+                                            >
+                                                <option value="">Escoger año</option>
+                                                <option value="2024">2024</option>
+                                                <option value="2023">2023</option>
+                                                <option value="2022">2022</option>
+                                                <option value="2021">2021</option>
+                                                <option value="2020">2020</option>
+                                                <option value="2019">2019</option>
+                                                <option value="2018">2018</option>
+                                                <option value="2017">2017</option>
+                                                <option value="2016">2016</option>
+                                                <option value="2015">2015</option>
+                                                <option value="2014">2014</option>
+                                                <option value="2013">2013</option>
+                                                <option value="2012">2012</option>
+                                                <option value="2011">2011</option>
+                                                <option value="2010">2010</option>
+                                                <option value="2009">2009</option>
+                                                <option value="2008">2008</option>
+                                                <option value="2007">2007</option>
+                                                <option value="2006">2006</option>
+                                                <option value="2005">2005</option>
+                                                <option value="2004">2004</option>
+                                                <option value="2003">2003</option>
+                                                <option value="2002">2002</option>
+                                                <option value="2001">2001</option>
+                                                <option value="2000">2000</option>
+                                                <option value="1999">1999</option>
+                                                <option value="1998">1998</option>
+                                                <option value="1997">1997</option>
+                                                <option value="1996">1996</option>
+                                                <option value="1995">1995</option>
+                                                <option value="1994">1994</option>
+                                                <option value="1993">1993</option>
+                                                <option value="1992">1992</option>
+                                                <option value="1991">1991</option>
+                                                <option value="1990">1990</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className="w-full md:w-1/3 px-2">
+                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1">Tipo de vehiculo</label>
+                                        <select
+                                            className="md:w-5/6 block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" name="tipo_vehiculo" value={values.tipo_vehiculo} onChange={handleChange}>
+                                            <option>Tipo de vehiculo</option>
+                                            <option value="Estandar">Estandar</option>
+                                            <option value="Automatico">Automatico</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <label className="block uppercase tracking-wide text-gray-700 font-bold mb-2 bg-gray-400 text-base">Información de trabajo:</label>
+                                <div className="flex flex-wrap">
+                                    <div className="w-full md:w-1/3 px-2">
+                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1">Tipo de Trabajo</label>
+                                        <select
+                                            className="md:w-5/6 block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal"
+                                            name="tipo_trabajo"
+                                            value={values.tipo_trabajo}
+                                            onChange={handleChange}>
+                                            <option>Tipo de trabajo</option>
+                                            <option value="reparacion_mecanica">Reparación mecanica</option>
+                                            <option value="reparacion_chapa_pintura">Reparación chapa y pintura</option>
+                                            <option value="revision">Revisión general</option>
+                                        </select>
+                                    </div>
+                                    <div className="w-full md:w-1/6 px-2 mb-6 md:mb-0 items-center flex flex-col">
+                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Cantidad de Horas</label>
+                                        <div className="flex flex-row items-center justify-center gap-2">
+                                            <input
+                                                readOnly
+                                                className="appearance-none block w-full bg-gray-200 md:w-1/3 text-gray-700 rounded py-2 px-2 mb-2 leading-tight focus:outline-none font-normal"
+                                                name="cantidad_de_horas"
+                                                value={values.cantidad_de_horas || 0}
+                                                onChange={handleChange}
+                                            />
+                                            <button className="appearance-none block pb-2 px-2 leading-tight text-blue-600 cursor-pointer"
+                                                type="button"
+                                                onClick={() => handleChange({ target: { name: 'cantidad_de_horas', value: parseInt(values.cantidad_de_horas) + 1 || 1 } })}>
+                                                <BsPlusCircleFill className="text-2xl" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
+                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Precio de Material</label>
+                                        <input
+                                            className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal"
+                                            type="number"
+                                            placeholder="Precio de Material"
+                                            name="precio_de_material"
+                                            min="0"
+                                            step="1" // Solo permite ingresar números enteros
+                                            onChange={(e) => {
+                                                const value = parseInt(e.target.value); // Convertir a entero en lugar de flotante
+                                                handleChange({
+                                                    target: {
+                                                        name: 'precio_de_material',
+                                                        value: isNaN(value) ? '' : value
+                                                    }
+                                                });
+                                            }}
+                                            value={values.precio_de_material}
+                                        />
+
+                                    </div>
+                                    <div className="w-full md:w-1/4 flex flex-col px-2">
+                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1" >Estatus de Trabajo</label>
+                                        <div className='flex flex-row items-center gap-2'>
+                                            <label className="block uppercase text-blue-700 tracking-wide  text-xs font-bold mb-1" >{values.estatus ? 'Finalizado' : 'En proceso'}</label>
+                                            <button className="bg-red-600 cursor-pointer p-2 font-bold rounded-lg cursor pointer text-white shadow-md shadow-[#4f4f4f] text-center w-fit" type="submit">Finalizar trabajo</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div className="flex flex-wrap">
+
+
+                                </div>
+                                <div className="flex flex-wrap">
+                                    <div className="w-full px-3 mb-6 md:mb-0">
+                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Descripción de Trabajo</label>
+                                        <textarea className="appearance-none block w-full h-[5rem] bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" placeholder="Descripción de Trabajo" name="descripcion_de_trabajo" onChange={handleChange} value={values.descripcion_de_trabajo} />
+                                    </div>
+                                </div>
+                                <div className="flex flex-row justify-center gap-8">
+                                    <button className="bg-blue-600 p-2 font-bold rounded-lg text-white shadow-md shadow-[#4f4f4f]" type="submit">Agregar</button>
+                                </div>
                             </div>
-                        </div>
-                        <div className="flex flex-wrap">
-                            <div className="w-full md:w-1/3 px-2">
-                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1">Mecanico a cargo</label>
-                                <select
-                                    className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal"
-                                    name="usuario_c"
-                                    value={values.usuario_c}
-                                    onChange={handleChange}
-                                >
-                                    {Mecanico.map((mecanico, index) => (
-                                        <option key={index} value={mecanico.usuario_c}>{mecanico.nombre_usuario}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div className="w-full md:w-1/3 flex flex-col px-2">
-                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1">Estatus de Trabajo</label>
-                                <label className="bg-yellow-600 cursor-pointer p-2 font-bold rounded-lg cursor pointer text-white shadow-md shadow-[#4f4f4f] text-center w-fit" onClick={handleFinalizar}>Finalizar trabajo</label>
-                            </div>
-                        </div>
-                        <div className="flex flex-wrap">
-                            <div className="w-full px-3 mb-6 md:mb-0">
-                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Descripción de Trabajo</label>
-                                <textarea className="appearance-none block w-full h-[5rem] bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" placeholder="Descripción de Trabajo" name="descripcion_de_trabajo" onChange={handleChange} value={values.descripcion_de_trabajo} />
-                            </div>
-                        </div>
-                        <div className="flex flex-row justify-center gap-8">
-                            <button className="bg-blue-600 p-2 font-bold rounded-lg text-white shadow-md shadow-[#4f4f4f]" type="submit">Agregar</button>
-                        </div>
+                        )}
+
                     </form>
                 )}
             </Formik>

@@ -17,6 +17,11 @@ export default function TablaInformacionAdmin() {
         setShow(true)
     };
 
+    const handleFilterByStatus = (status) => {
+        const filtered = users.filter(user => user.estatus === status);
+        setUsers(filtered);
+    };
+
     const navigate = useNavigate()
 
     const [users, setUsers] = useState([])
@@ -36,11 +41,12 @@ export default function TablaInformacionAdmin() {
         }
     };
 
-    const HandeDelte = async (id) => {
+    const HandeDelete = async (id) => {
         const response = await axios.delete(`https://localhost:3000/api/v1/registro-de-trabajos/${id}`)
 
         if (response.status === 200) {
             alert("Se borro correctamente")
+            window.location = '/administrador';
         } else {
             alert("Un show medio raro")
         }
@@ -60,6 +66,7 @@ export default function TablaInformacionAdmin() {
     const handleClearSearch = () => {
         setSearchId('');
         setSearchedUser(null);
+        window.location.reload();
     };
 
     const formatPhoneNumber = (phoneNumber) => {
@@ -71,10 +78,10 @@ export default function TablaInformacionAdmin() {
 
     return (
         <div className="text-black flex flex-row gap-6 ml-[6rem] mt-4 ">
-            <div >
+            <div>
                 <div className="">
                     <div className="w-full flex flex-row justify-between items-center gap-2 mt-3 mb-4">
-                        <div className="bg-green-600 p-2 py-1 font-bold rounded-lg text-white flex flex-row items-center gap-2 shadow-md shadow-[#4f4f4f]">
+                        <div className="bg-green-700 p-2 py-1 font-bold rounded-lg text-white flex flex-row items-center gap-2 shadow-md shadow-[#4f4f4f]">
                             <FormularioAdminRegistro />
                             <div className="border-white text-2xl font-black mb-1 cursor-pointer">+</div>
                         </div>
@@ -87,6 +94,13 @@ export default function TablaInformacionAdmin() {
                             />
                             <button className="bg-blue-600 p-2 font-bold rounded-lg text-white shadow-md shadow-[#4f4f4f]" onClick={handleSearch}>
                                 Buscar por ID
+                            </button>
+
+                            <button className="bg-yellow-600 p-2 font-bold rounded-lg text-white shadow-md shadow-[#4f4f4f]" onClick={() => handleFilterByStatus(true)}>
+                                Mostrar Finalizados
+                            </button>
+                            <button className="bg-purple-800 p-2 font-bold rounded-lg text-white shadow-md shadow-[#4f4f4f]" onClick={() => handleFilterByStatus(false)}>
+                                Mostrar En Proceso
                             </button>
                             <button className="bg-red-600 p-2 font-bold rounded-lg text-white shadow-md shadow-[#4f4f4f]" onClick={handleClearSearch}>
                                 Vaciar búsqueda
@@ -126,10 +140,89 @@ export default function TablaInformacionAdmin() {
                                     <td className="pr-1 pl-1">{searchedUser.costo_total}</td>
                                     <td className="pr-1 pl-1">{searchedUser.fecha_de_inicio.substring(0, 10)}</td>
                                     <td className="pr-1 pl-1 flex flex-row items-center justify-center pt-2 gap-2">
-                                        <button className="text-2xl text-emerald-700"><LuFileEdit/></button>
-                                        <button className="text-2xl text-blue-700" onClick={() => handleShow(registro.id_registro, users)}><MdOutlineMenuBook /></button>
+                                        <button className="text-2xl text-emerald-700"><LuFileEdit /></button>
+                                        <button className="text-2xl text-blue-700" onClick={() => handleShow(searchedUser.id_registro, users)}><MdOutlineMenuBook /></button>
+                                        {show && selectedRecord && (
+                                            <div className="fixed flex bg-black bg-opacity-20 w-screen h-screen top-[0rem] left-0 justify-center items-center">
+                                                <div className="flex flex-col w-fit px-8 p-4 shadow-md rounded-xl items-center font-lalezar h-fit gap-2 bg-white">
+                                                    <div className="flex flex-row justify-between w-full">
+                                                        <label className="block uppercase tracking-wide text-gray-700 font-bold mb-2 text-lg md:w-1/2">Reporte de trabajo:</label>
+                                                        <label onClick={() => setShow(false)} className="text-red-600 hover:text-red-900 cursor-pointer text-3xl mb-2 flex flex-row w-full justify-end"> <IoCloseCircle /></label>
+                                                    </div>
 
-                                        <button onClick={() => HandeDelte(searchedUser.id_registro)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
+                                                    <div className="w-fit h-fit p-6 bg-white border-[#9c9c9c] border-2">
+                                                        <label className="block uppercase tracking-wide text-gray-700 font-bold mb-2 bg-gray-400 text-base">Datos de cliente:</label>
+                                                        <div className="flex flex-row w-full gap-2">
+                                                            <div className="md:w-1/3">
+                                                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Nombre del Cliente</label>
+                                                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.nombre_cliente}</label>
+                                                            </div>
+                                                            <div className="md:w-1/3">
+                                                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Teléfono Celular</label>
+                                                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.telefono_celular}</label>
+                                                            </div>
+                                                            <div className="md:w-1/3">
+                                                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Correo Electrónico</label>
+                                                                <label className="block tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.correo_electronico}</label>
+                                                            </div>
+                                                        </div>
+                                                        <label className="block uppercase tracking-wide text-gray-800 font-bold mb-2 bg-gray-400 text-base">Información del vehiculo:</label>
+                                                        <div className="flex flex-wrap ">
+                                                            <div className="w-full md:w-1/4 px-2">
+                                                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Modelo del Vehículo</label>
+                                                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.modelo_vehiculo}</label>
+                                                            </div>
+                                                            <div className="w-full md:w-1/4 px-2">
+                                                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Color del Vehículo</label>
+                                                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.color_vehiculo}</label>
+                                                            </div>
+                                                            <div className="w-full md:w-1/2 px-2 flex flex-row">
+                                                                <div className="w-full md:w-5/6 px-2">
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Placas</label>
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.placas}</label>
+                                                                </div>
+                                                                <div className="w-full px-2">
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Año del vehiculo</label>
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.año_vehiculo}</label>
+                                                                </div>
+                                                            </div>
+                                                            <div className="w-full  px-2">
+                                                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1">Tipo de vehiculo</label>
+                                                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.tipo_vehiculo}</label>
+                                                            </div>
+                                                        </div>
+                                                        <label className="block uppercase tracking-wide text-gray-700 font-bold mb-2 bg-gray-400 text-base">Información de trabajo:</label>
+                                                        <div className="flex flex-wrap">
+                                                            <div className="w-full md:w-1/4 px-2">
+                                                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1">Tipo de Trabajo</label>
+                                                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.tipo_trabajo}</label>
+                                                            </div>
+                                                            <div className="w-full md:w-1/4 px-2 mb-6 md:mb-0 items-center flex flex-col">
+                                                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Cantidad de Horas</label>
+                                                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.cantidad_de_horas}</label>
+                                                            </div>
+                                                            <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+                                                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Precio de Material</label>
+                                                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.precio_de_material}</label>
+                                                            </div>
+                                                            <div className="w-full md:w-1/4 px-2">
+                                                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1">Estatus de Trabajo</label>
+                                                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.estatus}</label>
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex flex-wrap">
+                                                            <div className="w-full px-3 mb-6 md:mb-0">
+                                                                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Descripción de Trabajo</label>
+                                                                <label className="appearance-none block w-full h-[5rem] bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal">{selectedRecord.descripcion_de_trabajo}</label>
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex flex-row justify-center gap-8">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+                                        <button onClick={() => HandeDelete(searchedUser.id_registro)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
                                     </td>
                                 </tr>
                             ) : (
@@ -146,20 +239,21 @@ export default function TablaInformacionAdmin() {
                                         <td className="">$ {registro.costo_total}</td>
                                         <td className="">{registro.fecha_de_inicio.substring(0, 10)}</td>
                                         <td className="flex flex-row items-center justify-center pt-2 gap-2">
-                                            <button className="text-2xl text-emerald-700" onClick={() => navigate(`/editar-registro/${registro.id_registro}`)}><LuFileEdit /></button>
-
+                                            {registro.estatus !== 'finalizado' && (
+                                                <button className="text-2xl text-emerald-700" onClick={() => navigate(`/editar-registro/${registro.id_registro}`)}>
+                                                    <LuFileEdit />
+                                                </button>
+                                            )}
                                             <button className="text-2xl text-blue-700" onClick={() => handleShow(registro.id_registro, users)}><MdOutlineMenuBook /></button>
-
                                             {show && selectedRecord && (
                                                 <div className="fixed flex bg-black bg-opacity-20 w-screen h-screen top-[0rem] left-0 justify-center items-center">
-                                                    <div className="flex flex-col w-fit px-8 p-4 shadow-md rounded-xl items-center  font-lalezar h-fit gap-2 bg-white "  >
+                                                    <div className="flex flex-col w-fit px-8 p-4 shadow-md rounded-xl items-center font-lalezar h-fit gap-2 bg-white">
                                                         <div className="flex flex-row justify-between w-full">
                                                             <label className="block uppercase tracking-wide text-gray-700 font-bold mb-2 text-lg md:w-1/2">Reporte de trabajo:</label>
                                                             <label onClick={() => setShow(false)} className="text-red-600 hover:text-red-900 cursor-pointer text-3xl mb-2 flex flex-row w-full justify-end"> <IoCloseCircle /></label>
                                                         </div>
 
                                                         <div className="w-fit h-fit p-6 bg-white border-[#9c9c9c] border-2">
-
                                                             <label className="block uppercase tracking-wide text-gray-700 font-bold mb-2 bg-gray-400 text-base">Datos de cliente:</label>
                                                             <div className="flex flex-row w-full gap-2">
                                                                 <div className="md:w-1/3">
@@ -172,7 +266,7 @@ export default function TablaInformacionAdmin() {
                                                                 </div>
                                                                 <div className="md:w-1/3">
                                                                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Correo Electrónico</label>
-                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.correo_electronico}</label>
+                                                                    <label className="block tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.correo_electronico}</label>
                                                                 </div>
                                                             </div>
                                                             <label className="block uppercase tracking-wide text-gray-800 font-bold mb-2 bg-gray-400 text-base">Información del vehiculo:</label>
@@ -207,11 +301,8 @@ export default function TablaInformacionAdmin() {
                                                                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.tipo_trabajo}</label>
                                                                 </div>
                                                                 <div className="w-full md:w-1/4 px-2 mb-6 md:mb-0 items-center flex flex-col">
-
                                                                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Cantidad de Horas</label>
                                                                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.cantidad_de_horas}</label>
-
-
                                                                 </div>
                                                                 <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                                                                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Precio de Material</label>
@@ -219,7 +310,7 @@ export default function TablaInformacionAdmin() {
                                                                 </div>
                                                                 <div className="w-full md:w-1/4 px-2">
                                                                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1">Estatus de Trabajo</label>
-                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.estatus}</label>
+                                                                    <label className="block uppercase text-blue-700 tracking-wide  text-xs font-bold mb-1" >{selectedRecord.estatus ? 'Finalizado' : 'En proceso'}</label>
                                                                 </div>
                                                             </div>
                                                             <div className="flex flex-wrap">
@@ -234,7 +325,7 @@ export default function TablaInformacionAdmin() {
                                                     </div>
                                                 </div>
                                             )}
-                                            <button onClick={() => HandeDelte(registro.id_registro)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
+                                            <button onClick={() => HandeDelete(registro.id_registro)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
                                         </td>
                                     </tr>
                                 ))
@@ -244,5 +335,5 @@ export default function TablaInformacionAdmin() {
                 </div>
             </div>
         </div>
-    )
+    );
 }

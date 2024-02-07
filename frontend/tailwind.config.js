@@ -8,6 +8,7 @@ export default {
     extend: {
       colors: {
         'darkgray': '#505050',
+        
         'grayGuayabo': '#474747',
         'rojoFooter': '#A72914',
         'naranjaBoton': '#FF5B37',

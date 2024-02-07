@@ -1,72 +1,31 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios'
 import FormularioAdminRegistro from "./FormularioAdminRegistros";
-import FormularioTipo_trabajo from "./FormularioTipo_trabajo";
-import FormularioTipo_Estatus from "./FormularioTipo_estatus";
 import { PiTrashSimpleFill } from "react-icons/pi";
 import { LuFileEdit } from "react-icons/lu";
 import { MdOutlineMenuBook } from "react-icons/md";
-import FormularioTipo_vehuiculo from "./FormularioTipo_vehuiculo";
 import { useNavigate } from "react-router-dom";
 import { IoCloseCircle } from "react-icons/io5";
 
 export default function TablaInformacionAdmin() {
     const [show, setShow] = useState(false)
-    const [selectedRecord, setSelectedRecord] = useState(null);
+    const [selectedRecord, setSelectedRecord] = useState(null)
 
     const handleShow = (id, users) => {
-        const record = users.find(user => user.id_registro === id);
-        setSelectedRecord(record);
-        setShow(true);
+        const record = users.find(user => user.id_registro === id)
+        setSelectedRecord(record)
+        setShow(true)
     };
 
     const navigate = useNavigate()
 
-    const [users, setUsers] = useState([]);
-    const [tipoTrabajo, setTipoTrabajo] = useState([]);
-    const [tipoEstatus, setTipoEstatus] = useState([]);
-    const [tipoVehiculo, setTipoVehiculo] = useState([]);
-    const [searchId, setSearchId] = useState('');
-    const [searchedUser, setSearchedUser] = useState(null);
-    const [searcheTrabajo, setSearchedTrabajo] = useState(null);
-    const [searchedEstatus, setSearchedEstatus] = useState(null);
-    const [searcheVehiculo, setSearcheVehiculo] = useState(null);
+    const [users, setUsers] = useState([])
+    const [searchId, setSearchId] = useState('')
+    const [searchedUser, setSearchedUser] = useState(null)
 
     useEffect(() => {
-        fetchUsers();
-        fetchTipoTrabajo();
-        fetchTipoEstatus();
-        fetchTipoVehiculo();
+        fetchUsers()
     }, []);
-
-
-    const fetchTipoTrabajo = async () => {
-        try {
-            const response = await axios.get("https://localhost:3000/api/v1/tipos-de-trabajo");
-            setTipoTrabajo(response.data);
-        } catch (error) {
-            console.error("Error fetching tipos de trabajo:", error);
-        }
-    };
-
-
-    const fetchTipoEstatus = async () => {
-        try {
-            const response = await axios.get("https://localhost:3000/api/v1/estatus-trabajos");
-            setTipoEstatus(response.data);
-        } catch (error) {
-            console.error("Error fetching tipos de estatus:", error);
-        }
-    };
-
-    const fetchTipoVehiculo = async () => {
-        try {
-            const response = await axios.get("https://localhost:3000/api/v1/tipos-de-vehiculo");
-            setTipoVehiculo(response.data);
-        } catch (error) {
-            console.error("Error fetching tipos de vehículo:", error);
-        }
-    };
 
     const fetchUsers = async () => {
         try {
@@ -77,7 +36,6 @@ export default function TablaInformacionAdmin() {
         }
     };
 
-    //Eliminar
     const HandeDelte = async (id) => {
         const response = await axios.delete(`https://localhost:3000/api/v1/registro-de-trabajos/${id}`)
 
@@ -89,39 +47,6 @@ export default function TablaInformacionAdmin() {
         fetchUsers()
     }
 
-    const trabajoDelte = async (id) => {
-        const response = await axios.delete(`https://localhost:3000/api/v1/tipos-de-trabajo/${id}`)
-        if (response.status === 200) {
-            alert("se borro correctamente")
-        } else {
-            alert("Un show medio raro")
-        }
-        fetchTipoTrabajo()
-    }
-
-    const vehiculoDelete = async (id) => {
-        const response = await axios.delete(`https://localhost:3000/api/v1/tipos-de-vehiculo/${id}`)
-
-        if (response.status === 200) {
-            alert("se borro correctamente")
-        } else {
-            alert("Un show ahi medio raro")
-        }
-        fetchTipoVehiculo()
-    }
-
-    const estatusDelete = async (id) => {
-        const response = await axios.delete(`https://localhost:3000/api/v1/estatus-trabajos/${id}`)
-
-        if (response.status === 200) {
-            alert("se borro correctamente")
-        } else {
-            alert("Un show ahi medio raro")
-        }
-        fetchTipoEstatus()
-    }
-
-    //Buscar 
     const handleSearch = () => {
         const foundUser = users.find(user => user.id_registro === parseInt(searchId));
         if (foundUser) {
@@ -132,13 +57,11 @@ export default function TablaInformacionAdmin() {
         }
     };
 
-    // Vaciar búsqueda
     const handleClearSearch = () => {
         setSearchId('');
         setSearchedUser(null);
     };
 
-    //numero con guines
     const formatPhoneNumber = (phoneNumber) => {
         if (phoneNumber.length === 10) {
             return `${phoneNumber.slice(0, 3)}-${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6)}`;
@@ -203,8 +126,9 @@ export default function TablaInformacionAdmin() {
                                     <td className="pr-1 pl-1">{searchedUser.costo_total}</td>
                                     <td className="pr-1 pl-1">{searchedUser.fecha_de_inicio.substring(0, 10)}</td>
                                     <td className="pr-1 pl-1 flex flex-row items-center justify-center pt-2 gap-2">
-                                        <button className="text-2xl text-emerald-700"><LuFileEdit /></button>
-                                        <button className="text-2xl text-blue-700"><MdOutlineMenuBook /></button>
+                                        <button className="text-2xl text-emerald-700"><LuFileEdit/></button>
+                                        <button className="text-2xl text-blue-700" onClick={() => handleShow(registro.id_registro, users)}><MdOutlineMenuBook /></button>
+
                                         <button onClick={() => HandeDelte(searchedUser.id_registro)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
                                     </td>
                                 </tr>
@@ -228,9 +152,13 @@ export default function TablaInformacionAdmin() {
 
                                             {show && selectedRecord && (
                                                 <div className="fixed flex bg-black bg-opacity-20 w-screen h-screen top-[0rem] left-0 justify-center items-center">
-                                                    <div className="flex flex-col w-fit px-8 p-4 shadow-md rounded-xl items-center font-lalezar h-fit gap-2" style={{ backgroundColor: "#D9D9D9" }}>
-                                                        <label onClick={() => setShow(false)} className="text-red-600 hover:text-red-900 cursor-pointer text-3xl mb-2 flex flex-row w-full justify-end"> <IoCloseCircle /></label>
-                                                        <div className="w-fit h-fit p-6 bg-white">
+                                                    <div className="flex flex-col w-fit px-8 p-4 shadow-md rounded-xl items-center  font-lalezar h-fit gap-2 bg-white "  >
+                                                        <div className="flex flex-row justify-between w-full">
+                                                            <label className="block uppercase tracking-wide text-gray-700 font-bold mb-2 text-lg md:w-1/2">Reporte de trabajo:</label>
+                                                            <label onClick={() => setShow(false)} className="text-red-600 hover:text-red-900 cursor-pointer text-3xl mb-2 flex flex-row w-full justify-end"> <IoCloseCircle /></label>
+                                                        </div>
+
+                                                        <div className="w-fit h-fit p-6 bg-white border-[#9c9c9c] border-2">
 
                                                             <label className="block uppercase tracking-wide text-gray-700 font-bold mb-2 bg-gray-400 text-base">Datos de cliente:</label>
                                                             <div className="flex flex-row w-full gap-2">
@@ -249,15 +177,15 @@ export default function TablaInformacionAdmin() {
                                                             </div>
                                                             <label className="block uppercase tracking-wide text-gray-800 font-bold mb-2 bg-gray-400 text-base">Información del vehiculo:</label>
                                                             <div className="flex flex-wrap ">
-                                                                <div className="w-full md:w-1/3 px-2">
+                                                                <div className="w-full md:w-1/4 px-2">
                                                                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Modelo del Vehículo</label>
                                                                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.modelo_vehiculo}</label>
                                                                 </div>
-                                                                <div className="w-full md:w-1/3 px-2">
+                                                                <div className="w-full md:w-1/4 px-2">
                                                                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Color del Vehículo</label>
                                                                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.color_vehiculo}</label>
                                                                 </div>
-                                                                <div className="w-full md:w-1/3 px-2 flex flex-row">
+                                                                <div className="w-full md:w-1/2 px-2 flex flex-row">
                                                                     <div className="w-full md:w-5/6 px-2">
                                                                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Placas</label>
                                                                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.placas}</label>
@@ -267,44 +195,37 @@ export default function TablaInformacionAdmin() {
                                                                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.año_vehiculo}</label>
                                                                     </div>
                                                                 </div>
-                                                                <div className="w-full md:w-1/3 px-2">
+                                                                <div className="w-full  px-2">
                                                                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1">Tipo de vehiculo</label>
-                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.tipo_de_vehiculo}</label>
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.tipo_vehiculo}</label>
                                                                 </div>
                                                             </div>
                                                             <label className="block uppercase tracking-wide text-gray-700 font-bold mb-2 bg-gray-400 text-base">Información de trabajo:</label>
                                                             <div className="flex flex-wrap">
-                                                                <div className="w-full md:w-1/3 px-2">
+                                                                <div className="w-full md:w-1/4 px-2">
                                                                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1">Tipo de Trabajo</label>
-                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.tipoTrabajo_id}</label>
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.tipo_trabajo}</label>
                                                                 </div>
-                                                                <div className="w-full md:w-1/6 px-2 mb-6 md:mb-0 items-center flex flex-col">
+                                                                <div className="w-full md:w-1/4 px-2 mb-6 md:mb-0 items-center flex flex-col">
 
                                                                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Cantidad de Horas</label>
                                                                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.cantidad_de_horas}</label>
 
 
                                                                 </div>
-                                                                <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
+                                                                <div className="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                                                                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Precio de Material</label>
                                                                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.precio_de_material}</label>
                                                                 </div>
-                                                            </div>
-                                                            <div className="flex flex-wrap">
-                                                                <div className="w-full md:w-1/3 px-2">
-                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1">Mecanico a cargo</label>
-                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.nombre_cliente}</label>
-                                                                </div>
-                                                                <div className="w-full md:w-1/3 px-2">
+                                                                <div className="w-full md:w-1/4 px-2">
                                                                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1">Estatus de Trabajo</label>
-                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.nombre_cliente}</label>
+                                                                    <label className="block uppercase tracking-wide text-gray-700 text-xs font-medium mb-2">{selectedRecord.estatus}</label>
                                                                 </div>
                                                             </div>
                                                             <div className="flex flex-wrap">
                                                                 <div className="w-full px-3 mb-6 md:mb-0">
                                                                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Descripción de Trabajo</label>
-                                                                    <label className="appearance-none block w-full h-[5rem] bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal">{selectedRecord.nombre_cliente}</label>
-                                                                    
+                                                                    <label className="appearance-none block w-full h-[5rem] bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal">{selectedRecord.descripcion_de_trabajo}</label>
                                                                 </div>
                                                             </div>
                                                             <div className="flex flex-row justify-center gap-8">
@@ -320,95 +241,8 @@ export default function TablaInformacionAdmin() {
                             )}
                         </tbody>
                     </table>
-
-                </div>
-            </div>
-
-            <div className="flex flex-col gap-4 mt-4">
-                <div className="flex flex-col gap-4 items-center">
-                    <div className="bg-green-600 p-2 py-1 font-bold rounded-lg text-white flex flex-row items-center gap-2 shadow-md shadow-[#4f4f4f] w-fit">
-                        <FormularioTipo_trabajo />
-                    </div>
-                    <table className="w-full text-sm text-center dark:text-gray-400 shadow-md shadow-[#4f4f4f] ">
-                        <thead className="text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                <th>Id</th>
-                                <th>tipo de trabajo</th>
-                                <th>valor de tipo</th>
-                                <th>opciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                tipoTrabajo.map((registro, index) => (
-                                    <tr key={index} className="hover:bg-gray-300 hover:text-gray-800">
-                                        <td className="pt-2 pb-2 pr-1 pl-1">{index + 1}</td>
-                                        <td className="pt-2 pb-2 pr-1 pl-1">{registro.tipo_de_trabajo}</td>
-                                        <td className="pt-2 pb-2 pr-1 pl-1">{registro.valor_de_tipo}</td>
-                                        <td className="pr-1 pl-1 flex flex-row items-center justify-center pt-2 gap-2">
-                                            <button onClick={() => trabajoDelte(registro.id)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
-                                        </td>
-                                    </tr>
-                                ))
-                            }
-                        </tbody>
-                    </table>
-                </div>
-                <div className="flex flex-col gap-4 items-center">
-                    <div className="bg-green-600 p-2 py-1 font-bold rounded-lg text-white flex flex-row items-center gap-2 shadow-md shadow-[#4f4f4f] w-fit">
-                        <FormularioTipo_vehuiculo />
-                    </div>
-                    <table className="w-full text-sm text-center dark:text-gray-400 shadow-md shadow-[#4f4f4f] ">
-                        <thead className="text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                <th>Id</th>
-                                <th>tipo de vehiculo</th>
-                                <th>opciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                tipoVehiculo.map((registro, index) => (
-                                    <tr key={index} className="hover:bg-gray-300 hover:text-gray-800">
-                                        <td className="pt-2 pb-2 pr-1 pl-1">{registro.id}</td>
-                                        <td className="pt-2 pb-2 pr-1 pl-1">{registro.tipo_de_vehiculo}</td>
-                                        <td className="pr-1 pl-1 flex flex-row items-center justify-center pt-2 gap-2">
-                                            <button onClick={() => vehiculoDelete(registro.id)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
-                                        </td>
-                                    </tr>
-                                ))
-                            }
-                        </tbody>
-                    </table>
-                </div>
-                <div className="flex flex-col gap-4 items-center">
-                    <div className="bg-green-600 p-2 py-1 font-bold rounded-lg text-white flex flex-row items-center gap-2 shadow-md shadow-[#4f4f4f] w-fit">
-                        <FormularioTipo_Estatus />
-                    </div>
-                    <table className="w-full text-sm text-center dark:text-gray-400 shadow-md shadow-[#4f4f4f]">
-                        <thead className="text-gray-900 uppercase dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                <th>Id</th>
-                                <th>tipo estatus</th>
-                                <th>opciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                tipoEstatus.map((registro, index) => (
-                                    <tr key={index} className="hover:bg-gray-300 hover:text-gray-800">
-                                        <td className="pt-2 pb-2 pr-1 pl-1">{registro.id}</td>
-                                        <td className="pt-2 pb-2 pr-1 pl-1">{registro.tipo_estatus}</td>
-                                        <td className="pr-1 pl-1 flex flex-row items-center justify-center pt-2 gap-2">
-                                            <button onClick={() => estatusDelete(registro.id)} className="text-2xl text-red-500 hover:text-red-600"><PiTrashSimpleFill /></button>
-                                        </td>
-                                    </tr>
-                                ))
-                            }
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>
-    );
+    )
 }

@@ -41,6 +41,9 @@ export class UpdateRegistroDeTrabajoDto {
     @IsNumber()
     precio_de_material?: number;
 
+    @IsOptional()
+    precio_fijo:number;
+
     @IsNotEmpty()
     @IsNumber()
     costo_total?: number;
@@ -52,15 +55,15 @@ export class UpdateRegistroDeTrabajoDto {
     //@IsNumber()
     //mecanico?: number;
 
-    @IsOptional()
-    tipo?: string;
+    @IsNotEmpty()
+    tipo_trabajo?: string;
 
     @IsOptional()
-    estatus?: string;
+    estatus?: boolean;
 
     @IsOptional()
     @IsNumber()
-    precio_hora?: number;
+    precio_por_hora?: number;
 
     @IsOptional()
     tipo_vehiculo?: string;

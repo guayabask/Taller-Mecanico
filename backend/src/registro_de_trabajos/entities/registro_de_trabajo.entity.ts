@@ -1,8 +1,4 @@
 
-import { EstatusTrabajo } from "src/estatus_trabajos/entities/estatus_trabajo.entity";
-import { PrecioHora } from "src/precio_horas/entities/precio_hora.entity";
-import { TiposDeTrabajo } from "src/tipos_de_trabajo/entities/tipos_de_trabajo.entity";
-import { TiposDeVehiculo } from "src/tipos_de_vehiculo/entities/tipos_de_vehiculo.entity";
 import { User } from "src/users/entities/user.entity";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne } from "typeorm";
 
@@ -48,48 +44,28 @@ export class RegistroDeTrabajo {
     @Column()
     costo_total: number;
 
+    @Column()
+    tipo_trabajo: string;
+
+    @Column()
+    tipo_vehiculo: string;
+
+    @Column()
+    precio_por_hora: number
+
+    @Column()
+    estatus: boolean;
+
     @CreateDateColumn()
     fecha_de_inicio: Date;
 
     @DeleteDateColumn()
     fecha_de_finalizacion: Date;
-
-    //Relaciones de tablas foraneas a tabla registro_de_trabajo
-
-        //Aparece en la tabla "registro_de_trabajo" como tipoTrabajo_id
-        @ManyToOne(() => TiposDeTrabajo, (tipo_de_trabajo) => tipo_de_trabajo.id, {
-            eager: true,
-        })
-        tipo_trabajo_: TiposDeTrabajo;
-
-        //Aparece en la tabla "registro_de_trabajo" como estatusTrabajo_id
-        @ManyToOne(() => EstatusTrabajo, (estatus_trabajo) => estatus_trabajo.id, {
-            eager: true,
-        })
-        estatus_trabajo_: EstatusTrabajo;
-
-        //Aparece en la tabla "registro_de_trabajo" como horaPrecio_id
-        @ManyToOne(() => PrecioHora, (preciohora) => preciohora.id,{
-            eager: true,
-        })
-        hora_precio_: PrecioHora;
-
-        //Aparece en la tabla "registro_de_trabajo" como tipoDeVehiculo_id
-        @ManyToOne (() => TiposDeVehiculo, (tipo_de_vehiculo) => tipo_de_vehiculo.id,{
-            eager: true,
-        })
-        tipo_de_vehiculo_: TiposDeVehiculo;    
-
+        
         //Vinculacion con tabla usuario
         @ManyToOne(() => User, (user) => user.id,{
             eager: true
         })
         usuario_registro_: User;
 
-        
-
-        /*@ManyToOne (() => User, (user) => user.id,{
-            eager: true,
-        })
-        mecanico_: User;*/
 }

@@ -1,50 +1,51 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class UpdateRegistroDeTrabajoDto {
-    @IsNotEmpty()
+    
+    @IsOptional()
     @IsString()
     nombre_cliente?: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     telefono_celular?: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     correo_electronico?: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     modelo_vehiculo?: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     placas?: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     año_vehiculo?: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     color_vehiculo?: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     descripcion_de_trabajo?: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsNumber()
     cantidad_de_horas?: number;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsNumber()
     precio_de_material?: number;
 
     @IsOptional()
     precio_fijo:number;
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsNumber()
     costo_total?: number;
 
@@ -55,7 +56,7 @@ export class UpdateRegistroDeTrabajoDto {
     //@IsNumber()
     //mecanico?: number;
 
-    @IsNotEmpty()
+    @IsOptional()
     tipo_trabajo?: string;
 
     @IsOptional()

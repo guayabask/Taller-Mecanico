@@ -68,7 +68,7 @@ export default function FormularioAdminRegistro({ }) {
                                     values.precio_de_material = 0
                                 }
                                 if (values.precio_por_hora === "") {
-                                    values.precio_por_hora = 0
+                                    values.precio_por_hora = 350
                                 }
                                 if (values.estatus === "") {
                                     values.estatus = false

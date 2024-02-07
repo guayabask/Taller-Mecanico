@@ -41,7 +41,7 @@ export class RegistroDeTrabajo {
     @Column()
     precio_fijo: number;
 
-    @Column()
+    @Column("decimal", { precision: 10, scale: 2 })
     costo_total: number;
 
     @Column()

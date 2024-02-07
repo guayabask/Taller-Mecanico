@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import inicio from "./../../assets/images/inicio.png";
 import axios from 'axios';
 import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -14,6 +15,7 @@ export default function Login() {
     })
       .then(response => {
         const { role } = response.data;
+        Cookies.set("token", response.data.token, {expires: 1/8});
         localStorage.setItem('userRole', role); // Guarda el rol en el almacenamiento local
         handleRoleRedirect(role); // Redirige según el rol
       })

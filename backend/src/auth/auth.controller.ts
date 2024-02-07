@@ -36,6 +36,14 @@ export class AuthController {
         return this.authService.login(loginDto)
     }
 
+    @Get('validar')
+    @UseGuards(AuthGuard)
+    validar(
+        @Request() req,
+    ){
+        return {user: req.user}
+    }
+
     /*@Get('perfil-mecanico')
     @Auth(Role.mecanico)
     perfil_mecanico(

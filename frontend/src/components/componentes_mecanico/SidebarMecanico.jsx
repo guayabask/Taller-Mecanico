@@ -1,8 +1,15 @@
 import React from "react";
 import Inicio from '../componentes_marco/inicio.png';
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 export default function SidebarMecanico() {
+    const navigate = useNavigate();
+    const cerrar = () => {
+        Cookies.remove("token");
+        localStorage.removeItem("userRoles");
+        navigate("/");
+    }
     return (
         <div className="flex absolute">
             <div className="w-[20rem] h-screen bg-red-950 flex flex-col gap-6 items-center justify-between">
@@ -18,10 +25,10 @@ export default function SidebarMecanico() {
                 </div>
 
                 <div className="w-full">
-                    <button className="text-white text-lg font-semibold hover:bg-red-800 w-full p-4"><Link to="/">Cerrar sesión</Link></button>
+                    <button className="text-white text-lg font-semibold hover:bg-red-800 w-full p-4" onClick={cerrar}>Cerrar sesión</button>
                 </div>
             </div>
-            <Outlet/>
+            <Outlet />
         </div>
     )
 }

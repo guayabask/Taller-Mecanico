@@ -5,50 +5,13 @@ import { BsPlusCircleFill } from "react-icons/bs";
 import { IoCloseCircle } from "react-icons/io5";
 
 export default function FormularioAdminRegistro({ }) {
-    const [show, setShow] = useState(false);
-
-    const [Shows, setShows] = useState(false);
-    const [tipodVehiculo, setTipoVehiculo] = useState([]);
-    const [tipodTrabajo, setTipoTrabajo] = useState([]);
-    const [tipodEstatus, setTipoEstatus] = useState([]);
-    const [Mecanico, setMecanico] = useState([]);
-    const [PrecioH, setPrecioH] = useState([])
+    const [show, setShow] = useState(false)
+    const [Shows, setShows] = useState(false)
+    const [Mecanico, setMecanico] = useState([])
 
     useEffect(() => {
-        fetchTipoVehiculo();
-        fetchTipoTrabajo();
-        fetchTipoEstatus();
-        fetchMecanico();
-        fetchPrecioH()
+        fetchMecanico()
     }, []);
-
-    const fetchTipoVehiculo = async () => {
-        try {
-            const response = await axios.get("https://localhost:3000/api/v1/tipos-de-vehiculo");
-            setTipoVehiculo(response.data);
-        } catch (error) {
-            console.error("Error fetching tipo de vehículo:", error);
-        }
-    };
-
-    const fetchTipoTrabajo = async () => {
-        try {
-            const response = await axios.get("https://localhost:3000/api/v1/tipos-de-trabajo");
-            setTipoTrabajo(response.data);
-        } catch (error) {
-            console.error("Error fetching tipo de trabajo:", error);
-        }
-    };
-
-    const fetchTipoEstatus = async () => {
-        try {
-            const response = await axios.get("https://localhost:3000/api/v1/estatus-trabajos");
-            setTipoEstatus(response.data);
-        } catch (error) {
-            console.error("Error fetching tipo de estatus:", error);
-        }
-    };
-
     const fetchMecanico = async () => {
         try {
             const response = await axios.get("https://localhost:3000/api/v1/users");
@@ -58,26 +21,14 @@ export default function FormularioAdminRegistro({ }) {
         }
     };
 
-    const fetchPrecioH = async () => {
-        try {
-            const response = await axios.get("https://localhost:3000/api/v1/precio-horas");
-            setPrecioH(response.data);
-        } catch (error) {
-            console.error("Error fetching mecánicos:", error);
-        }
-    };
-
     const handleChange = (e) => {
         const { name, value } = e.target;
-
-        // Convertir solo los campos necesarios a números enteros
-        const numericValue = name === 'precio_de_material' || name === 'precio_hora' ? parseInt(value, 10) : value;
-
+        const numericValue = name === 'precio_de_material' || name === 'precio_por_hora' ? parseInt(value, 10) : value
         setValues(prevState => ({
             ...prevState,
             [name]: numericValue
-        }));
-    };
+        }))
+    }
     return (
         <>
             <label onClick={() => setShow(true)} className="cursor-pointer">Crear registro</label>
@@ -92,15 +43,14 @@ export default function FormularioAdminRegistro({ }) {
                                 modelo_vehiculo: "",
                                 placas: "",
                                 año_vehiculo: "",
-                                color_vehiculo: "",
                                 descripcion_de_trabajo: "",
                                 cantidad_de_horas: "",
                                 precio_de_material: "",
-                                precio_fijo: "",
                                 costo_total: "",
-                                tipo: "",
-                                estatus: "",
-                                precio_hora: "",
+                                precio_fijo: "",
+                                precio_por_hora: "",
+                                estatus: false,
+                                tipo_trabajo: "",
                                 tipo_vehiculo: "",
                                 usuario_c: ""
                             }}
@@ -117,20 +67,14 @@ export default function FormularioAdminRegistro({ }) {
                                 if (values.precio_de_material === "") {
                                     values.precio_de_material = 0
                                 }
-                                if (values.precio_hora === "") {
-                                    values.precio_hora = 0
+                                if (values.precio_por_hora === "") {
+                                    values.precio_por_hora = 350
                                 }
-
-                                values.precio_de_material = parseInt(values.precio_de_material, 10); // El segundo argumento indica la base numérica, en este caso 10 (decimal)
-                                values.precio_hora = parseInt(values.precio_hora, 10);
-                                if (PrecioH.length > 0) {
-                                    values.precio_hora = parseInt(PrecioH[0].precio_por_hora, 10);
+                                if (values.estatus === "") {
+                                    values.estatus = false
                                 }
+                                values.estatus = false
 
-
-
-
-                                console.log(values);
                                 console.log(values)
                                 try {
                                     await axios.post('https://localhost:3000/api/v1/registro-de-trabajos', values);
@@ -184,11 +128,7 @@ export default function FormularioAdminRegistro({ }) {
                                             <div className="w-full px-2">
                                                 <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Año del vehiculo</label>
                                                 <select
-                                                    className="md:w-5/6 block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal"
-                                                    name="año_vehiculo"
-                                                    value={values.año_vehiculo}
-                                                    onChange={handleChange}
-                                                >
+                                                    className="md:w-5/6 block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal"name="año_vehiculo"value={values.año_vehiculo}onChange={handleChange}>
                                                     <option>Escoger año</option>
                                                     <option value="2024">2024</option>
                                                     <option value="2023">2023</option>
@@ -200,75 +140,26 @@ export default function FormularioAdminRegistro({ }) {
                                         <div className="w-full md:w-1/3 px-2">
                                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1">Tipo de vehiculo</label>
                                             <select
-                                                className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal"
-                                                name="tipo_vehiculo"
-                                                value={values.tipo_vehiculo}
-                                                onChange={handleChange}
-                                            >
-                                                <option>Escoger tipo de vehiculo</option>
-                                                {tipodVehiculo.map((vehiculo) => (
-                                                    <option key={vehiculo.id} value={vehiculo.tipo_vehiculo}>{vehiculo.tipo_de_vehiculo}</option>
-                                                ))}
-                                            </select>
+                                                    className="md:w-5/6 block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal"name="tipo_vehiculo"value={values.tipo_vehiculo}onChange={handleChange}>
+                                                    <option>Tipo de vehiculo</option>
+                                                    <option value="Estandar">Estandar</option>
+                                                    <option value="Automatico">Automatico</option>
+                                                </select>
                                         </div>
                                     </div>
                                     <label className="block uppercase tracking-wide text-gray-700 font-bold mb-2 bg-gray-400 text-base">Información de trabajo:</label>
                                     <div className="flex flex-wrap">
                                         <div className="w-full md:w-1/3 px-2">
-                                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1">Tipo de Trabajo</label>
+                                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1">Trabajo a realizar</label>
                                             <select
-                                                className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal"
-                                                name="tipo"
-                                                value={values.tipo}
-                                                onChange={handleChange}
-                                            >
-                                                {tipodTrabajo.map((trabajo, index) => (
-                                                    <option key={index} value={trabajo.tipo}>{trabajo.tipo_de_trabajo}</option>
-                                                ))}
-                                            </select>
+                                                    className="md:w-5/6 block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal"name="tipo_trabajo"value={values.tipo_trabajo}onChange={handleChange}>
+                                                    <option>Tipo de trabajo</option>
+                                                    <option value="reparacion_mecanica">Reparación mecanica</option>
+                                                    <option value="reparacion_chapa_pintura">Reparación chapa y pintura</option>
+                                                    <option value="revision">Revisión general</option>
+                                                </select>
                                         </div>
-                                        <div className="w-full md:w-1/6 px-2 mb-6 md:mb-0 items-center flex flex-col">
-
-                                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Cantidad de Horas</label>
-                                            <div className="flex flex-row items-center justify-center gap-2">
-                                                <input
-                                                    readOnly
-                                                    className="appearance-none block w-full bg-gray-200 md:w-1/3 text-gray-700 rounded py-2 px-2 mb-2 leading-tight focus:outline-none font-normal"
-                                                    name="cantidad_de_horas"
-                                                    value={values.cantidad_de_horas || 0}
-                                                    onChange={handleChange}
-                                                />
-                                                <button className="appearance-none block pb-2 px-2 leading-tight text-blue-600 cursor-pointer"
-                                                    type="button"
-                                                    onClick={() => handleChange({ target: { name: 'cantidad_de_horas', value: parseInt(values.cantidad_de_horas) + 1 || 1 } })}
-                                                >
-                                                    <BsPlusCircleFill className="text-2xl" />
-                                                </button>
-                                            </div>
-
-
-                                        </div>
-                                        <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
-                                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Precio de Material</label>
-                                            <input
-                                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal"
-                                                type="number"
-                                                placeholder="Precio de Material"
-                                                name="precio_de_material"
-                                                min="0"
-                                                step="1"
-                                                onChange={(e) => {
-                                                    const value = parseInt(e.target.value);
-                                                    handleChange({
-                                                        target: {
-                                                            name: 'precio_de_material',
-                                                            value: isNaN(value) ? '' : value
-                                                        }
-                                                    });
-                                                }}
-                                                value={values.precio_de_material}
-                                            />
-                                        </div>
+                                        
                                     </div>
                                     <div className="flex flex-wrap">
                                         <div className="w-full md:w-1/3 px-2">
@@ -285,20 +176,6 @@ export default function FormularioAdminRegistro({ }) {
                                                 ))}
                                             </select>
                                         </div>
-                                        <div className="w-full md:w-1/3 px-2">
-                                            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1">Estatus de Trabajo</label>
-                                            <select
-                                                className="block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal"
-                                                name="estatus"
-                                                value={values.estatus}
-                                                onChange={handleChange}
-                                            >
-                                                <option>Escoger estatus</option>
-                                                {tipodEstatus.map((estatuss, index) => (
-                                                    <option key={index} value={estatuss.estatus}>{estatuss.tipo_estatus}</option>
-                                                ))}
-                                            </select>
-                                        </div>
                                     </div>
                                     <div className="flex flex-wrap">
                                         <div className="w-full px-3 mb-6 md:mb-0">
@@ -307,19 +184,16 @@ export default function FormularioAdminRegistro({ }) {
                                         </div>
                                     </div>
                                     <div className="flex flex-row justify-center gap-8">
-                                        
                                         <label className="bg-red-700 text-white p-2 px-4 font-bold hover:bg-red-900 rounded-xl cursor-pointer" onClick={() => setShows(true)}>Continuar</label>
                                         {Shows ?
                                             <div className="fixed flex bg-black/40 w-screen h-screen top-[0rem] left-0 justify-center items-center">
                                                 <div className=" flex flex-col w-fit px-8 p-4 shadow-md rounded-xl items-center font-lalezar h-fit gap-2 " style={{ backgroundColor: "#D9D9D9" }}>
-                                                    <label onClick={() => setShows(false)} className="text-red-600 hover:text-red-900 cursor-pointer text-3xl mb-2 flex flex-row w-full justify-end"> <IoCloseCircle/></label>
+                                                    <label onClick={() => setShows(false)} className="text-red-600 hover:text-red-900 cursor-pointer text-3xl mb-2 flex flex-row w-full justify-end"> <IoCloseCircle /></label>
                                                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Por el momento editar esta en mantenimiento y no padra editar</label>
                                                     <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">¿Esta seguro de subir los datos?</label>
                                                     <button className="bg-blue-600 p-2 font-bold rounded-lg text-white shadow-md shadow-[#4f4f4f]" type="submit">Agregar</button>
                                                 </div>
-
                                             </div>
-
                                             : null}
                                     </div>
                                 </form>

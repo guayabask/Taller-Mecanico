@@ -2,12 +2,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RegistroDeTrabajosModule } from './registro_de_trabajos/registro_de_trabajos.module';
-import { TiposDeTrabajoModule } from './tipos_de_trabajo/tipos_de_trabajo.module';
-import { EstatusTrabajosModule } from './estatus_trabajos/estatus_trabajos.module';
-import { PrecioHorasModule } from './precio_horas/precio_horas.module';
-import { TiposDeVehiculoModule } from './tipos_de_vehiculo/tipos_de_vehiculo.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { CorreoController } from './correo/correo.controller';
 
 @Module({
   imports: [
@@ -22,14 +19,10 @@ import { AuthModule } from './auth/auth.module';
       synchronize: true,
     }),
     RegistroDeTrabajosModule,
-    TiposDeTrabajoModule,
-    EstatusTrabajosModule,
-    PrecioHorasModule,
-    TiposDeVehiculoModule,
     UsersModule,
     AuthModule,
   ],
-  controllers: [],
+  controllers: [CorreoController],
   providers: [],
 })
 export class AppModule {}

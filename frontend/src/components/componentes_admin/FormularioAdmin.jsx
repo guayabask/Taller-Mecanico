@@ -78,7 +78,7 @@ const FormularioAdmin = () => {
               <select className="border w-full p-2 px-3 rounded-lg" onChange={(e) => setRol(e.target.value)}>
                 <option value="">Selecciona un rol</option>
                 <option value="admin">Admin</option>
-                <option value="mecanico">Mecánico</option>
+                <option value="mecanico">Mecanico</option>
               </select>
             </div>
 

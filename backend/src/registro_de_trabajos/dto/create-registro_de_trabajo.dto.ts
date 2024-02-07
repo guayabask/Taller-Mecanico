@@ -47,22 +47,22 @@ export class CreateRegistroDeTrabajoDto {
     precio_fijo: number;
 
     @IsNotEmpty()
-    @IsNumber()
     costo_total: number;
 
     @IsNotEmpty()
-    tipo: string;
+    tipo_trabajo: string;
 
     @IsNotEmpty()
-    estatus: string;
+    estatus: boolean;
 
     @IsNotEmpty()
-    precio_hora: number;
+    @IsNumber()
+    precio_por_hora: number
 
     @IsNotEmpty()
     tipo_vehiculo: string;
 
-    @IsOptional()
+    @IsNotEmpty()
     usuario_c: string;
 }
 

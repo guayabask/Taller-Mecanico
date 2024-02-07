@@ -1,8 +1,8 @@
 import React from "react"
-import TablaInformacionAdmin from "../../components/componentes_admin/Tabla_informacionA"
+import TablaInformacionMecanico from "../../components/componentes_admin/TablaInformacionMecanico"
 
 export default function InicioMecanico() {
     return (<div className="">
-        <TablaInformacionAdmin/>
+        <TablaInformacionMecanico/>
     </div>)
 }

@@ -23,10 +23,6 @@ const Pregunta = () => {
           </div>
           <h2 className="text-lg font-semibold">Responde una pregunta en caso de olvidar tu contraseña</h2>
           <hr className="border-gray-700 w-96" />
-          {/* Agregando el icono pequeño para "Ingresa tu usuario" 
-            <div className="w-8" style={{ backgroundImage: "url(url_de_tu_icono_pequeno)", backgroundSize: "cover", backgroundPosition: "center" }}></div>
-            <div className="w-8" style={{ backgroundImage: "url(url_de_tu_icono_pequeno)", backgroundSize: "cover", backgroundPosition: "center" }}></div>
-          */}
 
           <div className="w-full flex flex-col gap-2 m-2">
           <label className="block text-left text-base font-workSans font-semibold mb-2">Escoge tu pregunta:</label>
@@ -42,7 +38,7 @@ const Pregunta = () => {
           </div>
 
 
-          <button className="bg-red-700 text-white p-2 px-4 font-bold hover:bg-red-900 rounded-xl">Iniciar sesión</button> {/*Guardar la pregunta y mandar de regreso al inicio */}
+          <button className="bg-red-700 text-white p-2 px-4 font-bold hover:bg-red-900 rounded-xl">Iniciar sesión</button>
           <div className=" p-1 flex flex-col">
 
           </div>

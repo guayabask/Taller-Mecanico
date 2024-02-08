@@ -30,11 +30,6 @@ const Casi = () => {
           </div>
           <h2 className="text-lg font-semibold">Escoge el metodo que desees</h2>
           <hr className="border-gray-700 w-96" />
-          {/* Agregando el icono pequeño para "Ingresa tu usuario" 
-            <div className="w-8" style={{ backgroundImage: "url(url_de_tu_icono_pequeno)", backgroundSize: "cover", backgroundPosition: "center" }}></div>
-            <div className="w-8" style={{ backgroundImage: "url(url_de_tu_icono_pequeno)", backgroundSize: "cover", backgroundPosition: "center" }}></div>
-          */}
-
           <div className="w-full flex flex-col items-center gap-2 m-2 bg-[#b4b4b4] rounded-2xl p-2">
             <label className="block text-left text-[#3a3a3a] text-xl font-workSans font-bold mb-2"><Link to="">Pregunta de seguridad</Link></label>
             <hr className="border-gray-700 w-96" />

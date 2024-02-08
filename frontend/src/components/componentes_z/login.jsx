@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import inicio from "./../../assets/images/inicio.png";
-import axios from 'axios';
-import { Link } from "react-router-dom";
+import React, { useState } from "react"
+import inicio from "./../../assets/images/inicio.png"
+import axios from 'axios'
+import { Link, useNavigate } from "react-router-dom"
 import Cookies from "js-cookie";
 
 export default function Login() {
@@ -18,21 +18,19 @@ export default function Login() {
       contraseña: password
     })
       .then(response => {
-        const { role } = response.data;
-        Cookies.set("token", response.data.token, {expires: 1/8});
-        localStorage.setItem('userRole', role); // Guarda el rol en el almacenamiento local
+        const { role, userId } = response.data
+        setToken(response.data.token)
+        localStorage.setItem('userRole', role);
 
         if (role === "mecanico") {
-          localStorage.setItem('userId', userId); // Guarda el ID del mecánico si el rol es "mecanico"
+          localStorage.setItem('userId', userId)
         }
 
         if (token) {
-          setShowVerificationModal(true); // Muestra la ventana de verificación
+          setShowVerificationModal(true);
           axios.post("https://localhost:3000/api/v1/correo", {
             correo: email,
           });
-        } else {
-          handleRoleRedirect(role); // Redirige según el rol
         }
       })
       .catch(error => {
@@ -59,7 +57,6 @@ export default function Login() {
   };
 
   const handleSubmitCodigo = async () => {
-    // Validar que el código sea correcto
     try {
       const codigoValido = await axios.post(
         `https://localhost:3000/api/v1/correo/validar`,
@@ -69,8 +66,8 @@ export default function Login() {
         }
       );
       if (codigoValido.data) {
-        Cookies.set("token", token, { expires: 1 / 8 }); // 3 horas de duración
-        handleRoleRedirect(localStorage.getItem("userRole")); // Redirige según el rol almacenado
+        Cookies.set("token", token, { expires: 1 / 8 });
+        handleRoleRedirect(localStorage.getItem("userRole"));
       }
     } catch (error) {
       console.error("Error al validar el código:", error);

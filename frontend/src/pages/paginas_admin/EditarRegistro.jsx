@@ -13,7 +13,7 @@ export default function EditarRegistro() {
     const [estatus, setEstatus] = useState(false);
 
     const handleFinalizarTrabajo = (event) => {
-        event.preventDefault(); // Evitar que el formulario se envíe
+        event.preventDefault();
         setEstatus(true);
     };
 
@@ -86,12 +86,19 @@ export default function EditarRegistro() {
             console.error("Error fetching mecánicos:", error);
         }
     };
-
     const handleFinalizar = () => {
-        SetRegistros(prevState => ({
-            ...prevState,
-            estatus: true // Actualiza el estado de estatus a true al presionar el botón "Finalizar"
-        }));
+        setSelectedEstatus("true");
+    };
+
+    const [selectedEstatus, setSelectedEstatus] = useState("")
+
+    const handleChang = (event) => {
+        setSelectedEstatus(event.target.value)
+    };
+
+    const handleAgregarClick = () => {
+        
+        console.log("Valor seleccionado:", selectedEstatus)
     };
 
 
@@ -131,10 +138,15 @@ export default function EditarRegistro() {
                         updatedValues.costo_total = costoTotal;
                         values.costo_total = costoTotal;
                     }
+                    if (setSelectedEstatus === "true"){
+                        values.estatus = true;
+                    }
 
                     values.precio_fijo = updatedValues
 
-                    if (values.estatus === "") {
+                    if (values.estatus === "1") {
+                        values.estatus = true
+                    }else if (values.estatus === "0"){
                         values.estatus = false
                     }
 
@@ -146,7 +158,7 @@ export default function EditarRegistro() {
                     alert('Datos actualizados correctamente')
                     if (res.status == 200) {
                         //Redirecciomar 
-                        //window.location = '/administrador';
+                        window.location = '/administrador';
                     }
                     else {
                         alert("Succedio un error")
@@ -169,31 +181,31 @@ export default function EditarRegistro() {
                                     </div>
                                     <div className="md:w-1/3">
                                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Teléfono Celular</label>
-                                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" type="text" placeholder="Teléfono Celular" name="telefono_celular" onChange={handleChange} value={values.telefono_celular} />
+                                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" type="text"  readOnly placeholder="Teléfono Celular" name="telefono_celular" onChange={handleChange} value={values.telefono_celular} />
                                     </div>
                                     <div className="md:w-1/3">
                                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Correo Electrónico</label>
-                                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" type="text" placeholder="Correo Electrónico" name="correo_electronico" onChange={handleChange} value={values.correo_electronico} />
+                                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" type="text" readOnly placeholder="Correo Electrónico" name="correo_electronico" onChange={handleChange} value={values.correo_electronico} />
                                     </div>
                                 </div>
                                 <label className="block uppercase tracking-wide text-gray-800 font-bold mb-2 bg-gray-400 text-base">Información del vehiculo:</label>
                                 <div className="flex flex-wrap ">
                                     <div className="w-full md:w-1/3 px-2">
                                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Modelo del Vehículo</label>
-                                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" type="text" placeholder="Modelo del Vehículo" name="modelo_vehiculo" onChange={handleChange} value={values.modelo_vehiculo} />
+                                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" type="text" readOnly placeholder="Modelo del Vehículo" name="modelo_vehiculo" onChange={handleChange} value={values.modelo_vehiculo} />
                                     </div>
                                     <div className="w-full md:w-1/3 px-2">
                                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Color del Vehículo</label>
-                                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" type="text" placeholder="Color del Vehículo" name="color_vehiculo" onChange={handleChange} value={values.color_vehiculo} />
+                                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" type="text" readOnly placeholder="Color del Vehículo" name="color_vehiculo" onChange={handleChange} value={values.color_vehiculo} />
                                     </div>
                                     <div className="w-full md:w-1/3 px-2 flex flex-row">
                                         <div className="w-full md:w-5/6 px-2">
                                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Placas</label>
-                                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" type="text" placeholder="Placas" name="placas" onChange={handleChange} value={values.placas} />
+                                            <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" type="text" readOnly placeholder="Placas" name="placas" onChange={handleChange} value={values.placas} />
                                         </div>
                                         <div className="w-full px-2">
                                             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 custom-dropdown">Año del vehiculo</label>
-                                            <select
+                                            <select disabled
                                                 className="md:w-5/6 block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal"
                                                 name="año_vehiculo"
                                                 value={values.año_vehiculo}
@@ -240,7 +252,7 @@ export default function EditarRegistro() {
                                     </div>
                                     <div className="w-full md:w-1/3 px-2">
                                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1">Tipo de vehiculo</label>
-                                        <select
+                                        <select disabled
                                             className="md:w-5/6 block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" name="tipo_vehiculo" value={values.tipo_vehiculo} onChange={handleChange}>
                                             <option>Tipo de vehiculo</option>
                                             <option value="Estandar">Estandar</option>
@@ -252,7 +264,7 @@ export default function EditarRegistro() {
                                 <div className="flex flex-wrap">
                                     <div className="w-full md:w-1/3 px-2">
                                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1">Tipo de Trabajo</label>
-                                        <select
+                                        <select disabled
                                             className="md:w-5/6 block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal"
                                             name="tipo_trabajo"
                                             value={values.tipo_trabajo}
@@ -273,24 +285,20 @@ export default function EditarRegistro() {
                                                 value={values.cantidad_de_horas || 0}
                                                 onChange={handleChange}
                                             />
-                                            <button className="appearance-none block pb-2 px-2 leading-tight text-blue-600 cursor-pointer"
-                                                type="button"
-                                                onClick={() => handleChange({ target: { name: 'cantidad_de_horas', value: parseInt(values.cantidad_de_horas) + 1 || 1 } })}>
-                                                <BsPlusCircleFill className="text-2xl" />
-                                            </button>
+                                            
                                         </div>
                                     </div>
                                     <div className="w-full md:w-1/5 px-3 mb-6 md:mb-0">
                                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Precio de Material</label>
-                                        <input
+                                        <input readOnly
                                             className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal"
                                             type="number"
                                             placeholder="Precio de Material"
                                             name="precio_de_material"
                                             min="0"
-                                            step="1" // Solo permite ingresar números enteros
+                                            step="1"
                                             onChange={(e) => {
-                                                const value = parseInt(e.target.value); // Convertir a entero en lugar de flotante
+                                                const value = parseInt(e.target.value)
                                                 handleChange({
                                                     target: {
                                                         name: 'precio_de_material',
@@ -306,12 +314,7 @@ export default function EditarRegistro() {
                                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1" >Estatus de Trabajo</label>
                                         <div className='flex flex-row items-center gap-2'>
                                             <label className="block uppercase text-blue-700 tracking-wide  text-xs font-bold mb-1" >{values.estatus ? 'Finalizado' : 'En proceso'}</label>
-                                            <button
-                                                className="bg-red-600 p-2 font-bold rounded-lg cursor-pointer text-white shadow-md shadow-[#4f4f4f] text-center w-fit"
-                                                onClick={handleFinalizarTrabajo}
-                                            >
-                                                Finalizar trabajo
-                                            </button>
+
                                         </div>
 
                                     </div>
@@ -322,8 +325,8 @@ export default function EditarRegistro() {
                                 </div>
                                 <div className="flex flex-wrap">
                                     <div className="w-full px-3 mb-6 md:mb-0">
-                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Descripción de Trabajo</label>
-                                        <textarea className="appearance-none block w-full h-[5rem] bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" placeholder="Descripción de Trabajo" name="descripcion_de_trabajo" onChange={handleChange} value={values.descripcion_de_trabajo} />
+                                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">Descripció de Trabajo</label>
+                                        <textarea className="appearance-none block w-full h-[5rem] bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" readOnly placeholder="Descripción de Trabajo" name="descripcion_de_trabajo" onChange={handleChange} value={values.descripcion_de_trabajo} />
                                     </div>
                                 </div>
                                 <div className="flex flex-row justify-center gap-8">
@@ -463,9 +466,9 @@ export default function EditarRegistro() {
                                             placeholder="Precio de Material"
                                             name="precio_de_material"
                                             min="0"
-                                            step="1" // Solo permite ingresar números enteros
+                                            step="1"
                                             onChange={(e) => {
-                                                const value = parseInt(e.target.value); // Convertir a entero en lugar de flotante
+                                                const value = parseInt(e.target.value)
                                                 handleChange({
                                                     target: {
                                                         name: 'precio_de_material',
@@ -481,7 +484,11 @@ export default function EditarRegistro() {
                                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-1" >Estatus de Trabajo</label>
                                         <div className='flex flex-row items-center gap-2'>
                                             <label className="block uppercase text-blue-700 tracking-wide  text-xs font-bold mb-1" >{values.estatus ? 'Finalizado' : 'En proceso'}</label>
-                                            <button className="bg-red-600 cursor-pointer p-2 font-bold rounded-lg cursor pointer text-white shadow-md shadow-[#4f4f4f] text-center w-fit" type="submit">Finalizar trabajo</button>
+                                            <select
+                                                className="md:w-5/6 block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-2 mb-2 leading-tight focus:outline-none focus:bg-white font-normal" name="estatus" value={values.estatus} onChange={handleChange}>
+                                                <option>Editar estatus</option>
+                                                <option value="1">Finalizar</option>
+                                            </select>
                                         </div>
 
                                     </div>
@@ -497,7 +504,12 @@ export default function EditarRegistro() {
                                     </div>
                                 </div>
                                 <div className="flex flex-row justify-center gap-8">
-                                    <button className="bg-blue-600 p-2 font-bold rounded-lg text-white shadow-md shadow-[#4f4f4f]" type="submit">Agregar</button>
+                                    <button
+                                        className="bg-blue-600 p-2 font-bold rounded-lg text-white shadow-md shadow-[#4f4f4f]"
+                                        type="submit"
+                                        onClick={handleAgregarClick}>
+                                        Agregar
+                                    </button>
                                 </div>
                             </div>
                         )}
@@ -505,7 +517,7 @@ export default function EditarRegistro() {
                     </form>
                 )}
             </Formik>
-        </div>
+        </div >
 
     </>)
 }

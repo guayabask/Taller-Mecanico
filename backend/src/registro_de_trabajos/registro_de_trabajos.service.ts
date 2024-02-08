@@ -52,20 +52,15 @@ export class RegistroDeTrabajosService {
       throw new BadRequestException('Registro de trabajo no encontrado');
     }
 
-    // Update properties if they exist in the DTO
     for (const key in updateRegistroDeTrabajoDto) {
       if (updateRegistroDeTrabajoDto.hasOwnProperty(key)) {
         if (updateRegistroDeTrabajoDto[key] !== undefined) {
-          // Verificar si la propiedad existe en registro antes de asignarla
           if (registro.hasOwnProperty(key)) {
             registro[key] = updateRegistroDeTrabajoDto[key];
           }
         }
       }
     }
-    // Update other properties in a similar manner...
-
-    // Save the updated registro
     return await this.registrodetrabajoRepository.save(registro);
   }
 

@@ -42,7 +42,7 @@ export default function TablaUsuarios() {
             alert("Usuario no encontrado");
         }
     };
-    
+
     // Vaciar búsqueda
     const handleClearSearch = () => {
         setSearchId('');
@@ -118,9 +118,13 @@ export default function TablaUsuarios() {
                                                     {userss.role}
                                                 </td>
                                                 <td className="px-6 py-4">
-                                                    <label className="font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer" onClick={() => HandeDelte(userss.id)}>
-                                                        Borrar
-                                                    </label>
+                                                    {userss.role !== 'admin' ? (
+                                                        <label className="font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer" onClick={() => HandeDelte(user.id)}>
+                                                            Borrar
+                                                        </label>
+                                                    ) : (
+                                                        <span className="text-gray-400">No se puede borrar</span>
+                                                    )}
                                                 </td>
                                             </tr>
                                         ))
@@ -140,9 +144,13 @@ export default function TablaUsuarios() {
                                                     {users.role}
                                                 </td>
                                                 <td className="px-6 py-4">
-                                                    <label className="font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer" onClick={() => HandeDelte(users.id)}>
-                                                        Borrar
-                                                    </label>
+                                                    {users.role !== 'admin' ? (
+                                                        <label className="font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer" onClick={() => HandeDelte(user.id)}>
+                                                            Borrar
+                                                        </label>
+                                                    ) : (
+                                                        <span className="text-gray-400">No se puede borrar</span>
+                                                    )}
                                                 </td>
                                             </tr>
                                         ))

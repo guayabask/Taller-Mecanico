@@ -12,7 +12,6 @@ const ProtectedRoute = ({ element, path, requiredRoles }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        // Hacer una solicitud al servidor para validar el token
         const response = await axios.get(
           "https://localhost:3000/api/v1/auth/validar",
           {
@@ -22,7 +21,6 @@ const ProtectedRoute = ({ element, path, requiredRoles }) => {
           }
         );
 
-        // Si la respuesta es exitosa, el token es válido
         if (response.status === 200) {
           setAuthenticated(true);
           setUserRoles(response.data.user.role);
@@ -30,14 +28,13 @@ const ProtectedRoute = ({ element, path, requiredRoles }) => {
       } catch (error) {
         console.error("Error al validar el token", error);
         setAuthenticated(false);
-        navigate("/"); // Redireccionar a la página de inicio de sesión
+        navigate("/")
       }
-    };
+    }
 
     checkAuth();
   }, [token, navigate]);
 
-  // Función para verificar si el usuario tiene roles requeridos
   const hasRequiredRoles = () => {
     if (userRoles === requiredRoles[0] || userRoles === requiredRoles[1])
       return true;

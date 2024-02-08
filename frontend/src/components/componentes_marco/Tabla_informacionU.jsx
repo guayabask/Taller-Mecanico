@@ -32,14 +32,7 @@ export default function TablaInformacionUsuario() {
 
     return (<div className="p-8">
 
-        {/*Nesesito que jalen de la api la informacion de la tabla esta es el api:
-
-        localhost:3000/api/v1/registro-de-trabajos
-
-        lo mismo de toda la vida un mapeo, pero el mapeo debe funcionar a base un codigo de busqueda
-        el codigo de busqueda sera el id, donde se hara la validacion, aqui arriba hay un input y un boton de busqueda
-        cuando se busque se muestran los datos de sus avances, pero tampocos muchos datos.
-    */}
+        
         <div className="w-full flex flex-row justify-end items-center gap-2 m-2">
             <input 
             placeholder="Escriba su nombre" 

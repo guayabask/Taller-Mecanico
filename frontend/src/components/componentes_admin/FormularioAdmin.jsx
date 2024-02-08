@@ -13,7 +13,7 @@ const FormularioAdmin = () => {
   const [password, setPassword] = useState("");
   const [rol, setRol] = useState('')
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [idPreguntaControl, setIdPreguntaControl] = useState(""); // Nuevo estado
+  const [idPreguntaControl, setIdPreguntaControl] = useState("")
 
   const [error, setError] = useState("");
 
@@ -24,16 +24,16 @@ const FormularioAdmin = () => {
         correo_electronico: email,
         contraseña: password,
         id_pregunta_control_id: idPreguntaControl,
-        role: rol // Incluir id_pregunta_control_id en la solicitud POST
+        role: rol
       });
       window.location = "/administrar-usuarios";
       console.log("Respuesta del servidor:", response.data);
-      // Aquí puedes hacer algo con la respuesta, como redirigir al usuario o mostrar un mensaje de éxito.
+      
     } catch (error) {
       if (error.response) {
-        setError(error.response.data.message); // Si la API envía un mensaje de error, lo mostramos
+        setError(error.response.data.message);
       } else {
-        setError("Error al conectar con el servidor."); // Si no hay respuesta de la API, mostramos un mensaje genérico
+        setError("Error al conectar con el servidor.")
       }
       console.error("Error al registrar:", error);
     }
